@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
@@ -7,52 +7,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang chủ - CleanAir mang lại "không khí trong lành" cho gia đình Việt</title>
     <link rel="shortcut icon" href="../img/logo.ico" type="image/x-icon">
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/trangchu.css">
     <link rel="stylesheet" href="../css/modal.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/topnav.css">
+
+    <!-- JS -->
     <script src="../js/jquery-3.6.0.min.js"></script>
     <script type="module" src="../js/trangchu.js"></script>
     <script src="../js/taikhoan.js"></script>
     <script src="../js/responsive.js"></script>
+
+    <style>
+        /* CSS banner thêm trực tiếp nếu chưa có file riêng */
+        #banner {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        #banner img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        main {
+            margin-top: 0;
+            padding-top: 0;
+        }
+    </style>
 </head>
 
 <body>
+    <!-- HEADER -->
     <header>
+        <!-- Logo -->
         <a href="trangchu.html" class="logo reloadTrang">
             <img src="../img/logo1.jpg" width="30" height="30" alt="logo Máy lạnh">
-            CleanAir
+            <span>CleanAir</span>
         </a>
+
+        <!-- Thanh tìm kiếm -->
         <div class="search-container">
             <form id="formSearch">
                 <input type="text" placeholder="Nhập sản phẩm cần tìm ..." id="inputTimkiem" name="search">
-                <button id="btnTimkiem"><i class="fa fa-search"></i></button>
+                <button type="submit" id="btnTimkiem"><i class="fa fa-search"></i></button>
             </form>
         </div>
+
+        <!-- Menu bên phải -->
         <div class="header-right">
-            <a class="giohang" href="giohang.html">Giỏ hàng</a>
+            <!-- Giỏ hàng -->
+            <a class="giohang" href="giohang.html">
+                <i class="fa fa-shopping-cart"></i> Giỏ hàng
+            </a>
+
+            <!-- Dropdown: Tài khoản (chưa đăng nhập) -->
             <div class="dropdown" id="dkdn">
-                <button class="dropbtn" onclick="toggle_dropdown()">Tài khoản
-                    <i class="fa fa-caret-down"></i>
+                <button class="dropbtn" onclick="toggle_dropdown()">
+                    <i class="fa fa-user"></i> Tài khoản
                 </button>
                 <div class="dropdown-content" id="myDropdown">
                     <a href="dangky.html">Đăng ký</a>
                     <a href="dangnhap.html">Đăng nhập</a>
+                    <a href="donhang.html">Đơn hàng của tôi</a>
                 </div>
             </div>
-            <div id="divTaikhoan" class="dropdown">
+
+            <!-- Dropdown: Tài khoản (đã đăng nhập) -->
+            <div class="dropdown" id="divTaikhoan">
                 <button id="taikhoan" class="dropbtn"></button>
                 <div class="dropdown-content" id="ttTaikhoan">
                     <ul id="info">
-                        <li><b>Tên đăng nhập: </b><span id="tenDangnhap"></span></li>
-                        <li><b>Mật khẩu: </b><span id="matkhau"></span><span id="passEye"><img width="22"
-                                    src="../img/closePassEye.png" alt=""></span></li>
-                        <li><b>Họ và tên: </b><span id="hoten"></span></li>
-                        <li><b>Số điện thoại: </b><span id="sdt"></span></li>
+                        <li><b>Tên đăng nhập:</b> <span id="tenDangnhap"></span></li>
+                        <li>
+                            <b>Mật khẩu:</b>
+                            <span id="matkhau"></span>
+                            <span id="passEye">
+                                <img width="22" src="../img/closePassEye.png" alt="toggle mật khẩu">
+                            </span>
+                        </li>
+                        <li><b>Họ và tên:</b> <span id="hoten"></span></li>
+                        <li><b>Số điện thoại:</b> <span id="sdt"></span></li>
                     </ul>
-                    <div>
+                    <div class="account-actions">
                         <button type="button" id="doiMK">Đổi mật khẩu</button>
                         <button type="button" id="dangXuat">Đăng xuất</button>
                     </div>
@@ -60,6 +107,8 @@
             </div>
         </div>
     </header>
+
+    <!-- NAV -->
     <nav class="topnav" id="myTopnav">
         <a href="trangchu.html" class="active">Trang chủ</a>
         <a href="danhsachsanpham.html">Danh sách sản phẩm</a>
@@ -69,9 +118,18 @@
             <i class="fa fa-bars"></i>
         </a>
     </nav>
+
+    <!-- Banner -->
+    <div id="banner">
+        <img src="../img/banner.jpg" alt="Banner quảng cáo CleanAir">
+    </div>
+
+    <!-- MAIN -->
     <main>
         <div id="products"></div>
     </main>
+
+    <!-- FOOTER -->
     <footer>
         <div>
             <div>
@@ -105,21 +163,17 @@
             <div>
                 <div>
                     <p>CleanAir Store© 2025. Công ty thiết bị máy lạnh TPHCM.</p>
-                    <p>Address: 99 Phạm Ngũ Lão, Phường 4, Gò Vấp, Thành phố Hồ Chí Minh, Việt Nam</p>
+                    <p>Địa chỉ: 99 Phạm Ngũ Lão, Phường 4, Gò Vấp, TP. Hồ Chí Minh, Việt Nam</p>
                 </div>
                 <div>
                     <p><a href="#">Powered By Open Cart</a></p>
-                    <span>
-                        <img src="../img/bocongthuong.png" alt="" width="90">
-                    </span>
+                    <span><img src="../img/bocongthuong.png" alt="Bộ Công Thương" width="90"></span>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Modal -->
-
-    <!-- Modal thông báo đã thêm sản phẩm vào giỏ hàng -->
+    <!-- MODAL: thông báo đã thêm sản phẩm vào giỏ -->
     <div id="myModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
