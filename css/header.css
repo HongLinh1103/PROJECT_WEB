@@ -3,6 +3,15 @@ header {
     border: 1px solid black;
     padding: 6px 14%;
     overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Hiệu ứng đổ bóng */
+    transition: all 0.3s ease;
+    /* Hiệu ứng chuyển động tổng thể */
+}
+
+header:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    /* Đổ bóng mạnh hơn khi hover */
 }
 
 header a {
@@ -15,11 +24,18 @@ header a {
     font-size: 18px;
     line-height: 25px;
     border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    /* Hiệu ứng chuyển động */
 }
 
 header a.logo {
     font-size: 24px;
     font-weight: bold;
+    display: flex;
+    /* Sử dụng flexbox để căn chỉnh logo và chữ */
+    align-items: center;
+    gap: 5px;
+    /* Khoảng cách giữa logo và chữ */
 }
 
 a.logo img {
@@ -29,10 +45,17 @@ a.logo img {
 header a:hover {
     background-color: #ddd;
     color: black;
+
 }
 
 header a.giohang {
-    background-color: dodgerblue;
+    color: black;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+header a.giohang:hover {
+    background-color: #007bff;
+    /* Màu xanh đậm hơn khi hover */
     color: white;
 }
 
@@ -41,10 +64,27 @@ header a.giohang {
 }
 
 #formSearch input[type=text] {
-    padding: 6px;
+    width: 400px;
+    /* Đặt độ rộng cố định */
+    max-width: 100%;
+    /* Đảm bảo không vượt quá container */
+    padding: 8px 12px;
     margin-top: 8px;
-    font-size: 17px;
-    border: none;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+}
+
+
+
+#formSearch input[type=text]:focus {
+    border-color: dodgerblue;
+    /* Đổi màu border khi focus */
+    box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+    /* Thêm đổ bóng khi focus */
 }
 
 .search-container {
@@ -52,27 +92,36 @@ header a.giohang {
 }
 
 .search-container button {
-    padding: 6px 10px;
+    padding: 8px 12px;
+    /* Tăng padding */
     margin-top: 8px;
     margin-right: 16px;
     background: #ddd;
-    font-size: 17px;
+    font-size: 16px;
+    /* Giảm font-size một chút */
     border: none;
     cursor: pointer;
+    border-radius: 20px;
+    /* Bo tròn */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    /* Hiệu ứng chuyển động */
 }
 
 .search-container button:hover {
     background: #ccc;
+    transform: translateY(-2px);
+    /* Nâng nhẹ lên khi hover */
 }
 
 .dropdown {
     float: left;
-    overflow: hidden;
+    overflow: visible;
+    /* Đảm bảo dropdown-content không bị cắt */
 }
 
 .dropdown .dropbtn {
     cursor: pointer;
-    font-size: 16px;
+    font-size: 17px;
     border: none;
     border-radius: 4px;
     outline: none;
@@ -82,6 +131,8 @@ header a.giohang {
     background-color: inherit;
     font-family: inherit;
     margin: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* Hiệu ứng chuyển động */
 }
 
 .dropdown:hover .dropbtn,
@@ -97,6 +148,20 @@ header a.giohang {
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
+    opacity: 0;
+    /* Bắt đầu với opacity 0 */
+    transform: translateY(10px);
+    /* Bắt đầu dịch chuyển xuống */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    /* Hiệu ứng chuyển động */
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    opacity: 1;
+    /* Hiển thị với opacity 1 */
+    transform: translateY(0);
+    /* Trở về vị trí ban đầu */
 }
 
 .dropdown-content a {
@@ -106,6 +171,8 @@ header a.giohang {
     text-decoration: none;
     display: block;
     text-align: left;
+    transition: background-color 0.3s ease;
+    /* Hiệu ứng chuyển động */
 }
 
 .dropdown-content a:hover {
@@ -120,11 +187,14 @@ header #divTaikhoan {
     background-color: #ddd;
     border-radius: 20px;
     padding: 8px 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dropdown:hover #taikhoan {
     color: black;
     font-weight: bold;
+    background-color: #ccc;
+    /* Thay đổi màu khi hover */
 }
 
 #divTaikhoan #ttTaikhoan {
@@ -133,6 +203,15 @@ header #divTaikhoan {
     border-radius: 8px;
     padding: 0 5px;
     right: 10px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown.show #ttTaikhoan {
+    /* Sử dụng class 'show' để hiển thị */
+    opacity: 1;
+    transform: translateY(0);
 }
 
 #ttTaikhoan #info {
@@ -143,10 +222,12 @@ header #divTaikhoan {
 
 #ttTaikhoan button {
     font-size: 15px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
 }
 
 #ttTaikhoan button:hover {
     cursor: pointer;
+    transform: translateY(-2px);
 }
 
 #info li {

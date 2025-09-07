@@ -9,7 +9,7 @@ main #cacSP_tuongtu .rowProducts {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
     grid-auto-columns: 20px;
-    row-gap: 25px;
+    gap: 25px;
 }
 
 /* Main */
@@ -23,12 +23,33 @@ main #cacSP_tuongtu .rowProducts {
     width: 100%;
     height: 258px;
     display: inline-block;
+    /* Thêm transition cho hiệu ứng hover */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hiệu ứng hover cho khung sản phẩm */
+.product>div:hover {
+    transform: translateY(-5px);
+    /* Nâng nhẹ lên 5px */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    /* Đổ bóng mạnh hơn */
 }
 
 .product>div .productImg {
     text-align: center;
     padding-top: 30px;
     height: 75px;
+}
+
+.product>div .productImg img {
+    /* Thêm transition cho hình ảnh sản phẩm */
+    transition: transform 0.3s ease;
+}
+
+/* Hiệu ứng hover cho hình ảnh sản phẩm */
+.product>div:hover .productImg img {
+    transform: scale(1.05);
+    /* Phóng to ảnh lên 5% */
 }
 
 .product>div .productTen {
@@ -39,119 +60,197 @@ main #cacSP_tuongtu .rowProducts {
 }
 
 .product>div .productGia {
-    color: black;
+    color: red;
     padding-left: 10px;
     font-weight: bold;
 }
 
+/* Nút "THÊM VÀO GIỎ HÀNG" được chỉnh sửa đẹp hơn */
 .product>div .productThemGioHang {
-    border: 1px solid black;
+    border: 2px solid #0A7EC3;
+    /* Viền đậm màu xanh */
     margin-top: 20px;
-    padding: 15px;
+    padding: 12px 0;
     text-align: center;
-    background-color: #DDDDDD;
+    background-color: #ffffff;
+    /* Nền trắng */
+    border-radius: 8px;
+    /* Bo góc */
+    box-shadow: 0 2px 5px rgba(10, 126, 195, 0.2);
+    /* Đổ bóng nhẹ */
+    font-weight: 600;
+    color: #0A7EC3;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    user-select: none;
+    /* Không cho chọn chữ khi click */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product>div .productThemGioHang:hover {
+    background-color: #0A7EC3;
+    /* Nền xanh khi hover */
+    color: white;
+    /* Chữ trắng khi hover */
+    box-shadow: 0 6px 15px rgba(10, 126, 195, 0.4);
+    /* Đổ bóng đậm hơn */
 }
 
 .product>div .productThemGioHang span {
-    font-weight: bold;
-    color: #0A7EC3;
+    font-weight: 600;
+    color: inherit;
+    /* Kế thừa màu chữ từ nút */
+    transition: color 0.3s ease;
 }
 
 /* Footer */
 footer {
-    background-color: #303030;
+    background-color: #2c3e50;
+    /* Màu tối hơn, hiện đại hơn */
     width: 100%;
-    padding-bottom: 30px;
+    padding: 30px 0;
+    /* Tăng padding */
+    color: #ecf0f1;
+    /* Chữ màu sáng */
 }
 
 footer>div {
     margin: 0 15%;
+    display: flex;
+    /* Sử dụng flexbox cho bố cục footer */
+    flex-wrap: wrap;
+    /* Cho phép xuống dòng */
+    justify-content: space-between;
+    /* Căn chỉnh các cột */
+    align-items: flex-start;
+    /* Căn chỉnh theo chiều dọc */
+}
+
+footer>div>div {
+    flex: 1;
+    /* Các cột chiếm không gian bằng nhau */
+    min-width: 200px;
+    /* Đảm bảo các cột không quá nhỏ */
+    margin-bottom: 20px;
+    /* Khoảng cách dưới giữa các cột */
 }
 
 footer>div>div:nth-child(1) {
-    display: inline-block;
-    margin-right: 130px;
-    position: relative;
-    top: -25px;
+    margin-right: 0;
+    /* Bỏ margin-right cố định */
+    position: static;
+    /* Bỏ position relative */
+    top: auto;
 }
 
 footer>div>div:nth-child(2) {
-    display: inline-block;
-    margin-right: 130px;
+    margin-right: 0;
 }
 
 footer>div>div:nth-child(3) {
-    display: inline-block;
-    margin-right: 130px;
+    margin-right: 0;
 }
 
 footer>div>div:nth-child(4) {
-    display: inline-block;
+    margin-right: 0;
 }
 
 footer>div>div:nth-child(5) {
-    border-top: 1px solid rgb(212, 201, 201);
-    margin-left: -20px;
+    border-top: 1px solid rgba(212, 201, 201, 0.3);
+    /* Border nhẹ hơn */
+    margin-left: 0;
+    /* Bỏ margin-left cố định */
+    width: 100%;
+    /* Chiếm toàn bộ chiều rộng */
+    padding-top: 20px;
+    /* Padding trên */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
 }
 
 footer>div>div:nth-child(5) div {
     font-family: 'Open Sans,sans-serif';
-    margin-left: 20px;
-    display: inline-block;
+    margin-left: 0;
+    display: block;
+    /* Hiển thị là khối */
+    text-align: left;
+    flex: 1;
+    /* Chiếm không gian */
+    min-width: 250px;
+    /* Đảm bảo không quá nhỏ */
 }
 
 footer>div>div:nth-child(5) div:last-child {
-    position: relative;
-    right: -180px;
+    position: static;
+    /* Bỏ position relative */
+    right: auto;
+    text-align: right;
+    /* Căn phải */
 }
 
 footer>div>div:nth-child(5) p {
-    margin-bottom: -12px;
-    color: rgb(212, 201, 201);
+    margin-bottom: 5px;
+    /* Giảm margin bottom */
+    color: #bdc3c7;
+    /* Màu chữ nhẹ hơn */
+    font-size: 0.9em;
 }
 
 footer>div>div:nth-child(5) span {
-    position: relative;
-    top: 15px;
+    position: static;
+    /* Bỏ position relative */
+    top: auto;
+    display: inline-block;
+    /* Hiển thị inline-block */
+    margin-top: 10px;
+    /* Khoảng cách trên */
 }
 
 footer ul {
-    padding: 25px 0;
+    padding: 0;
+    /* Bỏ padding mặc định */
+    list-style: none;
+    /* Bỏ dấu chấm list */
 }
 
 footer ul span {
-    font-size: 16px;
-    color: white;
+    font-size: 1.1em;
+    /* Tăng kích thước font */
+    color: #ecf0f1;
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    /* Tăng khoảng cách dưới */
+    font-weight: bold;
 }
 
 footer ul li {
     font-family: 'Open Sans,sans-serif';
-    color: rgb(212, 201, 201);
-    margin-bottom: 5px;
+    color: #bdc3c7;
+    margin-bottom: 8px;
+    /* Tăng khoảng cách dưới */
 }
 
 footer a {
     text-decoration: none;
-    color: rgb(212, 201, 201);
+    color: #bdc3c7;
+    transition: color 0.3s ease;
+    /* Hiệu ứng chuyển động */
+}
+
+footer a:hover {
+    color: #3498db;
+    /* Màu xanh khi hover */
 }
 
 @media (min-width:994px) and (max-width:1380px) {
-    footer>div>div:nth-child(1) {
-        margin-right: 40px;
-    }
-
-    footer>div>div:nth-child(2) {
-        margin-right: 40px;
-    }
-
-    footer>div>div:nth-child(3) {
-        margin-right: 40px;
-    }
-
-    footer>div>div:nth-child(5) div:last-child {
-        right: 0;
+    footer>div>div {
+        margin-right: 20px;
+        /* Giảm khoảng cách */
     }
 }
 
@@ -162,20 +261,8 @@ footer a {
 }
 
 @media (max-width:994px) {
-    footer>div>div:nth-child(1) {
-        margin-right: 15px;
-    }
-
-    footer>div>div:nth-child(2) {
+    footer>div>div {
         margin-right: 10px;
-    }
-
-    footer>div>div:nth-child(3) {
-        margin-right: 15px;
-    }
-
-    footer>div>div:nth-child(5) div:last-child {
-        right: 0;
     }
 }
 
@@ -184,61 +271,48 @@ footer a {
         list-style-type: none;
     }
 
-    footer>div>div:nth-child(1) {
-        margin-right: 5px;
-    }
-
-    footer>div>div:nth-child(2) {
-        margin-right: 5px;
-    }
-
-    footer>div>div:nth-child(3) {
+    footer>div>div {
         margin-right: 5px;
     }
 }
 
 @media (max-width:844px) {
     footer>div>div:nth-child(1) {
-        margin-right: 140px;
+        margin-right: 0;
     }
 
     footer>div>div:nth-child(2) {
-        margin-right: 26px;
+        margin-right: 0;
     }
 
     footer>div>div:nth-child(3) {
-        margin-right: 190px;
+        margin-right: 0;
     }
 
     footer ul {
-        padding-top: 25px;
+        padding-top: 15px;
+        /* Giảm padding top */
         padding-bottom: 0;
     }
 }
 
 @media (max-width:672px) {
-    footer>div>div:nth-child(1) {
-        margin-right: 100px;
-    }
-
-    footer>div>div:nth-child(3) {
-        margin-right: 149px;
+    footer>div>div {
+        margin-right: 0;
     }
 }
 
 @media (max-width:616px) {
-    footer>div>div:nth-child(1) {
-        margin-right: 75px;
-    }
-
-    footer>div>div:nth-child(3) {
-        margin-right: 124px;
+    footer>div>div {
+        margin-right: 0;
     }
 }
 
 @media (max-width:580px) {
     footer>div div {
         width: 100%;
+        text-align: center;
+        /* Căn giữa các cột */
     }
 
     footer ul {
@@ -246,6 +320,13 @@ footer a {
     }
 
     footer>div>div:nth-child(1)>ul {
-        padding-top: 50px;
+        padding-top: 20px;
+        /* Giảm padding top */
+    }
+
+    footer>div>div:nth-child(5) div:last-child {
+        text-align: center;
+        /* Căn giữa */
+        margin-top: 15px;
     }
 }
