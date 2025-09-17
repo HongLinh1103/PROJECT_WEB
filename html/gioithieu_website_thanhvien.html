@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ - CleanAir mang lại "không khí trong lành" cho gia đình Việt</title>
+    <link rel="shortcut icon" href="../img/logo.ico" type="image/x-icon">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/trangchu.css">
+    <link rel="stylesheet" href="../css/modal.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/topnav.css">
+    <link rel="stylesheet" href="../css/main.css">
+
+    <!-- JS -->
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script type="module" src="../js/trangchu.js"></script>
+    <script src="../js/taikhoan.js"></script>
+    <script src="../js/responsive.js"></script>
+
+    <style>
+        /* CSS banner thêm trực tiếp nếu chưa có file riêng */
+        #banner {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        #banner img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        main {
+            margin-top: 0;
+            padding-top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header>
+        <!-- Logo -->
+        <a href="trangchu.html" class="logo reloadTrang">
+            <img src="../img/logo1.jpg" width="30" height="30" alt="logo Máy lạnh">
+            <span>CleanAir</span>
+        </a>
+
+        <!-- Thanh tìm kiếm -->
+        <div class="search-container">
+            <form id="formSearch">
+                <input type="text" placeholder="Nhập sản phẩm cần tìm ..." id="inputTimkiem" name="search">
+                <button type="submit" id="btnTimkiem"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+
+        <!-- Menu bên phải -->
+        <div class="header-right">
+            <!-- Giỏ hàng -->
+            <a class="giohang" href="giohang.html">
+                <i class="fa fa-shopping-cart"></i> Giỏ hàng
+            </a>
+
+            <!-- Dropdown: Tài khoản (chưa đăng nhập) -->
+            <div class="dropdown" id="dkdn">
+                <button class="dropbtn" onclick="toggle_dropdown()">
+                    <i class="fa fa-user"></i> Tài khoản
+                </button>
+                <div class="dropdown-content" id="myDropdown">
+                    <a href="dangky.html">Đăng ký</a>
+                    <a href="dangnhap.html">Đăng nhập</a>
+                    <a href="donhang.html">Đơn hàng của tôi</a>
+                </div>
+            </div>
+
+            <!-- Dropdown: Tài khoản (đã đăng nhập) -->
+            <div class="dropdown" id="divTaikhoan">
+                <button id="taikhoan" class="dropbtn"></button>
+                <div class="dropdown-content" id="ttTaikhoan">
+                    <ul id="info">
+                        <li><b>Tên đăng nhập:</b> <span id="tenDangnhap"></span></li>
+                        <li>
+                            <b>Mật khẩu:</b>
+                            <span id="matkhau"></span>
+                            <span id="passEye">
+                                <img width="22" src="../img/closePassEye.png" alt="toggle mật khẩu">
+                            </span>
+                        </li>
+                        <li><b>Họ và tên:</b> <span id="hoten"></span></li>
+                        <li><b>Số điện thoại:</b> <span id="sdt"></span></li>
+                    </ul>
+                    <div class="account-actions">
+                        <button type="button" id="doiMK">Đổi mật khẩu</button>
+                        <button type="button" id="dangXuat">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAV -->
+    <nav class="topnav" id="myTopnav">
+        <a href="trangchu.html" >Trang chủ</a>
+        <a href="danhsachsanpham.html">Danh sách sản phẩm</a>
+        <a href="gioithieu_website_thanhvien.html" class="active">Giới thiệu website</a>
+        <a href="sitemap.html">Site map</a>
+        <a href="javascript:void(0);" class="icon" onclick="respond_topnav()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </nav>
+
+    <main>
+        <div>
+            <div>
+                <div class="description-catalog">
+                    <div class="title-desc-catalog">
+                        <h2>Điều hòa - Máy lạnh</h2>
+                    </div>
+                    <div class="content-desc-catalog">
+                        <p>Trong những năm gần đây, điều hòa, máy lạnh ngày càng trở thành thiết bị quen thuộc và 
+                            gần như không thể thiếu trong nhiều gia đình Việt Nam. 
+                            Giữa cái nắng gay gắt, oi bức kéo dài của mùa hè, 
+                            đặc biệt ở các thành phố lớn với mật độ dân cư đông đúc và khói bụi, 
+                            nhu cầu sử dụng máy lạnh để tạo ra một không gian mát mẻ, dễ chịu, giúp cải thiện chất lượng sống ngày càng tăng cao.</p>
+                        <p>Nhóm chúng em mang đến một sản phẩm không chỉ tiện nghi, hiện đại mà còn bắt kịp xu thế, đáp ứng nhu cầu ngày càng cao của cuộc sống hôm nay.</p>
+                    </div>
+                </div>
+                <div class="phan-wrapper">
+                    <div class="phan-header">Xem nhanh nội dung</div>
+                    <ul id="bangTomTat">
+                        <li><a class="tomtat" href="#phan-0">0. Giới thiệu thành viên</a></li>
+                        <li><a class="tomtat" href="#phan-1">1. Giới thiệu website</a></li>
+                        <li><a class="tomtat" href="#phan-2">2. Công dụng của điều hòa, máy lạnh</a></li>
+                        <li><a class="tomtat" href="#phan-3">3. Các loại điều hòa, máy lạnh</a></li>
+                        <li><a class="tomtat" href="#phan-4">4. Mua điều hòa, máy lạnh ở đâu tốt, giá rẻ?</a></li>
+                        <li><a class="tomtat" href="#phan-5">5. Chính sách đổi trả</a></li>
+
+                    </ul>
+                </div>
+                <div id="phan-0">
+                    <h2>Giới thiệu các thành viên:</h2>
+                    <p><strong>Họ tên thành viên 1: </strong>Nguyễn Ngọc Hồng Linh</p>
+                    <p><strong>MSSV: </strong>22649491</p>
+                    <p><strong>Số Điện Thoại: </strong>0348110676</p>
+                    <p><strong>Email: </strong>honglinh11032004@gmail.com</p>
+                    <p><strong>Họ tên thành viên 2:</strong>Nguyễn Hồ Thảo Nguyên</p>
+                    <p><strong>MSSV:</strong>23704171</p>
+                    <p><strong>Số Điện Thoại:</strong>0962755310</p>
+                    <p><strong>Email: </strong>nguyenhothaonguyen8@gmail.com</p>
+                </div>
+                <div id="phan-1">
+                    <h2>Giới thiệu website:</h2>
+                    <div style="float: left; width: 20%;"><img src="../img/logo2.png" alt="" width="170px"></div>
+                    <div style="float: left; width: 80%;">
+                        <p style="width: 90%;">CleanAir chính thức ra mắt vào tháng 8/2025, với trụ sở đầu tiên tại 99 Phạm Ngũ Lão, Phường 4, Gò Vấp, TP.HCM. 
+                            Ngay từ những ngày đầu, chúng tôi tập trung vào phân phối các dòng máy lạnh 1 chiều tích hợp công nghệ Inverter,
+                             cam kết 100% hàng chính hãng đến từ những tập đoàn điện tử hàng đầu thế giới như Panasonic, Samsung, LG, Toshiba, Sharp, Casper, Midea,... 
+                             Nhờ sự tin tưởng của khách hàng, chỉ sau một thời gian ngắn, hệ thống CleanAir đã phát triển mạnh mẽ với 25 siêu thị trải khắp các quận TP.HCM, 
+                             sẵn sàng đáp ứng nhu cầu ngày càng cao của người tiêu dùng.</p>
+                        <p style="width: 90%;">Cửa hàng CleanAir đã đăng ký hoạt động thương mại điện tử với Bộ Công
+                            Thương tháng 8/2025. Chúng tôi cam kết 100% sản phẩm trên CleanAir là hàng chính hãng.</p>
+                    </div>
+                </div>
+                <div id="phan-2" style="clear: both;">
+                    <h2>Công dụng của điều hòa, máy lạnh</h2>
+                    <img id="imgMayLanh" src="../img/dieu-hoa-may-lanh-gia-re.jpg" width="380" height="335">
+                    <p><strong>Điều hòa, máy lạnh</strong> (thường gọi là <strong>điều hòa không khí</strong> hoặc <strong>điều hòa nhiệt độ</strong>) là một trong những thiết bị kỹ thuật quan trọng trong hệ thống kiểm soát môi trường sống và làm việc hiện đại. Chức năng cốt lõi của chúng không chỉ đơn thuần là làm mát, mà còn duy trì sự ổn định của nhiệt độ, độ ẩm và chất lượng không khí trong không gian kín.</p>
+
+                    <p>Về nguyên lý, điều hòa hoạt động dựa trên chu trình nhiệt động học nén hơi (vapor-compression cycle).
+                         Quá trình này bao gồm <strong>nén – ngưng tụ – tiết lưu – bay hơi</strong>, trong đó môi chất lạnh (gas lạnh) đóng vai trò trung gian để hấp thụ nhiệt từ không gian bên trong và thải ra môi trường bên ngoài. 
+                         Cấu tạo cơ bản của một hệ thống điều hòa gồm <strong>dàn nóng (cục nóng), dàn lạnh (cục lạnh)</strong> và <strong>đường ống dẫn gas</strong> nối liền hai bộ phận.</p>
+
+                    <p>Từ khi được phát minh vào năm 1902 bởi Willis Carrier, công nghệ điều hòa không khí đã liên tục phát triển theo hướng <strong>tăng hiệu suất trao đổi nhiệt, giảm tiêu thụ điện năng và thân thiện với môi trường</strong>.
+                         Các thế hệ máy lạnh hiện nay không chỉ nhỏ gọn hơn, mà còn ứng dụng nhiều công nghệ tiên tiến như <strong>biến tần Inverter</strong>, <strong>lọc không khí đa lớp</strong>, <strong>khử khuẩn bằng ion Plasma</strong> hay <strong>cảm biến thông minh</strong> nhằm tối ưu hóa trải nghiệm người dùng.</p>
+
+                    <p>Ngày nay, điều hòa không chỉ phục vụ nhu cầu sinh hoạt thường ngày mà còn trở thành hạ tầng thiết yếu trong <strong>y tế (phòng mổ, kho bảo quản thuốc và vaccine)</strong>, 
+                        <strong>sản xuất công nghiệp (dây chuyền điện tử, dệt may, in ấn)</strong>, 
+                        <strong>kiến trúc và xây dựng (trung tâm thương mại, cao ốc văn phòng)</strong>, 
+                        cũng như nhiều lĩnh vực thương mại và giải trí. Có thể nói, sự phát triển của điều hòa gắn liền với tiến trình hiện đại hóa đô thị và nâng cao chất lượng sống của con người.</p>
+
+                </div>
+                <div id="phan-3">
+                    <h2>Các loại điều hòa, máy lạnh</h2>
+                    <p>Trên thị trường hiện nay, điều hòa – máy lạnh được sản xuất với nhiều chủng loại khác nhau, phân loại dựa trên chức năng, cấu tạo, cũng như nhu cầu sử dụng thực tế. Một số dòng phổ biến gồm:</p>
+                    <ul>
+                        <li><strong>Điều hòa 1 chiều</strong> (máy lạnh 1 chiều): Chỉ có chức năng làm lạnh, thường dùng ở khu vực có khí hậu nóng quanh năm.</li>
+                        <li><strong>Điều hòa 2 chiều</strong> (máy lạnh 2 chiều): Có khả năng làm lạnh vào mùa hè và sưởi ấm vào mùa đông, phù hợp với vùng khí hậu có 4 mùa rõ rệt.</li>
+                        <li><strong>Điều hòa treo tường</strong> (Split wall-mounted): Thiết kế nhỏ gọn, lắp đặt cố định trên tường, phổ biến trong hộ gia đình và văn phòng nhỏ.</li>
+                        <li><strong>Điều hòa trần</strong>: Gồm hai loại chính:
+                            <ul>
+                                <li><strong>Âm trần cassette</strong>: Dàn lạnh được giấu âm vào trần, thổi gió đa hướng, thẩm mỹ cao.</li>
+                                <li><strong>Áp trần</strong>: Dàn lạnh lắp nổi sát trần, phù hợp không gian rộng nhưng trần thấp.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Điều hòa cây</strong> (máy lạnh tủ đứng): Công suất lớn từ 20.000 BTU trở lên, thiết kế dạng tủ đứng, thường dùng cho hội trường, nhà hàng, sảnh lớn; một số model tích hợp bánh xe di động.</li>
+                        <li><strong>Điều hòa di động mini</strong>: Kích thước nhỏ gọn, có bánh xe tiện di chuyển, chỉ cần cấp nguồn điện và ống thoát khí; thường phục vụ không gian cá nhân hoặc tạm thời.</li>
+                        <li><strong>Điều hòa 1 cục</strong> (Window type): Dàn nóng và dàn lạnh tích hợp chung một khối, lắp trực tiếp trên tường hoặc cửa sổ, thích hợp cho phòng nhỏ.</li>
+                        <li><strong>Điều hòa 2 cục</strong> (Split type): Dàn nóng và dàn lạnh tách biệt, kết nối bằng ống đồng dẫn gas, vận hành êm và hiệu suất cao hơn loại 1 cục.</li>
+                    </ul>
+                    <p>Đối với các công trình lớn như chung cư, khách sạn, nhà hàng, văn phòng hay xưởng sản xuất, người ta thường sử dụng hệ thống <strong>VRV/VRF</strong>, 
+                        <strong>điều hòa trung tâm</strong> hoặc <strong>máy lạnh công nghiệp công suất lớn</strong> để tối ưu hiệu quả làm mát. Ngoài ra, 
+                        công nghệ <strong>điều hòa năng lượng mặt trời</strong> cũng đang dần xuất hiện, kết hợp nguồn điện lưới với năng lượng tái tạo để tiết kiệm điện năng, tuy nhiên chi phí đầu tư còn cao nên chưa phổ biến rộng rãi.</p>
+
+                </div>
+                <div id="phan-4">
+                    <h2>Mua điều hòa, máy lạnh ở đâu tốt, giá rẻ?</h2>
+                    <p>Khi mua các sản phẩm điều hòa, máy lạnh, lựa chọn sản phẩm chính hãng đến từ những điểm bán hàng
+                        uy tín là điều quan trọng để giúp thiết bị được bảo đảm về chất lượng và độ bền.</p>
+                    <p>CleanAir với trên 4 năm cung cấp các thiết bị sản phẩm điện máy, điện lạnh cam kết bán các loại
+                        điều hòa, máy lạnh gia đình chính hãng với mức giá rẻ nhất, bảo hành dài lâu 12 - 36 tháng.</p>
+                    <p><strong>Các sản phẩm bán chạy của CleanAir</strong>:</p>
+                    <div>
+                        <a class="product" href="#" style="text-decoration: none;">
+                            <div style="width: 245px;">
+                                <div class="productImg"><img src="../img/panasonicInverter1HP.png" alt=""></div>
+                                <h3 class="productTen">Panasonic Inverter 1.5 HP CU/CS-PU12WKH-8M</h3>
+                                <div class="productGia">12.890.000<sup>đ</sup></div>
+                            </div>
+                        </a>
+                        <a class="product" href="#" style="text-decoration: none;">
+                            <div style="width: 245px;">
+                                <div class="productImg"><img src="../img/mideaInverter2HP.png" alt=""></div>
+                                <h3 class="productTen">Midea Inverter 2 HP MSAFA-18CRDN8</h3>
+                                <div class="productGia">14.590.000<sup>đ</sup></div>
+                            </div>
+                        </a>
+                        <a class="product" href="#" style="text-decoration: none;">
+                            <div style="width: 245px;">
+                                <div class="productImg"><img src="../img/daikinInverter1HP.png" alt=""></div>
+                                <h3 class="productTen">Daikin Inverter 1 HP FTKA25VMVMV</h3>
+                                <div class="productGia">10.590.000<sup>đ</sup></div>
+                            </div>
+                        </a>
+                        <a class="product" href="#" style="text-decoration: none;">
+                            <div style="width: 245px;">
+                                <div class="productImg"><img src="../img/sharpInverter1HP.png" alt=""></div>
+                                <h3 class="productTen">Sharp Inverter 1 HP AH-X9XEW</h3>
+                                <div class="productGia">8.990.000<sup>đ</sup></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div id="phan-">
+                    <h2>Chính sách đổi trả</h2>
+                    <p>Nhằm mang đến sự an tâm và trải nghiệm mua sắm tốt nhất cho Quý khách, chúng tôi áp dụng chính sách đổi trả sản phẩm như sau:</p>
+
+                    <h3>1. Thời gian áp dụng</h3>
+                    <ul>
+                        <li>Sản phẩm được đổi trả trong vòng <strong>07 ngày</strong> kể từ ngày nhận hàng.</li>
+                        <li>Đối với sản phẩm lỗi do nhà sản xuất, khách hàng có quyền yêu cầu đổi mới trong vòng <strong>30 ngày</strong>.</li>
+                    </ul>
+
+                    <h3>2. Điều kiện đổi trả</h3>
+                    <ul>
+                        <li>Sản phẩm còn nguyên vẹn, chưa qua sử dụng, không trầy xước, móp méo.</li>
+                        <li>Đầy đủ hóa đơn mua hàng, phiếu bảo hành và phụ kiện kèm theo (nếu có).</li>
+                        <li>Vỏ hộp, bao bì còn nguyên trạng, không rách nát, biến dạng.</li>
+                    </ul>
+
+                    <h3>3. Các trường hợp không được đổi trả</h3>
+                    <ul>
+                        <li>Sản phẩm đã qua sử dụng, bị tháo lắp, sửa chữa bởi bên thứ ba.</li>
+                        <li>Sản phẩm hư hỏng do lỗi từ phía khách hàng (rơi vỡ, vào nước, cháy nổ…).</li>
+                        <li>Hết thời hạn đổi trả theo quy định.</li>
+                    </ul>
+
+                    <h3>4. Quy trình đổi trả</h3>
+                    <ol>
+                        <li>Liên hệ với bộ phận <strong>Chăm sóc khách hàng</strong> qua số điện thoại hoặc email để thông báo nhu cầu đổi trả.</li>
+                        <li>Gửi sản phẩm kèm hóa đơn và phụ kiện về trung tâm bảo hành hoặc cửa hàng gần nhất.</li>
+                        <li>Sau khi kiểm tra, nếu sản phẩm đáp ứng điều kiện đổi trả, chúng tôi sẽ tiến hành đổi sản phẩm mới hoặc hoàn tiền theo yêu cầu.</li>
+                    </ol>
+
+                    <h3>5. Chi phí đổi trả</h3>
+                    <ul>
+                        <li>Miễn phí đổi trả đối với sản phẩm lỗi do nhà sản xuất.</li>
+                        <li>Trường hợp đổi trả do khách hàng thay đổi nhu cầu, khách hàng chịu chi phí vận chuyển và chênh lệch giá (nếu có).</li>
+                    </ul>
+
+                    <p>Mọi thắc mắc về chính sách đổi trả, vui lòng liên hệ <strong>Hotline: 0962755310</strong> hoặc email: <strong>nguyenhothaonguyen8@gmail.com</strong> để được hỗ trợ nhanh chóng.</p>
+
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="backToTop">
+        <a href="#top"><img src="../img/backToTop.png" alt="" width="100px"></a>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div>
+            <div>
+                <ul>
+                    <span>Thông tin về</span>
+                    <li><a href="gioithieu_website_thanhvien.html">Giới thiệu website</a></li>
+                    <li><a href="gioithieu_website_thanhvien.html#phan-0">Các thành viên thực hiện</a></li>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <span>Dịch vụ khách hàng</span>
+                    <li><a href="#">Liên hệ chúng tôi</a></li>
+                    <li><a href="sitemap.html">Site Map</a></li>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <span>Tài khoản</span>
+                    <li><a href="#">Tài khoản của tôi</a></li>
+                    <li><a href="dangnhap.html">Đăng nhập</a></li>
+                    <li><a href="dangky.html">Đăng ký</a></li>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <span>Sản phẩm</span>
+                    <li><a href="giohang.html">Giỏ hàng của tôi</a></li>
+                </ul>
+            </div>
+            <div>
+                <div>
+                    <p>CleanAir Store© 2025. Công ty thiết bị máy lạnh TPHCM.</p>
+                    <p>Địa chỉ: 99 Phạm Ngũ Lão, Phường 4, Gò Vấp, TP. Hồ Chí Minh, Việt Nam</p>
+                </div>
+                <div>
+                    <p><a href="#">Powered By Open Cart</a></p>
+                    <span><img src="../img/bocongthuong.png" alt="Bộ Công Thương" width="90"></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    
+</body>
+
+</html>
