@@ -1,0 +1,183 @@
+
+main {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+/* Tiêu đề trong main */
+main h2 {
+    font-size: 22px;
+    color: #2c3e50;
+    margin: 20px 0 10px 0;
+    border-left: 5px solid #3498db;
+    padding-left: 10px;
+}
+
+/* Nội dung mô tả catalog */
+.description-catalog {
+    margin-bottom: 30px;
+}
+
+.description-catalog .title-desc-catalog h2 {
+    text-align: center;
+    color: #2764ae;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.description-catalog .content-desc-catalog p {
+    text-align: justify;
+    margin-bottom: 12px;
+    color: #555;
+}
+
+/* Bảng tóm tắt */
+.phan-wrapper {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 6px;
+    background: #f9f9f9;
+}
+
+.phan-wrapper .phan-header {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+#bangTomTat {
+    list-style: none;
+    padding-left: 15px;
+}
+
+#bangTomTat li {
+    margin: 6px 0;
+}
+
+#bangTomTat a {
+    color: #2980b9;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+#bangTomTat a:hover {
+    color: #e74c3c;
+    text-decoration: underline;
+}
+
+/* Các section */
+#phan-0, #phan-1, #phan-2, #phan-3, #phan-4, #phan-5 {
+    margin-bottom: 40px;
+}
+
+/* Hình ảnh trong main */
+#imgMayLanh {
+    float: left;
+    margin-right: 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Sản phẩm (trong #phan-4) */
+#phan-4 > div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+#phan-4 .product {
+    display: block;
+    width: 245px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #fff;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+    
+   
+}
+
+#phan-4 .product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+#phan-4 .productImg {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fafafa;
+}
+
+#phan-4 .productImg img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+#phan-4 .productTen {
+    font-size: 15px;
+    color: #333;
+    margin: 10px 0 5px 0;
+    font-weight: bold;
+    min-height: 20px;
+    padding: 0 8px;
+    line-height: 1.4;
+    
+    
+}
+
+#phan-4 .productGia {
+    color: #e74c3c;
+    font-weight: bold;
+    font-size: 17px;
+    margin-bottom: 15px;
+}
+
+/* Chính sách đổi trả */
+#phan-5 ul, #phan-5 ol {
+    margin-left: 20px;
+}
+
+#phan-5 li {
+    margin-bottom: 8px;
+    color: #444;
+}
+
+/* Responsive cho mobile */
+@media (max-width: 768px) {
+    main {
+        padding: 15px;
+    }
+
+    #phan-4 > div {
+        justify-content: center;
+    }
+
+    #phan-4 .product {
+        width: 45%;
+    }
+
+    #imgMayLanh {
+        float: none;
+        margin: 0 auto 15px auto;
+        display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    #phan-4 .product {
+        width: 100%;
+    }
+}
