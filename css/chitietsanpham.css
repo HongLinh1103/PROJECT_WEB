@@ -1,0 +1,303 @@
+* {
+    box-sizing: border-box;
+}
+
+main {
+    border-top: 1px solid #706e6e;
+    width: 100%;
+    margin: 50px 0;
+    min-height: 700px;
+}
+
+main>div {
+    margin: 30px 15%;
+}
+
+main>div>div:first-child {
+    border-bottom: 1px solid #c7c5c5;
+}
+
+main>div>div:nth-child(2) {
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
+
+main>div>div:nth-child(2):after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+main>div>div:nth-child(2) .column {
+    float: left;
+}
+
+main>div div:nth-child(2) #column1 {
+    width: 60%;
+    padding-right: 20px;
+}
+
+main>div div:nth-child(2) #column2 {
+    width: 40%;
+}
+
+main>div>div:last-child .rowProducts {
+    margin-bottom: 10px;
+}
+
+.rowProducts .product .productImg {
+    height: 140px;
+}
+
+#column2>span:nth-child(1) {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#column2>span:nth-child(2) {
+    color: red;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+#column2>div:nth-child(3) {
+    margin-top: 10px;
+}
+
+#column2>div:nth-child(3) button {
+    background-color: orangered;
+    width: 100%;
+    color: white;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 7px;
+}
+
+/* Hiệu ứng hover cho nút MUA NGAY */
+#column2>div:nth-child(3) button {
+    background-color: orangered;
+    width: 100%;
+    color: white;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 7px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#column2>div:nth-child(3) button:hover {
+    background-color: #ff6600;
+    /* sáng hơn chút */
+    transform: scale(1.05);
+    /* phóng to nhẹ */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    /* đổ bóng */
+}
+
+#column2 #thongSoKyThuat div {
+    clear: both;
+}
+
+#thongSoKyThuat .row {
+    width: 100%;
+    padding: 15px;
+    line-height: 25px;
+}
+
+#thongSoKyThuat .row .colTitle {
+    width: 40%;
+    float: left;
+    font-weight: bold;
+}
+
+#thongSoKyThuat .row .colContent {
+    width: 60%;
+    float: right;
+}
+
+footer {
+    clear: both;
+}
+
+main #hinhanhSP {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+main #hinhanhSP:hover {
+    opacity: 0.7;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.modal .modal-content {
+    margin: auto;
+    display: block;
+    width: 100%;
+    max-width: 700px;
+}
+
+/* Caption of Modal Image */
+.modal #caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+/* Add Animation */
+.modal .modal-content,
+.modal #caption {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {
+        -webkit-transform: scale(0)
+    }
+
+    to {
+        -webkit-transform: scale(1)
+    }
+}
+
+@keyframes zoom {
+    from {
+        transform: scale(0)
+    }
+
+    to {
+        transform: scale(1)
+    }
+}
+
+/* The Close Button */
+.modal .close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.modal .close:hover,
+.modal .close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media (max-width:913px) {
+
+    main>div div:nth-child(2) #column1,
+    main>div div:nth-child(2) #column2 {
+        width: 100%;
+    }
+}
+
+@media (max-width:426px) {
+
+    #thongSoKyThuat .row .colTitle,
+    #thongSoKyThuat .row .colContent {
+        width: 100%;
+    }
+
+    #thongSoKyThuat .row .colTitle {
+        font-weight: bold;
+    }
+}
+
+/* Phần khuyến mãi tĩnh - thêm vào chitietsanpham.css */
+#khuyenmai-section {
+    margin-top: 15px;
+    /* Khoảng cách với hình ảnh phía trên */
+    width: 100%;
+}
+
+.khuyenmai-container {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.khuyenmai-title {
+    color: #e74c3c;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.khuyenmai-title i {
+    margin-right: 8px;
+    color: #e74c3c;
+}
+
+.khuyenmai-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+}
+
+.khuyenmai-item {
+    margin-bottom: 10px;
+    padding: 12px;
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.khuyenmai-item i {
+    color: #f39c12;
+    margin-right: 10px;
+    font-size: 16px;
+    flex-shrink: 0;
+    /* Không co icon */
+}
+
+.khuyenmai-item span {
+    flex: 1;
+    /* Chiếm không gian còn lại */
+}
+
+.khuyenmai-footer {
+    text-align: center;
+}
