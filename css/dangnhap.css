@@ -1,0 +1,106 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+main {
+    border-top: 1px solid #706e6e;
+    width: 100%;
+    margin: 50px 0;
+    background-color: #dbedf9;
+    padding-bottom: 5px;
+    padding: 30px 0;
+}
+
+h1 {
+    color: #4db2b2;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.register-form {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    padding: 15px;
+    border: 2px solid #cccccc;
+    border-radius: 10px;
+}
+
+.input-box {
+    margin-bottom: 10px;
+}
+
+.input-box div{
+    margin-bottom: 5px;
+}
+
+.input-box input{
+    width: 100%;
+    border: 1px solid #cccccc;
+    outline: none;
+    font-size: 16px;
+    display: inline-block;
+    height: 40px;
+    color: #666666;
+}
+
+.btn-box {
+    text-align: right;
+    margin-top: 30px;
+}
+
+.btn-box button {
+    padding: 7.5px 15px;
+    border-radius: 2px;
+    background-color: #009999;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    font-size: large;
+}
+
+
+
+@media (max-width:426px) {
+    .register-form {
+        max-width: 260px;
+    }
+}
+/* ... Giữ nguyên các quy tắc styling INPUT, LABEL, BUTTON ... */
+
+/* --- THÔNG BÁO FORM (QUAN TRỌNG CHO ĐĂNG NHẬP/ĐĂNG KÝ) --- */
+.form-message {
+    padding: 15px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    display: none; /* Mặc định ẩn */
+}
+
+.form-message.success {
+    background-color: #d4edda; /* Màu xanh lá nhạt */
+    color: #155724; /* Chữ xanh lá đậm */
+    border: 1px solid #c3e6cb;
+}
+
+.form-message.error {
+    background-color: #f8d7da; /* Màu đỏ nhạt */
+    color: #721c24; /* Chữ đỏ đậm */
+    border: 1px solid #f5c6cb;
+}
+/* ... */

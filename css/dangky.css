@@ -1,0 +1,274 @@
+/* --- CÁC THIẾT LẬP CHUNG CHO FORM (Tối ưu căn giữa và kích thước) --- */
+.container-form {
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Giữ form căn trên trong vùng chứa */
+    min-height: 100vh;
+    background-color: #f7f9fc; /* Nền nhẹ nhàng */
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.register-form {
+    background-color: #ffffff;
+    padding: 40px 50px; /* Giảm padding một chút cho gọn hơn */
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Bóng đổ tinh tế */
+    width: 100%;
+    max-width: 850px; /* Giảm max-width một chút để form không bị quá rộng */
+    box-sizing: border-box;
+}
+
+/* --- TIÊU ĐỀ CHÍNH & LINK ĐĂNG NHẬP --- */
+.form-header-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 30px;
+}
+
+.main-title {
+    color: #1e3a8a;
+    font-size: 26px; /* Giảm kích thước tiêu đề chính */
+    font-weight: 700;
+    margin: 0;
+}
+
+.login-prompt {
+    font-size: 14px;
+    color: #6c757d;
+    margin: 0;
+}
+
+.login-link {
+    color: #1e3a8a;
+    font-weight: 600;
+    text-decoration: none;
+}
+.login-link:hover {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+/* --- XƯNG HÔ (RADIO) --- */
+.row-radio-title {
+    display: flex;
+    margin-bottom: 25px;
+}
+.radio-group {
+    display: flex;
+    gap: 30px;
+}
+.radio-group label {
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+.radio-group input[type="radio"] {
+    accent-color: #1e3a8a;
+    margin-right: 5px;
+    transform: scale(1.1);
+}
+
+/* --- LAYOUT 2 CỘT (GRID) --- */
+.dual-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px 40px; /* Cân bằng khoảng cách hàng và cột */
+    margin-bottom: 10px;
+}
+
+/* --- TIÊU ĐỀ PHỤ (Dùng để nhóm trường) --- */
+.section-title {
+    color: #333;
+    font-size: 17px !important; /* Giảm kích thước tiêu đề phụ */
+    font-weight: 600;
+    margin-top: 30px;
+    margin-bottom: 20px !important; /* Giảm khoảng cách dưới */
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e9ecef; /* Viền mỏng, nhẹ nhàng */
+    text-align: left !important;
+}
+
+/* --- INPUTS VÀ LABELS --- */
+.row {
+    margin-bottom: 20px; /* Tăng khoảng cách dưới input một chút */
+}
+
+.row label {
+    font-weight: 500;
+    color: #495057;
+    font-size: 14px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.row input[type="text"],
+.row input[type="password"],
+.row input[type="email"],
+.row select {
+    width: 100%;
+    padding: 13px 15px; /* Giữ kích thước input to, dễ nhập */
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 15px; /* Giảm kích thước chữ input */
+    background-color: #ffffff; 
+    transition: all 0.2s;
+}
+
+.row input:focus, .row select:focus {
+    border-color: #1e3a8a;
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+}
+
+.message {
+    color: #ef4444;
+    font-size: 12px; /* Giảm kích thước chữ báo lỗi */
+    margin-top: 5px;
+    min-height: 20px;
+    display: block;
+}
+
+/* NGÀY SINH (3 Select) */
+.date-select-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+.date-select-group select {
+    padding: 13px 10px;
+}
+
+/* Mật khẩu và Icon Mắt */
+.input-group {
+    position: relative;
+}
+.input-group input {
+    padding-right: 45px;
+}
+.toggle-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px; /* Giữ icon kích thước vừa phải */
+    color: #adb5bd;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    z-index: 10;
+}
+.toggle-icon:hover {
+    color: #1e3a8a;
+}
+.toggle-icon::before {
+    font-family: 'FontAwesome';
+    content: '\f06e'; /* Icon mắt mở */
+}
+.toggle-icon.hide-pass::before {
+    content: '\f070'; /* Icon mắt gạch chéo */
+}
+
+/* Checkbox Điều khoản */
+.row-checkbox {
+    grid-column: 1 / -1; 
+    margin-top: 20px;
+    margin-bottom: 30px; /* Tăng khoảng cách trước nút */
+    font-size: 14px;
+    color: #495057;
+}
+.row-checkbox input[type="checkbox"] {
+    accent-color: #1e3a8a;
+    margin-right: 8px;
+    transform: scale(1.1);
+}
+.link-condition {
+    color: #1e3a8a;
+    font-weight: 500;
+    text-decoration: none;
+}
+.link-condition:hover {
+    text-decoration: underline;
+}
+
+/* --- NÚT ĐĂNG KÝ --- */
+.button-group {
+    grid-column: 1 / -1;
+    text-align: center;
+}
+
+#dangky {
+    padding: 14px 40px; /* Giảm padding nút một chút */
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    font-size: 17px; /* Giảm kích thước chữ nút */
+    font-weight: 700;
+    width: 100%;
+    max-width: 300px; /* Giảm kích thước nút */
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+    transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+#btnDangnhap {
+    /* Màu sắc: Nền xanh đậm CleanAir, chữ trắng */
+    background-color: #007bff; 
+    color: white;
+    
+    /* Font chữ và kích thước */
+    font-family: 'Arial', sans-serif; /* Sử dụng font chữ dễ đọc */
+    font-size: 18px; 
+    font-weight: bold;
+    text-transform: uppercase; /* Chữ hoa nhìn chuyên nghiệp */
+    
+    /* Kích thước và hình dạng */
+    padding: 12px 20px;
+    border-radius: 5px; /* Bo góc mềm mại */
+    border: none;
+    cursor: pointer;
+    width: 100%; 
+    box-sizing: border-box;
+    
+    /* Hiệu ứng chuyển động */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hiệu ứng khi di chuột qua */
+#btnDangnhap:hover {
+    background-color: #0056b3; /* Màu đậm hơn khi hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Thêm bóng nhẹ */
+}
+
+#dangky:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 123, 255, 0.3);
+}
+/* --- THÔNG BÁO FORM (THÊM MỚI) --- */
+.form-message {
+    padding: 15px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    display: none; /* Mặc định ẩn */
+}
+
+.form-message.success {
+    background-color: #d4edda; /* Màu xanh lá nhạt */
+    color: #155724; /* Chữ xanh lá đậm */
+    border: 1px solid #c3e6cb;
+}
+
+.form-message.error {
+    background-color: #f8d7da; /* Màu đỏ nhạt */
+    color: #721c24; /* Chữ đỏ đậm */
+    border: 1px solid #f5c6cb;
+}
