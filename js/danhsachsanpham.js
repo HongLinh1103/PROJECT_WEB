@@ -122,3 +122,5 @@ function refreshBoloc() {
     currentPage = 1; // Reset về trang 1
     updateProductDisplay(); // Gọi lại hàm hiển thị sản phẩm
 }
+
+

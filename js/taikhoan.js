@@ -1,79 +1,81 @@
 $(window).ready(function () {
-    const taikhoan = localStorage.getItem("tkDangnhap")
-    if (taikhoan != null) {
-        $("#dkdn").hide()
-        $("#divTaikhoan").show()
+    const currentUser = localStorage.getItem("currentUser")
+    
+    // =================================================================
+    // 1. XỬ LÝ HIỂN THỊ TÀI KHOẢN TRÊN HEADER
+    // =================================================================
+    if (currentUser != null) {
+        $("#dkdn").hide() // Ẩn nút Đăng ký/Đăng nhập
+        $("#divTaikhoan").show() // Hiện nút Tài khoản
 
-        const ttTaikhoan = JSON.parse(taikhoan)
-        let hoten = ttTaikhoan.hoTen.split(" ")
+        const ttTaikhoan = JSON.parse(currentUser)
+        
+        // Lấy chữ cái đầu của tên để hiển thị trên nút dropbtn
+        let hoten = ttTaikhoan.fullname.split(" ")
         let ten = hoten[hoten.length - 1]
         let kytuDauCuaTen = ten[0]
         $("#taikhoan").text(kytuDauCuaTen.toUpperCase())
-        $("#tenDangnhap").text(ttTaikhoan.ten_dangnhap)
-        $("#hoten").text(ttTaikhoan.hoTen)
-        $("#sdt").text(ttTaikhoan.dienThoai)
-        let star = ""
-        for (let i = 0; i < ttTaikhoan.matKhau.length; i++) {
+        
+        // Ẩn mật khẩu bằng dấu *
+        let star = "";
+        for (let i = 0; i < ttTaikhoan.password.length; i++) {
             star += "*"
         }
-        $("#matkhau").text(star)
-        if (ttTaikhoan.ngaySinh != "") {
-            let ngaysinh = ttTaikhoan.ngaySinh.split("-")
-            ngaysinh = ngaysinh[2] + "/" + ngaysinh[1] + "/" + ngaysinh[0]
-            $("#info").append("<li><b>Ngày sinh: </b>" + ngaysinh + "</li>")
+        
+        // Cập nhật nội dung thông tin chi tiết
+        const $infoList = $("#info");
+        $infoList.empty(); // Xóa nội dung cũ và thêm lại
+        
+        $infoList.append(`<li><b>Tên đăng nhập: </b><span id="tenDangnhap">${ttTaikhoan.username}</span></li>`);
+        $infoList.append(`<li><b>Mật khẩu: </b><span id="matkhau">${star}</span><span id="passEye"><img width="22" src="../img/closePassEye.png" alt="Hiện/Ẩn"></span></li>`);
+        $infoList.append(`<li><b>Họ và tên: </b><span id="hoten">${ttTaikhoan.fullname}</span></li>`);
+        $infoList.append(`<li><b>Số điện thoại: </b><span id="sdt">${ttTaikhoan.phone}</span></li>`);
+        
+        if (ttTaikhoan.ngaySinh && ttTaikhoan.ngaySinh.includes('-')) {
+            let ngaysinhParts = ttTaikhoan.ngaySinh.split("-");
+            let ngaysinh = `${ngaysinhParts[2]}/${ngaysinhParts[1]}/${ngaysinhParts[0]}`;
+            $infoList.append(`<li><b>Ngày sinh: </b>${ngaysinh}</li>`);
         }
-        if (ttTaikhoan.gioiTinh != "") {
-            $("#info").append("<li><b>Giới tính: </b>" + ttTaikhoan.gioiTinh + "</li>")
+        if (ttTaikhoan.gioiTinh) {
+            $infoList.append(`<li><b>Giới tính: </b>${ttTaikhoan.gioiTinh}</li>`);
         }
-        if (ttTaikhoan.email != "") {
-            $("#info").append("<li><b>Email: </b>" + ttTaikhoan.email + "</li>")
+        if (ttTaikhoan.email) {
+            $infoList.append(`<li><b>Email: </b>${ttTaikhoan.email}</li>`);
         }
-        if (ttTaikhoan.diaChi != "") {
-            $("#info").append("<li><b>Địa chỉ: </b>" + ttTaikhoan.diaChi + "</li>")
+        if (ttTaikhoan.diaChi) {
+            $infoList.append(`<li><b>Địa chỉ: </b>${ttTaikhoan.diaChi}</li>`);
         }
-
-        let click = 0
-        $("#taikhoan").click(function () {
-            click++
-            if (click % 2 !== 0) {
-                $("#ttTaikhoan").css("display", "block")
+        
+        // =================================================================
+        // 2. LOGIC ẨN/HIỆN MẬT KHẨU TRONG DROPDOWN
+        // =================================================================
+        $('#passEye').on('click', function() {
+            const $matkhauSpan = $('#matkhau');
+            const $img = $(this).find('img');
+            
+            if ($matkhauSpan.text() === star) {
+                // Đang ẩn -> Hiện mật khẩu
+                $matkhauSpan.text(ttTaikhoan.password);
+                $img.attr('src', '../img/openPassEye.png'); // Thay bằng icon con mắt mở
             } else {
-                $("#ttTaikhoan").css("display", "none")
-                $("#passEye>img").attr("src", "../img/closePassEye.png")
-                $("#matkhau").text(star)
-                click = 0
-                click2 = 0
+                // Đang hiện -> Ẩn mật khẩu
+                $matkhauSpan.text(star);
+                $img.attr('src', '../img/closePassEye.png'); // Thay bằng icon con mắt đóng
             }
-        })
+        });
 
-        $("main").click(function () {
-            $("#ttTaikhoan").css("display", "none")
-            $("#passEye>img").attr("src", "../img/closePassEye.png")
-            $("#matkhau").text(star)
-            click = 0
-            click2 = 0
-        })
-
-        let click2 = 0
-        $("#passEye").click(function () {
-            click2++
-            if (click2 % 2 !== 0) {
-                $("#passEye>img").attr("src", "../img/openPassEye.png")
-                $("#matkhau").text(ttTaikhoan.matKhau)
-            } else {
-                $("#passEye>img").attr("src", "../img/closePassEye.png")
-                $("#matkhau").text(star)
-                click2 = 0
-            }
-        })
-        $("#dangXuat").click(function () {
-            const xacthucDangxuat = confirm("Bạn chắc chắn muốn đăng xuất tài khoản?")
-            if (xacthucDangxuat) {
-                $("#dkdn").show()
-                $("#divTaikhoan").hide()
-                localStorage.removeItem("tkDangnhap")
-                location.reload()
-            }
-        })
+    } else {
+        $("#dkdn").show()
+        $("#divTaikhoan").hide()
     }
-})
+    
+    // =================================================================
+    // 3. XỬ LÝ ĐĂNG XUẤT
+    // =================================================================
+    $("#dangXuat").on('click', function() {
+        localStorage.removeItem('currentUser'); // Xóa trạng thái đăng nhập
+        // Xóa luôn danh sách tài khoản đã đăng ký (Tùy chọn, để dễ test)
+        // localStorage.removeItem('registeredAccounts'); 
+        window.location.href = "dangnhap.html"; // Chuyển về trang Đăng nhập
+    });
+});
