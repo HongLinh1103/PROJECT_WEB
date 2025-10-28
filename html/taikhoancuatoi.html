@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ - CleanAir mang lại "không khí trong lành" cho gia đình Việt</title>
+    <link rel="shortcut icon" href="../img/logo.ico" type="image/x-icon">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/trangchu.css">
+    <link rel="stylesheet" href="../css/modal.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/topnav.css">
+
+    <!-- JS -->
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script type="module" src="../js/trangchu.js"></script>
+    <script src="../js/taikhoan.js"></script>
+    <script src="../js/responsive.js"></script>
+
+    <style>
+        /* CSS banner thêm trực tiếp nếu chưa có file riêng */
+        #banner {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        #banner img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        main {
+            margin-top: 0;
+            padding-top: 0;
+        }
+        /* --- PROFILE MAIN SECTION --- */
+.profile-container {
+    max-width: 700px;
+    margin: 60px auto;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow:
+        0 10px 20px rgba(0, 0, 0, 0.08),
+        0 6px 6px rgba(0, 0, 0, 0.05);
+    font-family: "Segoe UI", sans-serif;
+    position: relative;
+    transition: all 0.4s ease;
+}
+
+/* Hiệu ứng nhô lên khi hover */
+.profile-container:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 16px 28px rgba(0, 0, 0, 0.15),
+        0 10px 10px rgba(0, 0, 0, 0.10);
+}
+
+.profile-container h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #0078ff;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Thông tin tài khoản */
+.profile-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 24px;
+    margin-bottom: 30px;
+}
+
+.profile-info div {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.profile-info strong {
+    color: #0078ff;
+}
+
+/* Nút hành động */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.action-buttons button {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+#btnEditProfile {
+    background-color: #0078ff;
+    color: white;
+}
+
+#btnDoiMK {
+    background-color: #ffb400;
+    color: #fff;
+}
+
+#btnDangXuat {
+    background-color: #f44336;
+    color: white;
+}
+
+.action-buttons button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Form chỉnh sửa & đổi mật khẩu */
+#editProfileForm input,
+#editProfileForm select,
+#changePasswordForm input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-top: 6px;
+    font-size: 15px;
+}
+
+#editProfileForm div,
+#changePasswordForm div {
+    margin-bottom: 12px;
+}
+
+#editProfileForm button,
+#changePasswordForm button {
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+#editProfileForm button:hover,
+#changePasswordForm button:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media screen and (max-width: 600px) {
+    .profile-container {
+        padding: 24px;
+    }
+    .profile-info {
+        grid-template-columns: 1fr;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header>
+        <!-- Logo -->
+        <a href="trangchu.html" class="logo reloadTrang">
+            <img src="../img/logo1.jpg" width="30" height="30" alt="logo Máy lạnh">
+            <span>CleanAir</span>
+        </a>
+
+        <!-- Thanh tìm kiếm -->
+        <div class="search-container">
+            <form id="formSearch">
+                <input type="text" placeholder="Nhập sản phẩm cần tìm ..." id="inputTimkiem" name="search">
+                <button type="submit" id="btnTimkiem"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+
+        <!-- Menu bên phải -->
+        <div class="header-right">
+            <!-- Giỏ hàng -->
+            <a class="giohang" href="giohang.html">
+                <i class="fa fa-shopping-cart"></i> Giỏ hàng
+            </a>
+
+            <!-- Dropdown: Tài khoản (chưa đăng nhập) -->
+            <div class="dropdown" id="dkdn">
+                <button class="dropbtn" onclick="toggle_dropdown()">
+                    <i class="fa fa-user"></i> Tài khoản
+                </button>
+                <div class="dropdown-content" id="myDropdown">
+                    <a href="dangky.html">Đăng ký</a>
+                    <a href="dangnhap.html">Đăng nhập</a>
+                    <a href="donhang.html">Đơn hàng của tôi</a>
+                </div>
+            </div>
+
+            <!-- Dropdown: Tài khoản (đã đăng nhập) -->
+            <div class="dropdown" id="divTaikhoan">
+                <button id="taikhoan" class="dropbtn"></button>
+                <div class="dropdown-content" id="ttTaikhoan">
+                    <ul id="info">
+                        <li><b>Tên đăng nhập:</b> <span id="tenDangnhap"></span></li>
+                        <li>
+                            <b>Mật khẩu:</b>
+                            <span id="matkhau"></span>
+                            <span id="passEye">
+                                <img width="22" src="../img/closePassEye.png" alt="toggle mật khẩu">
+                            </span>
+                        </li>
+                        <li><b>Họ và tên:</b> <span id="hoten"></span></li>
+                        <li><b>Số điện thoại:</b> <span id="sdt"></span></li>
+                    </ul>
+                    <div class="account-actions">
+                        <button type="button" id="doiMK">Đổi mật khẩu</button>
+                        <button type="button" id="dangXuat">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAV -->
+    <nav class="topnav" id="myTopnav">
+        <a href="trangchu.html" >Trang chủ</a>
+        <a href="danhsachsanpham.html">Danh sách sản phẩm</a>
+        <a href="gioithieu_website_thanhvien.html">Giới thiệu website</a>
+        <a href="sitemap.html">Site map</a>
+        <a href="javascript:void(0);" class="icon" onclick="respond_topnav()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </nav>
+
+
+  <!-- MAIN -->
+  <main>
+    <div class="profile-container">
+      <h2>THÔNG TIN TÀI KHOẢN CỦA TÔI</h2>
+
+      <div id="profileDetails" class="profile-info">
+        <!-- nội dung sẽ được render bởi JS -->
+      </div>
+
+      <div class="action-buttons">
+        <button id="btnEditProfile">Chỉnh sửa thông tin</button>
+        <button id="btnDoiMK">Đổi mật khẩu</button>
+        <button id="btnDangXuat">Đăng xuất</button>
+      </div>
+    </div>
+  </main>
+
+<!-- FOOTER -->
+    <footer>
+        <div>
+            <div>
+                <ul>
+                    <span>Thông tin về</span>
+                    <li><a href="gioithieu_website_thanhvien.html">Giới thiệu website</a></li>
+                    <li><a href="gioithieu_website_thanhvien.html#phan-0">Các thành viên thực hiện</a></li>
+                    <li><a href="sitemap.html">Site Map</a></li>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <span>Dịch vụ khách hàng</span>
+                    <li><a href="#">Liên hệ chúng tôi</a></li>
+
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <span>Tài khoản</span>
+                    <li><a href="taikhoancuatoi.html">Tài khoản của tôi</a></li>
+                    <li><a href="dangnhap.html">Đăng nhập</a></li>
+                    <li><a href="dangky.html">Đăng ký</a></li>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <span>Sản phẩm</span>
+                    <li><a href="giohang.html">Giỏ hàng của tôi</a></li>
+                </ul>
+            </div>
+            <div>
+                <div>
+                    <p>CleanAir Store© 2025. Công ty thiết bị máy lạnh TPHCM.</p>
+                    <p>Địa chỉ: 99 Phạm Ngũ Lão, Phường 4, Gò Vấp, TP. Hồ Chí Minh, Việt Nam</p>
+                </div>
+                <div>
+                    <p><a href="#">Powered By Open Cart</a></p>
+                    <span><img src="../img/bocongthuong.png" alt="Bộ Công Thương" width="90"></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+  <script>
+    // -- helper: đóng tất cả dropdowns
+    function closeAllDropdowns() {
+      $('#myDropdown').hide();
+      $('#ttTaikhoan').hide();
+    }
+
+    // -- toggle function cho menu đăng ký/đăng nhập (khi chưa login)
+    function toggle_dropdown() {
+      const el = $('#myDropdown');
+      el.toggle();
+      $('#ttTaikhoan').hide();
+    }
+
+    // -- document ready
+    $(function() {
+      // tránh xung đột: đảm bảo chỉ 1 #dkdn hiện
+      $('#myDropdown').hide();
+      $('#ttTaikhoan').hide();
+
+      // Lấy user từ localStorage (expected structure: currentUser = { username, fullname, email, password, phone, ... })
+      const currentUserData = localStorage.getItem('currentUser');
+      const $profileDetails = $('#profileDetails');
+
+      function renderProfileUI(user) {
+        // populate profile details area
+        $profileDetails.html(`
+          <div><strong>Tên đăng nhập:</strong> ${user.username}</div>
+          <div><strong>Email:</strong> ${user.email || 'Chưa cập nhật'}</div>
+          <div><strong>Họ và tên:</strong> ${user.fullname || 'Chưa cập nhật'}</div>
+          <div><strong>Số điện thoại:</strong> ${user.phone || 'Chưa cập nhật'}</div>
+          <div><strong>Giới tính:</strong> ${user.gioiTinh || 'Chưa cập nhật'}</div>
+          <div><strong>Địa chỉ:</strong> ${user.diaChi || 'Chưa cập nhật'}</div>
+        `);
+
+        $('#tenDangnhap').text(user.username || '-');
+        $('#hoten').text(user.fullname || '-');
+        $('#email').text(user.email || '-');
+
+        // set avatar first char
+        const name = (user.fullname && user.fullname.trim()) ? user.fullname.trim() : (user.username || '?');
+        $('#taikhoan').text(name.charAt(0).toUpperCase());
+
+        // show avatar, hide dkdn menu
+        $('#divTaikhoan').show();
+        $('#dkdn').hide();
+        $('.action-buttons').show();
+      }
+
+      function showLoggedOutUI() {
+        // not logged in
+        $('#divTaikhoan').hide();
+        $('#dkdn').show();
+        $profileDetails.html('<p style="text-align:center;">Bạn chưa đăng nhập. Vui lòng <a href="dangnhap.html">Đăng nhập</a>.</p>');
+        $('.action-buttons').hide();
+      }
+
+      if (currentUserData) {
+        try {
+          const user = JSON.parse(currentUserData);
+          renderProfileUI(user);
+        } catch (e) {
+          console.error('Có lỗi khi parse currentUser', e);
+          showLoggedOutUI();
+        }
+      } else {
+        showLoggedOutUI();
+      }
+
+      // ---------- Dropdown behaviours ----------
+      // click avatar: toggle its dropdown
+      $('#taikhoan').on('click', function(e) {
+        e.stopPropagation();
+        $('#ttTaikhoan').toggle();
+        $('#myDropdown').hide();
+      });
+
+      // click dkdn button
+      $('#dkdnBtn').on('click', function(e) {
+        e.stopPropagation();
+        $('#myDropdown').toggle();
+        $('#ttTaikhoan').hide();
+      });
+
+      // click outside -> close dropdowns
+      $(document).on('click', function() {
+        closeAllDropdowns();
+      });
+
+      // prevent clicks inside dropdown from closing
+      $('#ttTaikhoan, #myDropdown').on('click', function(e) {
+        e.stopPropagation();
+      });
+
+      // ---------- Edit profile ----------
+      $('#btnEditProfile').on('click', function() {
+        const cur = localStorage.getItem('currentUser');
+        if (!cur) { window.location.href = 'dangnhap.html'; return; }
+        const user = JSON.parse(cur);
+        // show form inline inside profileDetails
+        $profileDetails.html(`
+          <form id="editProfileForm">
+            <div><strong>Tên đăng nhập:</strong> ${user.username}</div>
+            <div><strong>Email:</strong> ${user.email || ''}</div>
+            <div><strong>Họ và tên:</strong> <input type="text" name="fullname" value="${user.fullname || ''}" required></div>
+            <div><strong>Số điện thoại:</strong> <input type="text" name="phone" value="${user.phone || ''}"></div>
+            <div><strong>Giới tính:</strong>
+              <select name="gioiTinh">
+                <option value="">-- Chọn --</option>
+                <option value="Nam"${user.gioiTinh==='Nam'?' selected':''}>Nam</option>
+                <option value="Nữ"${user.gioiTinh==='Nữ'?' selected':''}>Nữ</option>
+                <option value="Khác"${user.gioiTinh==='Khác'?' selected':''}>Khác</option>
+              </select>
+            </div>
+            <div><strong>Địa chỉ:</strong> <input type="text" name="diaChi" value="${user.diaChi || ''}"></div>
+            <div style="margin-top:12px;"><button type="button" id="saveProfileBtn" style="padding:8px 12px;border-radius:6px;border:none;background:#007bff;color:#fff;">Lưu</button>
+            <button type="button" id="cancelEditBtn" style="padding:8px 12px;border-radius:6px;border:1px solid #ccc;margin-left:8px;">Hủy</button></div>
+          </form>
+        `);
+      });
+
+      // Save profile (delegated because form is dynamic)
+      $(document).on('click', '#saveProfileBtn', function() {
+        const cur = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        const $f = $('#editProfileForm');
+        const fullname = $f.find('input[name="fullname"]').val().trim();
+        if (!fullname) { alert('Họ và tên không được để trống'); return; }
+        cur.fullname = fullname;
+        cur.phone = $f.find('input[name="phone"]').val().trim();
+        cur.gioiTinh = $f.find('select[name="gioiTinh"]').val();
+        cur.diaChi = $f.find('input[name="diaChi"]').val().trim();
+        localStorage.setItem('currentUser', JSON.stringify(cur));
+        alert('Cập nhật thông tin thành công');
+        // re-render UI
+        $('#taikhoan').text(cur.fullname.charAt(0).toUpperCase());
+        // re-render profile details
+        $('#profileDetails').html(`
+          <div><strong>Tên đăng nhập:</strong> ${cur.username}</div>
+          <div><strong>Email:</strong> ${cur.email || ''}</div>
+          <div><strong>Họ và tên:</strong> ${cur.fullname}</div>
+          <div><strong>Số điện thoại:</strong> ${cur.phone || ''}</div>
+          <div><strong>Giới tính:</strong> ${cur.gioiTinh || ''}</div>
+          <div><strong>Địa chỉ:</strong> ${cur.diaChi || ''}</div>
+        `);
+      });
+
+      // cancel edit
+      $(document).on('click', '#cancelEditBtn', function() {
+        const cur = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        // re-render normal profile
+        if (cur && cur.username) {
+          $('#profileDetails').html(`
+            <div><strong>Tên đăng nhập:</strong> ${cur.username}</div>
+            <div><strong>Email:</strong> ${cur.email || ''}</div>
+            <div><strong>Họ và tên:</strong> ${cur.fullname || ''}</div>
+            <div><strong>Số điện thoại:</strong> ${cur.phone || ''}</div>
+            <div><strong>Giới tính:</strong> ${cur.gioiTinh || ''}</div>
+            <div><strong>Địa chỉ:</strong> ${cur.diaChi || ''}</div>
+          `);
+        } else {
+          $profileDetails.html('<p style="text-align:center;">Vui lòng đăng nhập</p>');
+        }
+      });
+
+      // ---------- Change password ----------
+      function showChangePasswordForm() {
+        $('#profileDetails').html(`
+          <form id="changePasswordForm">
+            <div><strong>Mật khẩu hiện tại:</strong> <input type="password" name="oldPassword" required></div>
+            <div><strong>Mật khẩu mới:</strong> <input type="password" name="newPassword" required></div>
+            <div><strong>Nhập lại mật khẩu mới:</strong> <input type="password" name="confirmPassword" required></div>
+            <div style="margin-top:12px;">
+              <button type="button" id="savePwdBtn" style="padding:8px 12px;border-radius:6px;border:none;background:#007bff;color:#fff;">Lưu mật khẩu</button>
+              <button type="button" id="cancelPwdBtn" style="padding:8px 12px;border-radius:6px;border:1px solid #ccc;margin-left:8px;">Hủy</button>
+            </div>
+          </form>
+        `);
+      }
+
+      $('#btnDoiMK, #doiMK').on('click', function() {
+        const cur = localStorage.getItem('currentUser');
+        if (!cur) { alert('Vui lòng đăng nhập để đổi mật khẩu'); window.location.href='dangnhap.html'; return; }
+        showChangePasswordForm();
+      });
+
+      // save new password (delegated)
+      $(document).on('click', '#savePwdBtn', function() {
+        const cur = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        const $f = $('#changePasswordForm');
+        const oldP = $f.find('input[name="oldPassword"]').val();
+        const newP = $f.find('input[name="newPassword"]').val();
+        const conf = $f.find('input[name="confirmPassword"]').val();
+        if (oldP !== cur.password) { alert('Mật khẩu hiện tại không đúng'); return; }
+        if (newP.length < 6) { alert('Mật khẩu mới phải >= 6 ký tự'); return; }
+        if (newP !== conf) { alert('Mật khẩu nhập lại không khớp'); return; }
+        // update
+        cur.password = newP;
+        localStorage.setItem('currentUser', JSON.stringify(cur));
+        // if dsUser exists, update there too
+        const dsUser = JSON.parse(localStorage.getItem('dsUser') || '[]');
+        const idx = dsUser.findIndex(u => u.username === cur.username);
+        if (idx !== -1) { dsUser[idx].password = newP; localStorage.setItem('dsUser', JSON.stringify(dsUser)); }
+        alert('Đổi mật khẩu thành công');
+        // re-render profile view
+        $('#profileDetails').html(`
+          <div><strong>Tên đăng nhập:</strong> ${cur.username}</div>
+          <div><strong>Email:</strong> ${cur.email || ''}</div>
+          <div><strong>Họ và tên:</strong> ${cur.fullname || ''}</div>
+        `);
+      });
+
+      // cancel change pwd
+      $(document).on('click', '#cancelPwdBtn', function() {
+        const cur = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        if (cur && cur.username) {
+          $('#btnEditProfile').trigger('click'); // show edit maybe
+          // simply re-render profile summary
+          $('#profileDetails').html(`
+            <div><strong>Tên đăng nhập:</strong> ${cur.username}</div>
+            <div><strong>Email:</strong> ${cur.email || ''}</div>
+            <div><strong>Họ và tên:</strong> ${cur.fullname || ''}</div>
+          `);
+        } else {
+          $('#profileDetails').html('<p style="text-align:center;">Vui lòng đăng nhập</p>');
+        }
+      });
+
+      // ---------- Logout ----------
+      $('#btnDangXuat, #dangXuat').on('click', function() {
+        localStorage.removeItem('currentUser');
+        alert('Bạn đã đăng xuất');
+        // reload page to show logged-out UI
+        location.reload();
+      });
+
+      // small UX: close dropdowns on escape
+      $(document).on('keydown', function(e) {
+        if (e.key === 'Escape') closeAllDropdowns();
+      });
+
+      // prevent form submission default (search)
+      $('#formSearch').on('submit', function(e){ e.preventDefault(); /* implement search if needed */ });
+
+    }); // end ready
+  </script>
+</body>
+</html>
