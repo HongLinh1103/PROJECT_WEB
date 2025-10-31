@@ -111,6 +111,17 @@ $(document).ready(function() {
                 
                 // LƯU THÔNG TIN TÀI KHOẢN HIỆN TẠI (ĐỂ TAISHOAN.JS SỬ DỤNG)
                 localStorage.setItem('currentUser', JSON.stringify(foundAccount)); 
+                // Lưu thêm dưới key cũ 'tkDangnhap' để tương thích với các script cũ (sanpham.js, giohang.js...)
+                try {
+                    const legacy = {
+                        ten_dangnhap: foundAccount.username || foundAccount.ten_dangnhap || '',
+                        hoTen: foundAccount.fullname || foundAccount.hoTen || '',
+                        dienThoai: foundAccount.phone || foundAccount.dienThoai || '',
+                        diaChi: foundAccount.diaChi || foundAccount.diaChi || '',
+                        gioiTinh: foundAccount.gioiTinh || foundAccount.gioiTinh || ''
+                    };
+                    localStorage.setItem('tkDangnhap', JSON.stringify(legacy));
+                } catch (e) { console.warn('Không thể lưu tkDangnhap (legacy)', e); }
 
                 // Chuyển hướng sau 3 giây
                 setTimeout(() => {

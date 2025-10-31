@@ -78,11 +78,25 @@ class Sanpham {
             e.preventDefault(); // Prevent default link behavior
             e.stopPropagation(); // Stop event propagation to parent .product link
 
-            const taikhoan = localStorage.getItem("tkDangnhap");
-            if (taikhoan == null) {
+            // Hỗ trợ cả key cũ 'tkDangnhap' và key mới 'currentUser'
+            let taikhoan = localStorage.getItem("tkDangnhap");
+            if (!taikhoan && localStorage.getItem('currentUser')) {
+                try {
+                    const u = JSON.parse(localStorage.getItem('currentUser'));
+                    const legacy = {
+                        ten_dangnhap: u.username || u.ten_dangnhap || '',
+                        hoTen: u.fullname || u.hoTen || '',
+                        dienThoai: u.phone || u.dienThoai || '',
+                        diaChi: u.diaChi || '',
+                        gioiTinh: u.gioiTinh || ''
+                    };
+                    taikhoan = JSON.stringify(legacy);
+                    // Also persist legacy key for other modules
+                    localStorage.setItem('tkDangnhap', taikhoan);
+                } catch (e) { console.warn('Cannot derive tkDangnhap from currentUser', e); }
+            }
+            if (!taikhoan) {
                 alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
-                // Optionally redirect to login page
-                // window.location.href = "dangnhap.html";
                 return;
             }
 
@@ -154,7 +168,11 @@ class Sanpham {
                     });
                 }
 
+                // DEBUG: log cart before and after saving
+                console.log('Adding to cart for user:', loggedInAccount);
+                console.log('Cart before save:', objDSGioSP);
                 localStorage.setItem("dsGioSP", JSON.stringify(objDSGioSP));
+                console.log('Saved dsGioSP:', localStorage.getItem('dsGioSP'));
                 $("#myModal").css("display", "none"); // Close modal after adding to cart
             }, 1000); // Reduced delay for better UX
         });

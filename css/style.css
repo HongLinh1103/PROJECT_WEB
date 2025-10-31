@@ -330,3 +330,149 @@ footer a:hover {
         margin-top: 15px;
     }
 }
+
+/* Styles for cart page: left = products, right = customer info (50/50) */
+#container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* equal width columns */
+    gap: 24px;
+    align-items: start;
+    margin-top: 18px;
+    align-content: start;
+}
+
+/* Product list inserted by JS (id cacsanpham) occupies left column */
+#cacsanpham {
+    grid-column: 1 / 2;
+}
+
+/* Ensure the sidebar (customer info + summary) occupies the right column */
+#container > aside.sidebar { grid-column: 2 / 3; }
+
+/* If any section elements are placed directly, keep them in right column as fallback */
+#container > #thongtinKhachHang,
+#container > .tongTien,
+#container > .datHang { grid-column: 2 / 3; }
+
+
+.sanpham {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid #edf0f2;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    background: linear-gradient(180deg,#ffffff,#fbfcfd);
+    box-shadow: 0 6px 18px rgba(18,38,63,0.04);
+}
+
+.sanpham > div:first-child { display:flex; gap:12px; align-items:center; flex:1 }
+.imgSanPham img { width:96px; height:96px; object-fit:contain; background:#f8fafc; padding:6px; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.05) }
+.tenSanPham { flex:1 }
+.tenSanPham h4 { margin:0 0 6px; font-size:16px; color:#16202a }
+.tenSanPham p { margin:0; color:#6b7280; font-size:13px }
+.giaSanPham { color:#d9534f; font-weight:800; margin-right:8px; font-size:16px }
+
+.sanpham .rightActions { display:flex; flex-direction:column; align-items:flex-end; gap:10px }
+.xoaSanpham a { color:#9ca3af; text-decoration:none; font-size:14px }
+.xoaSanpham a:hover { color:#ef4444 }
+
+.soluongSanPham { display:flex; align-items:center; gap:8px; background:#f8fafc; padding:6px; border-radius:8px }
+.soluongSanPham button { padding:6px 10px; border:1px solid #e2e8f0; background:#fff; border-radius:6px; cursor:pointer; font-weight:700 }
+.soluongSanPham button:hover { background:#f1f5f9 }
+.soluong { display:inline-block; min-width:36px; text-align:center; font-weight:600 }
+
+.tongTien { background:#fff; border:1px solid #e6eef6; padding:20px; border-radius:10px; box-shadow:0 8px 20px rgba(14,30,60,0.04); position:sticky; top:90px }
+.tongTien h4 { margin:0 0 12px; font-size:18px }
+.tongTien .amount { font-size:22px; color:#0b5ed7; font-weight:800 }
+.tongTien .note { color:#6b7280; font-size:13px; margin-top:6px }
+.datHang { margin-top:12px; display:flex; justify-content:flex-end }
+
+/* Primary order button in the summary */
+.tongTien #datHang,
+.datHang #datHang,
+.btn-base {
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 12px 18px;
+    text-align: center;
+    display: inline-block;
+    line-height: 1;
+}
+
+#datHang.btn-primary,
+.tongTien #datHang,
+.datHang #datHang {
+    display: block;
+    width: 100%;
+    background: linear-gradient(90deg,#ff3b30,#ff6b6b); /* red */
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    box-shadow: 0 8px 20px rgba(255,59,48,0.18);
+    transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+}
+.tongTien #datHang:hover,
+.datHang #datHang:hover,
+#datHang.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(255,59,48,0.22);
+    filter: brightness(1.03);
+}
+.tongTien #datHang:active,
+.datHang #datHang:active,
+#datHang.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 14px rgba(255,59,48,0.16);
+}
+
+/* On wider screens keep the button visible in the sticky summary */
+.tongTien { display:flex; flex-direction:column; gap:12px }
+
+@media (max-width:900px) {
+    #container { grid-template-columns: 1fr; }
+    #cacsanpham, #container > #thongtinKhachHang, #container > .tongTien, #container > .datHang { grid-column: auto }
+    .tongTien { position: static; top: auto }
+}
+
+/* Sidebar styles */
+.sidebar { display:flex; flex-direction:column; gap:14px; padding-left:6px }
+.card { background:#fff; padding:14px; border-radius:10px; box-shadow:0 6px 18px rgba(18,38,63,0.04); border:1px solid rgba(3,64,120,0.03) }
+.card-title { margin:0 0 10px; font-size:15px; color:#0b2140 }
+.form-group { margin-bottom:10px }
+.form-group label { display:block; font-size:13px; color:#374151; margin-bottom:6px }
+.heightInput { width:100%; padding:8px 10px; border:1px solid #e6eef6; border-radius:6px; background:#fbfdff }
+.label-inline { margin-right:10px; color:#374151 }
+
+/* Product list styles adjustments */
+#cacsanpham { display:flex; flex-direction:column; gap:14px }
+.sanpham { padding:14px 18px; }
+.imgSanPham img { width:100px; height:100px; object-fit:contain; background:#f8fafc; padding:6px }
+.tenSanPham h4 { font-size:15px }
+.giaSanPham { font-size:16px }
+.rightActions { min-width:220px }
+.xoaSanpham a { color:#ef4444; font-weight:600 }
+
+/* Quantity input style */
+.soluongSanPham { background:#fff; padding:6px 8px; border-radius:8px }
+.soluongSanPham button { width:30px; height:30px; padding:0; border-radius:6px }
+
+@media (max-width:900px) {
+    .sidebar { order: 2 }
+    #cacsanpham { order: 1 }
+    .imgSanPham img { width:84px; height:84px; object-fit:contain; padding:4px }
+}
+
+@media (max-width:900px) {
+    #container { grid-template-columns: 1fr; }
+    #cacsanpham, #container > #thongtinKhachHang, #container > .tongTien, #container > .datHang { grid-column: auto }
+}
+
+/* Page-specific tweaks for quick-buy page */
+.muahang-page .imgSanPham img { width: 140px; height: 140px; object-fit: contain; padding:8px }
+.muahang-page .tenSanPham h4 { font-size: 18px }
+.muahang-page .giaSanPham { font-size: 18px }

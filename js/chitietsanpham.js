@@ -1,5 +1,20 @@
 import { arrSP_DSSP } from "./sanpham_array.js"
 
+// Prevent double submissions when adding to cart
+let addingInProgress = false;
+
+// Lightweight toast for non-blocking user feedback
+function showToast(message, duration = 1000) {
+    try {
+        const id = 'site-toast'
+        $('#' + id).remove()
+        const t = $('<div>', { id: id, class: 'site-toast' }).text(message).css({ display: 'none' })
+        $('body').append(t)
+        t.fadeIn(180)
+        setTimeout(() => { t.fadeOut(200, () => t.remove()) }, duration)
+    } catch (e) { console.warn('toast error', e) }
+}
+
 $(document).ready(function () {
     let stringSP = sessionStorage.getItem("TTCT_SP")
     if (stringSP == null) {
@@ -73,6 +88,7 @@ $(document).ready(function () {
         })
 
         // Event listener cho nút "THÊM VÀO GIỎ HÀNG" của sản phẩm tương tự (với modal xác nhận)
+        // Khi click thêm từ danh sách tương tự, chuyển thẳng tới trang giỏ hàng sau khi thêm.
         $(document).off("click", ".productThemGioHang").on("click", ".productThemGioHang", function (e) {
             e.preventDefault()  // Ngăn chuyển trang khi click nút
             e.stopPropagation() // Ngăn sự kiện lan tỏa lên .product
@@ -92,11 +108,28 @@ $(document).ready(function () {
                 return
             }
 
-            // Gọi hàm thêm vào giỏ với modal (không redirect)
-            themVaoGioHang(objSP_tuongtu, false)  // false: không redirect
+            // prevent duplicate clicks
+            const btn = $(this)
+            if (btn.data('adding')) return
+            btn.data('adding', true)
+            themVaoGioHang(objSP_tuongtu, true).finally(() => btn.data('adding', false))
         })
 
-        // Event listener cho nút "#muangay" (thêm vào giỏ và redirect đến giỏ hàng, với modal)
+        // Event listener cho nút "THÊM VÀO GIỎ HÀNG" trên trang chi tiết (thêm rồi chuyển sang giỏ hàng)
+        $(document).off("click", "#themvaogio").on("click", "#themvaogio", function () {
+            const taiKhoanDN = localStorage.getItem("tkDangnhap")
+            if (taiKhoanDN == null) {
+                showToast("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!", 1400)
+                setTimeout(() => window.location.href = "../html/dangnhap.html", 600)
+                return
+            }
+            const btn = $(this)
+            if (btn.data('adding')) return
+            btn.data('adding', true)
+            themVaoGioHang(objSP, true).finally(() => btn.data('adding', false))
+        })
+
+        // Event listener cho nút "#muangay" (thêm vào quick-buy và chuyển đến trang mua hàng riêng)
         $("#muangay").off("click").on("click", function () {
             const taiKhoanDN = localStorage.getItem("tkDangnhap")
             if (taiKhoanDN == null) {
@@ -105,8 +138,12 @@ $(document).ready(function () {
                 return
             }
 
-            // Gọi hàm thêm vào giỏ với modal, và redirect sau khi thêm
-            themVaoGioHang(objSP, true)  // true: redirect sau khi thêm
+            // store quick-buy product in session so muahang.html can render only this product
+            sessionStorage.setItem('MUA_NGAY_SP', JSON.stringify(objSP))
+            // add to cart storage (but do not redirect there); after add completes send to quick-buy page
+            themVaoGioHang(objSP, false).finally(() => {
+                window.location.href = "../html/muahang.html"
+            })
         })
     }
 })
@@ -114,31 +151,37 @@ $(document).ready(function () {
 // Hàm chung để thêm vào giỏ hàng (dùng cho sản phẩm chính và tương tự)
 // Tham số: objSP (sản phẩm), redirectAfterAdd (boolean: có redirect đến giỏ hàng không)
 function themVaoGioHang(objSP, redirectAfterAdd) {
-    const taikhoan = localStorage.getItem("tkDangnhap")
-    if (taikhoan == null) {
+    // Return a promise so callers can know when finished
+    return new Promise((resolve) => {
+    // Hỗ trợ cả 'tkDangnhap' (legacy) và 'currentUser' (mới)
+    let taikhoan = localStorage.getItem("tkDangnhap")
+    if (!taikhoan && localStorage.getItem('currentUser')) {
+        try {
+            const u = JSON.parse(localStorage.getItem('currentUser'));
+            const legacy = {
+                ten_dangnhap: u.username || u.ten_dangnhap || '',
+                hoTen: u.fullname || u.hoTen || '',
+                dienThoai: u.phone || u.dienThoai || '',
+                diaChi: u.diaChi || '',
+                gioiTinh: u.gioiTinh || ''
+            };
+            taikhoan = JSON.stringify(legacy);
+            localStorage.setItem('tkDangnhap', taikhoan);
+        } catch (e) { console.warn('Cannot derive tkDangnhap from currentUser', e); }
+    }
+
+    if (!taikhoan) {
         alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!")
         window.location.href = "../html/dangnhap.html"
+        resolve()
         return
     }
 
     const loggedInAccount = JSON.parse(taikhoan)
 
-    // Hiển thị modal xác nhận (giả sử có #myModal trong HTML)
-    $("#myModal").css("display", "block")
-    $("#tenSP").text(objSP.ten)  // Giả sử có #tenSP trong modal
-    $("#giaSP").text(objSP.gia + "đ")  // Giả sử có #giaSP trong modal
-
-    // Đóng modal khi click nút close hoặc ngoài modal
-    $(".close").off("click").on("click", function () {
-        $("#myModal").css("display", "none")
-    })
-    $(window).off("click").on("click", function (event) {
-        if (event.target == document.getElementById("myModal")) {
-            $("#myModal").css("display", "none")
-        }
-    })
-
-    // Thêm vào giỏ hàng sau 1 giây (hiển thị modal tạm thời)
+    // Thêm vào giỏ hàng sau 300ms (nhỏ delay để thể hiện animation)
+    if (addingInProgress) { showToast('Đang xử lý...',700); resolve(); return }
+    addingInProgress = true
     setTimeout(function () {
         const dsGio = localStorage.getItem("dsGioSP")
         const newItem = {
@@ -165,15 +208,17 @@ function themVaoGioHang(objSP, redirectAfterAdd) {
             })
         }
 
-        localStorage.setItem("dsGioSP", JSON.stringify(objDSGioSP))
-        $("#myModal").css("display", "none")  // Đóng modal sau khi thêm
+        // Lưu trở lại localStorage
+        localStorage.setItem('dsGioSP', JSON.stringify(objDSGioSP))
 
-        // Thông báo thành công
-        alert("Đã thêm sản phẩm vào giỏ hàng!")
-
-        // Nếu redirectAfterAdd là true (cho nút mua ngay), chuyển đến giỏ hàng
+        // Thông báo non-blocking
+        showToast('Đã thêm sản phẩm vào giỏ hàng!', 900)
+        addingInProgress = false
+        // Nếu redirectAfterAdd là true (cho nút mua ngay), chuyển đến giỏ hàng sau khi toast
         if (redirectAfterAdd) {
-            location.href = "../html/giohang.html"
+            setTimeout(() => { location.href = "../html/giohang.html" }, 700)
         }
-    }, 1000)
+        resolve()
+    }, 300)
+    })
 }

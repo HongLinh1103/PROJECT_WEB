@@ -47,7 +47,7 @@
     </style>
 </head>
 
-<body>
+<body class="muahang-page">
     <!-- HEADER -->
     <header>
         <!-- Logo -->
@@ -126,7 +126,46 @@
 
     <!-- MAIN -->
     <main>
-        <div id="products"></div>
+        <div>
+            <h3>Sản phẩm mua ngay</h3>
+            <div id="container">
+                <!-- Left: single product -->
+                <div id="leftColumn">
+                    <div id="cacsanpham"></div>
+                </div>
+
+                <!-- Right: customer info + summary -->
+                <aside class="sidebar">
+                    <section id="thongtinKhachHang" class="card">
+                        <h3 class="card-title">Thông tin khách hàng</h3>
+                        <form>
+                            <div class="field-row">
+                                <label class="label-inline"><input type="radio" name="gioitinh" id="anh" checked>
+                                    Anh</label>
+                                <label class="label-inline"><input type="radio" name="gioitinh" id="chi"> Chị</label>
+                            </div>
+                            <div class="form-group"><label>Họ và tên</label>
+                                <input class="heightInput" type="text" id="hovaten" placeholder="Họ và tên">
+                            </div>
+                            <div class="form-group"><label>Số điện thoại</label>
+                                <input class="heightInput" type="tel" id="sodienthoai" placeholder="Số điện thoại">
+                            </div>
+                            <div class="form-group"><label>Địa chỉ giao hàng</label>
+                                <input type="text" id="diachi" class="heightInput" placeholder="Nhập địa chỉ giao hàng">
+                            </div>
+                        </form>
+                    </section>
+
+                    <section class="tongTien card">
+                        <h4 class="card-title">Tổng tiền</h4>
+                        <div class="amount-row"><span class="amount" id="tongTien">0</span><sup>đ</sup></div>
+                        <p class="note">Phí vận chuyển sẽ được tính khi xác nhận đơn hàng.</p>
+                        <div style="text-align:center; margin-top:12px;"><button id="datHang" type="button"
+                                class="btn-primary">Đặt hàng</button></div>
+                    </section>
+                </aside>
+            </div>
+        </div>
     </main>
 
     <!-- FOOTER -->
@@ -136,60 +175,24 @@
                 <ul>
                     <span>Thông tin về</span>
                     <li><a href="gioithieu_website_thanhvien.html">Giới thiệu website</a></li>
-                    <li><a href="gioithieu_website_thanhvien.html#phan-0">Các thành viên thực hiện</a></li>
-                    <li><a href="sitemap.html">Site Map</a></li>
                 </ul>
             </div>
             <div>
                 <ul>
                     <span>Dịch vụ khách hàng</span>
                     <li><a href="#">Liên hệ chúng tôi</a></li>
-
-                </ul>
-            </div>
-            <div>
-                <ul>
-                    <span>Tài khoản</span>
-                    <li><a href="taikhoancuatoi.html">Tài khoản của tôi</a></li>
-                    <li><a href="dangnhap.html">Đăng nhập</a></li>
-                    <li><a href="dangky.html">Đăng ký</a></li>
-                </ul>
-            </div>
-            <div>
-                <ul>
-                    <span>Sản phẩm</span>
-                    <li><a href="giohang.html">Giỏ hàng của tôi</a></li>
                 </ul>
             </div>
             <div>
                 <div>
                     <p>CleanAir Store© 2025. Công ty thiết bị máy lạnh TPHCM.</p>
-                    <p>Địa chỉ: 99 Phạm Ngũ Lão, Phường 4, Gò Vấp, TP. Hồ Chí Minh, Việt Nam</p>
-                </div>
-                <div>
-                    <p><a href="#">Powered By Open Cart</a></p>
-                    <span><img src="../img/bocongthuong.png" alt="Bộ Công Thương" width="90"></span>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- MODAL: thông báo đã thêm sản phẩm vào giỏ -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close">&times;</span>
-                <h2>Đã thêm vào giỏ hàng</h2>
-            </div>
-            <div class="modal-body">
-                <h3 id="tenSP">Some text in the Modal Body</h3>
-                <p id="giaSP">Some other text...</p>
-            </div>
-            <div class="modal-footer">
-                <p>Xin cảm ơn!</p>
-            </div>
-        </div>
-    </div>
+    <!-- Page scripts -->
+    <script src="../js/muahang.js"></script>
 </body>
 
 </html>

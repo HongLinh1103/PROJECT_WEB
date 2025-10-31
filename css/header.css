@@ -2,7 +2,8 @@ header {
     background-color: rgb(242, 246, 250);
     border: 1px solid black;
     padding: 6px 14%;
-    overflow: hidden;
+    /* Cho phép dropdown không bị cắt (trước đây dùng overflow:hidden để clear floats) */
+    overflow: visible;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     /* Hiệu ứng đổ bóng */
     transition: all 0.3s ease;
@@ -117,6 +118,8 @@ header a.giohang:hover {
     float: left;
     overflow: visible;
     /* Đảm bảo dropdown-content không bị cắt */
+    /* Cho phép dropdown-content định vị tuyệt đối so với cha */
+    position: relative;
 }
 
 .dropdown .dropbtn {
@@ -141,27 +144,33 @@ header a.giohang:hover {
     color: white;
 }
 
-.dropdown-content {
-    display: none;
+.dropdown .dropdown-content,
+.dropdown #ttTaikhoan {
+    /* Unified dropdown card styles used for both the "not-logged-in"
+       dropdown (.dropdown-content) and the "logged-in" card (#ttTaikhoan).
+       Keep visibility toggles handled via opacity/transform so JS can
+       toggle using the parent `.dropdown.show` class. */
     position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
+    background-color: #ffffff;
+    min-width: 200px; /* smaller card width to match requested size */
+    border-radius: 10px;
+    padding: 6px 0;
+    box-shadow: 0px 10px 24px rgba(8,20,40,0.06);
+    z-index: 9998;
     opacity: 0;
-    /* Bắt đầu với opacity 0 */
+    pointer-events: none;
+    transform-origin: top left; /* pivot from the left edge */
+    left: 0; /* anchor the simple dropdown to the left of its parent */
     transform: translateY(10px);
-    /* Bắt đầu dịch chuyển xuống */
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    /* Hiệu ứng chuyển động */
+    transition: opacity 0.22s ease, transform 0.22s ease;
 }
 
-.dropdown:hover .dropdown-content {
-    display: block;
+.dropdown:hover .dropdown-content,
+.dropdown.show .dropdown-content,
+.dropdown.show #ttTaikhoan {
     opacity: 1;
-    /* Hiển thị với opacity 1 */
+    pointer-events: auto;
     transform: translateY(0);
-    /* Trở về vị trí ban đầu */
 }
 
 .dropdown-content a {
@@ -179,45 +188,64 @@ header a.giohang:hover {
     background-color: #ddd;
 }
 
-header #divTaikhoan {
-    display: none;
-}
+/* Account container visible in layout so JS can toggle the inner dropdown */
+header #divTaikhoan { display: inline-block; }
 
+/* Avatar button */
 .dropdown #taikhoan {
+    background-color: #e9eef3;
+    border-radius: 50%;
+    padding: 10px 12px;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #0b2140;
+}
+.dropdown #taikhoan:hover { background-color: #e0e7ef }
+
+/* Position override for the logged-in account card. Visuals are handled by
+   the unified card styles above; keep position offsets here so the card
+   aligns to the right side of the header avatar. */
+.dropdown #ttTaikhoan {
+    /* position the logged-in card anchored to the left of the parent */
+    left: 0;
+    right: auto;
+    top: calc(100% + 8px);
+    min-width: 220px; /* slightly wider than the not-logged-in list */
+    padding: 10px; /* inner content area for account details */
+}
+
+/* Quick links row inside dropdown */
+#ttTaikhoan .quick-links { display:flex; gap:8px; justify-content:flex-start; margin-bottom:10px }
+#ttTaikhoan .quick-links a { text-decoration:none; padding:8px 10px; border-radius:8px; font-weight:700 }
+#ttTaikhoan .quick-links a:first-child { background:#f8fafc; color:#0b2140; border:1px solid #eef3f8 }
+#ttTaikhoan .quick-links a#quickDangXuat { background:#f04449; color:#fff }
+
+#ttTaikhoan #info { list-style:none; padding:0; margin:0; font-size:14px; color:#263238 }
+#ttTaikhoan #info li { margin:6px 0; line-height:1.25 }
+
+/* Make logged-in dropdown links visually match the not-logged-in dropdown items */
+#ttTaikhoan a {
+    display: block;
+    color: #0b2140;
+    padding: 10px 16px;
+    text-decoration: none;
+    background: transparent;
+    border-radius: 0;
+}
+
+#ttTaikhoan a:hover {
     background-color: #ddd;
-    border-radius: 20px;
-    padding: 8px 16px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.dropdown:hover #taikhoan {
-    color: black;
-    font-weight: bold;
-    background-color: #ccc;
-    /* Thay đổi màu khi hover */
-}
-
-#divTaikhoan #ttTaikhoan {
-    background-color: #ddd;
-    max-width: 320px;
-    border-radius: 8px;
-    padding: 0 5px;
-    right: 10px;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.dropdown.show #ttTaikhoan {
-    /* Sử dụng class 'show' để hiển thị */
-    opacity: 1;
-    transform: translateY(0);
+    color: #0b2140;
 }
 
 #ttTaikhoan #info {
     list-style: none;
     width: 100%;
-    margin-left: -35px;
+    margin-left: 0;
 }
 
 #ttTaikhoan button {
@@ -294,3 +322,14 @@ header #divTaikhoan {
         float: none;
     }
 }
+
+/* Clearfix thay cho overflow:hidden để không cắt dropdown */
+header::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Debug helpers removed: the temporary dashed outline that forced the
+    account dropdown to be visible has been deleted. Dropdown visibility
+    is controlled by the normal `.dropdown.show #ttTaikhoan` rules above. */
