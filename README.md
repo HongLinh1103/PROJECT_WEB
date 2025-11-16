@@ -1,6 +1,6 @@
-# CleanAir - Trang demo cửa hàng tĩnh
+# CleanAir - Trang demo cửa hàng bán máy lạnh
 
-Kho chứa này là một trang thương mại điện tử demo chạy hoàn toàn phía client cho cửa hàng máy lạnh "CleanAir". Dự án dùng HTML/CSS/JavaScript (jQuery) thuần và lưu trạng thái thời gian chạy trong bộ nhớ trình duyệt (localStorage / sessionStorage). Trang phù hợp để mở trực tiếp trong trình duyệt hoặc phục vụ bằng một web server tĩnh khi phát triển.
+Đây là một trang thương mại điện tử demo chạy hoàn toàn phía client cho cửa hàng máy lạnh "CleanAir". Dự án dùng HTML/CSS/JavaScript (jQuery) thuần và lưu trạng thái thời gian chạy trong bộ nhớ trình duyệt (localStorage / sessionStorage). Trang phù hợp để mở trực tiếp trong trình duyệt hoặc phục vụ bằng một web server tĩnh khi phát triển.
 
 ## Các ngôn ngữ / công nghệ được sử dụng
 
