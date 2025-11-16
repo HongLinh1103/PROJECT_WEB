@@ -56,19 +56,34 @@ header a.giohang {
 
 header a.giohang:hover {
     background-color: #007bff;
-    /* Màu xanh đậm hơn khi hover */
+
     color: white;
 }
 
 .header-right {
     float: right;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.header-right a {
+    float: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+.header-right .dropdown {
+    float: none;
 }
 
 #formSearch input[type=text] {
     width: 400px;
-    /* Đặt độ rộng cố định */
+
     max-width: 100%;
-    /* Đảm bảo không vượt quá container */
+
     padding: 8px 12px;
     margin-top: 8px;
     font-size: 16px;
@@ -83,9 +98,9 @@ header a.giohang:hover {
 
 #formSearch input[type=text]:focus {
     border-color: dodgerblue;
-    /* Đổi màu border khi focus */
+
     box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
-    /* Thêm đổ bóng khi focus */
+
 }
 
 .search-container {
@@ -152,15 +167,18 @@ header a.giohang:hover {
        toggle using the parent `.dropdown.show` class. */
     position: absolute;
     background-color: #ffffff;
-    min-width: 200px; /* smaller card width to match requested size */
+    min-width: 200px;
+    /* smaller card width to match requested size */
     border-radius: 10px;
     padding: 6px 0;
-    box-shadow: 0px 10px 24px rgba(8,20,40,0.06);
+    box-shadow: 0px 10px 24px rgba(8, 20, 40, 0.06);
     z-index: 9998;
     opacity: 0;
     pointer-events: none;
-    transform-origin: top left; /* pivot from the left edge */
-    left: 0; /* anchor the simple dropdown to the left of its parent */
+    transform-origin: top left;
+    /* pivot from the left edge */
+    left: 0;
+    /* anchor the simple dropdown to the left of its parent */
     transform: translateY(10px);
     transition: opacity 0.22s ease, transform 0.22s ease;
 }
@@ -189,11 +207,15 @@ header a.giohang:hover {
 }
 
 /* Account container visible in layout so JS can toggle the inner dropdown */
-header #divTaikhoan { display: inline-block; }
+header #divTaikhoan {
+    display: inline-block;
+}
 
 /* Avatar button */
 .dropdown #taikhoan {
-    background-color: #e9eef3;
+    /* blue circular badge for user initial */
+    background-color: #0b5ed7;
+    /* primary blue */
     border-radius: 50%;
     padding: 10px 12px;
     width: 36px;
@@ -202,30 +224,65 @@ header #divTaikhoan { display: inline-block; }
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    color: #0b2140;
+    color: #ffffff;
+    /* white initial */
+    box-shadow: 0 1px 0 rgba(11, 36, 64, 0.08) inset;
 }
-.dropdown #taikhoan:hover { background-color: #e0e7ef }
 
-/* Position override for the logged-in account card. Visuals are handled by
-   the unified card styles above; keep position offsets here so the card
-   aligns to the right side of the header avatar. */
+.dropdown #taikhoan:hover {
+    background-color: #094fb3;
+}
+
+
 .dropdown #ttTaikhoan {
     /* position the logged-in card anchored to the left of the parent */
     left: 0;
     right: auto;
     top: calc(100% + 8px);
-    min-width: 220px; /* slightly wider than the not-logged-in list */
-    padding: 10px; /* inner content area for account details */
+    min-width: 220px;
+
+    padding: 10px;
+
 }
 
 /* Quick links row inside dropdown */
-#ttTaikhoan .quick-links { display:flex; gap:8px; justify-content:flex-start; margin-bottom:10px }
-#ttTaikhoan .quick-links a { text-decoration:none; padding:8px 10px; border-radius:8px; font-weight:700 }
-#ttTaikhoan .quick-links a:first-child { background:#f8fafc; color:#0b2140; border:1px solid #eef3f8 }
-#ttTaikhoan .quick-links a#quickDangXuat { background:#f04449; color:#fff }
+#ttTaikhoan .quick-links {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+    margin-bottom: 10px
+}
 
-#ttTaikhoan #info { list-style:none; padding:0; margin:0; font-size:14px; color:#263238 }
-#ttTaikhoan #info li { margin:6px 0; line-height:1.25 }
+#ttTaikhoan .quick-links a {
+    text-decoration: none;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-weight: 700
+}
+
+#ttTaikhoan .quick-links a:first-child {
+    background: #f8fafc;
+    color: #0b2140;
+    border: 1px solid #eef3f8
+}
+
+#ttTaikhoan .quick-links a#quickDangXuat {
+    background: #f04449;
+    color: #fff
+}
+
+#ttTaikhoan #info {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    color: #263238
+}
+
+#ttTaikhoan #info li {
+    margin: 6px 0;
+    line-height: 1.25
+}
 
 /* Make logged-in dropdown links visually match the not-logged-in dropdown items */
 #ttTaikhoan a {

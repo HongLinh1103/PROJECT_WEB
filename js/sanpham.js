@@ -119,23 +119,55 @@ class Sanpham {
                 return;
             }
 
-            // Display modal
-            var modal = document.getElementById("myModal");
-            $("#myModal").css("display", "block");
-            $("#tenSP").text(tensanpham);
-            $("#giaSP").text(gia);
-
-            // Close modal functionality
-            $(".close").off("click").on("click", function () {
-                $("#myModal").css("display", "none");
-            });
-            $(window).off("click").on("click", function (event) {
-                if (event.target == modal) {
-                    $("#myModal").css("display", "none");
+            // Display unified modal (messageContainer) and prepare footer CTAs
+            try {
+                var modal = document.getElementById("myModal");
+                $("#zoomContainer").hide();
+                $("#messageContainer").show();
+                $("#myModal").css("display", "block");
+                // Ensure header title is consistent
+                $("#myModal").find('.modal-header h2').text('Thông báo');
+                $("#tenSP").text(tensanpham);
+                // Use the product's formatted price (keep currency formatting consistent)
+                if (objSP && objSP.gia) {
+                    $("#giaSP").text(objSP.gia);
+                } else {
+                    $("#giaSP").text(gia);
                 }
-            });
 
-            // Add to cart logic after a delay
+                // ensure close also hides internal containers
+                $(".close").off('click').on('click', function () {
+                    $("#myModal").css("display", "none");
+                    $("#zoomContainer").hide();
+                    $("#messageContainer").hide();
+                });
+                $(window).off('click').on('click', function (event) {
+                    if (event.target == modal) {
+                        $("#myModal").css("display", "none");
+                        $("#zoomContainer").hide();
+                        $("#messageContainer").hide();
+                    }
+                });
+
+                // Footer CTAs: Xem giỏ hàng / Tiếp tục mua sắm (remove any existing first)
+                const $footer = $("#myModal").find('.modal-footer');
+                $footer.find('#modalViewCart').remove();
+                $footer.find('#modalContinue').remove();
+                $footer.append('<button id="modalViewCart" class="btn-confirm">Xem giỏ hàng</button>');
+                $footer.append('<button id="modalContinue" class="btn-cancel">Tiếp tục mua sắm</button>');
+                $('#modalContinue').off('click').on('click', function () {
+                    $("#myModal").css("display", "none");
+                    $("#zoomContainer").hide();
+                    $("#messageContainer").hide();
+                });
+                $('#modalViewCart').off('click').on('click', function () {
+                    window.location.href = "../html/giohang.html";
+                });
+            } catch (e) {
+                console.warn('show modal failed', e);
+            }
+
+            // Add to cart logic after a short delay (keeps same behavior but keeps modal open)
             setTimeout(function () {
                 const dsGioSP = localStorage.getItem("dsGioSP");
                 const loggedInAccount = JSON.parse(localStorage.getItem("tkDangnhap"));
@@ -173,7 +205,7 @@ class Sanpham {
                 console.log('Cart before save:', objDSGioSP);
                 localStorage.setItem("dsGioSP", JSON.stringify(objDSGioSP));
                 console.log('Saved dsGioSP:', localStorage.getItem('dsGioSP'));
-                $("#myModal").css("display", "none"); // Close modal after adding to cart
+                // keep modal open so user can choose CTA (View cart / Continue shopping)
             }, 1000); // Reduced delay for better UX
         });
     }

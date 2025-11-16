@@ -113,6 +113,7 @@
     <nav class="topnav" id="myTopnav">
         <a href="trangchu.html" class="active">Trang chủ</a>
         <a href="danhsachsanpham.html">Danh sách sản phẩm</a>
+        <a href="donhangcuatoi.html" id="donhangNav" style="display:none">Đơn hàng của tôi</a>
         <a href="gioithieu_website_thanhvien.html">Giới thiệu website</a>
         <a href="sitemap.html">Site map</a>
         <a href="javascript:void(0);" class="icon" onclick="respond_topnav()">
@@ -130,42 +131,63 @@
         <div>
             <h3>Các sản phẩm bạn đã cho vào giỏ hàng:</h3>
             <div id="container">
-                <!-- Left column: product list will be injected here (#cacsanpham) -->
-                <!-- Right column: sidebar with customer info and order summary -->
+
                 <aside class="sidebar">
                     <section id="thongtinKhachHang" class="card">
-                        <h3 class="card-title">Thông tin khách hàng</h3>
+                        <h3 class="card-title" style="font-size: 22px; margin-bottom: 14px;">Thông tin đơn hàng</h3>
+
                         <form>
-                            <div class="field-row">
-                                <label class="label-inline"><input type="radio" name="gioitinh" id="anh" checked> Anh</label>
-                                <label class="label-inline"><input type="radio" name="gioitinh" id="chi"> Chị</label>
+                            <div class="form-group">
+                                <h4>Họ và tên</h4>
+                                <input class="heightInput" type="text" id="hovaten" placeholder="Nhập họ và tên">
                             </div>
-                            <div class="form-group"><label>Họ và tên</label>
-                                <input class="heightInput" type="text" id="hovaten" placeholder="Họ và tên" readonly>
+
+                            <div class="form-group">
+                                <h4>Số điện thoại</h4>
+                                <input class="heightInput" type="tel" id="sodienthoai" placeholder="Nhập số điện thoại">
                             </div>
-                            <div class="form-group"><label>Số điện thoại</label>
-                                <input class="heightInput" type="tel" id="sodienthoai" placeholder="Số điện thoại">
+
+                            <div class="form-group">
+                                <h4>Email</h4>
+                                <input class="heightInput" type="email" id="email" placeholder="Nhập email (tùy chọn)">
                             </div>
-                            <div class="form-group"><label>Chọn cách thức nhận hàng</label>
+
+                            <div class="form-group">
+                                <h4>Phương thức nhận hàng</h4>
                                 <div class="field-row">
-                                    <label class="label-inline"><input type="radio" name="nhanhang" id="tannha" checked> Giao tận nơi</label>
-                                    <label class="label-inline"><input type="radio" name="nhanhang" id="sieuthi"> Nhận tại siêu thị</label>
+                                    <label class="label-inline">
+                                        <input type="radio" name="nhanhang" id="tannha" checked> Giao hàng tận nơi
+                                    </label>
+                                    <label class="label-inline">
+                                        <input type="radio" name="nhanhang" id="sieuthi"> Nhận tại siêu thị
+                                    </label>
                                 </div>
                             </div>
-                            <div class="form-group diachi"><label>Địa chỉ giao hàng</label>
-                                <input type="text" id="diachi" class="heightInput" placeholder="Nhập địa chỉ giao hàng">
+
+                            <div class="form-group diachi">
+                                <h4>Địa chỉ nhận hàng</h4>
+                                <textarea id="diachi" class="heightInput" placeholder="Nhập địa chỉ chi tiết"
+                                    rows="3"></textarea>
                             </div>
-                            <div class="form-group"><label>Yêu cầu khác (không bắt buộc)</label>
-                                <input class="heightInput" type="text" placeholder="Ghi chú đơn hàng">
+
+                            <h4 style="margin:18px 0 8px;">Phương thức thanh toán</h4>
+                            <div class="form-group">
+                                <label class="label-inline">
+                                    <input type="radio" name="thanhtoan" id="cod" checked> Thanh toán khi nhận hàng
+                                    (COD)
+                                </label>
                             </div>
                         </form>
+
+
                     </section>
 
                     <section class="tongTien card">
                         <h4 class="card-title">Tổng tiền</h4>
                         <div class="amount-row"><span class="amount" id="tongTien">29.850.000</span><sup>đ</sup></div>
                         <p class="note">Phí vận chuyển sẽ được tính khi xác nhận đơn hàng.</p>
-                        <div style="text-align:center; margin-top:12px;"><button id="datHang" type="button" class="btn-primary">Đặt hàng</button></div>
+                        <div style="text-align:center; margin-top:12px;"><button id="datHang" type="button"
+                                class="btn-primary">Đặt hàng</button></div>
                     </section>
                 </aside>
             </div>
@@ -217,19 +239,19 @@
         </div>
     </footer>
 
-    <!-- MODAL: thông báo đã thêm sản phẩm vào giỏ -->
+    <!-- MODAL: reusable modal for confirmation and messages -->
     <div id="myModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="close">&times;</span>
-                <h2>Đã thêm vào giỏ hàng</h2>
+                <button class="close" aria-label="Đóng">&times;</button>
+                <h2>Thông báo</h2>
             </div>
             <div class="modal-body">
-                <h3 id="tenSP">Some text in the Modal Body</h3>
-                <p id="giaSP">Some other text...</p>
+                <h3 id="tenSP">Thông tin</h3>
+                <p id="giaSP">Nội dung thông báo</p>
             </div>
             <div class="modal-footer">
-                <p>Xin cảm ơn!</p>
+                <!-- buttons injected dynamically -->
             </div>
         </div>
     </div>

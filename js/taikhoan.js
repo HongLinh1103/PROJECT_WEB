@@ -28,6 +28,9 @@ $(window).ready(function () {
         $("#dkdn").hide() // Ẩn nút Đăng ký/Đăng nhập
         $("#divTaikhoan").show() // Hiện nút Tài khoản
 
+        // Hiện liên kết 'Đơn hàng của tôi' nếu tồn tại trong DOM
+        try { $("#donhangNav").show(); } catch (e) { /* no-op if element absent */ }
+
         const ttTaikhoan = JSON.parse(currentUser)
         
         // Lấy chữ cái đầu của tên để hiển thị trên nút dropbtn (fallbacks nếu thiếu dữ liệu)
@@ -61,6 +64,8 @@ $(window).ready(function () {
     } else {
         $("#dkdn").show()
         $("#divTaikhoan").hide()
+        // Ẩn liên kết 'Đơn hàng của tôi' khi chưa đăng nhập
+        try { $("#donhangNav").hide(); } catch (e) { /* no-op if element absent */ }
     }
     
     // =================================================================

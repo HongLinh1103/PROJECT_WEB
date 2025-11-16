@@ -17,27 +17,32 @@
     <script src="../js/responsive.js"></script>
     <script>
         document.onreadystatechange = function () {
-            // Get the modal
-            var modal = document.getElementById("myModal")
+                // Get the modal
+                var modal = document.getElementById("myModal")
 
-            // Get the image and insert it inside the modal - use its "alt" text as a caption
-            var img = document.getElementById("sitemap")
-            var modalImg = document.getElementById("zoom_sitemap")
-            var captionText = document.getElementById("caption")
-            img.onclick = function () {
-                modal.style.display = "block"
-                modalImg.src = this.src
-                captionText.innerHTML = this.alt
+                // Get the image and insert it inside the modal - use its "alt" text as a caption
+                var img = document.getElementById("sitemap")
+                var modalImg = document.getElementById("zoom_sitemap")
+                var captionText = document.getElementById("caption")
+                img.onclick = function () {
+                    // Show unified modal in zoom mode
+                    modal.style.display = "block"
+                    document.getElementById('zoomContainer').style.display = 'block'
+                    document.getElementById('messageContainer').style.display = 'none'
+                    modalImg.src = this.src
+                    captionText.innerHTML = this.alt
+                }
+
+                // Get the <span> element that closes the modal
+                var span = document.getElementsByClassName("close")[0]
+
+                // When the user clicks on <span> (x), close the modal and hide zoom
+                span.onclick = function () {
+                    modal.style.display = "none"
+                    document.getElementById('zoomContainer').style.display = 'none'
+                    document.getElementById('messageContainer').style.display = 'none'
+                }
             }
-
-            // Get the <span> element that closes the modal
-            var span = document.getElementsByClassName("close")[0]
-
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function () {
-                modal.style.display = "none"
-            }
-        }
     </script>
 </head>
 
@@ -85,6 +90,7 @@
     <nav class="topnav" id="myTopnav">
         <a href="trangchu.html">Trang chủ</a>
         <a href="danhsachsanpham.html">Danh sách sản phẩm</a>
+        <a href="donhangcuatoi.html" id="donhangNav" style="display:none">Đơn hàng của tôi</a>
         <a href="gioithieu_website_thanhvien.html">Giới thiệu website</a>
         <a href="sitemap.html" class="active">Site map</a>
         <a href="javascript:void(0);" class="icon" onclick="respond_topnav()">
@@ -97,11 +103,25 @@
             <img src="../img/sitemap2.png" alt="Sitemap" id="sitemap" width="70%">
         </div>
     </main>
-    <!-- The Modal shows zoomed image -->
+    <!-- Reusable modal for zoom and notifications -->
     <div id="myModal" class="modal">
-        <span class="close">&times;</span>
-        <img class="modal-content" id="zoom_sitemap">
-        <div id="caption"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" aria-label="Đóng">&times;</button>
+                <h2>Thông báo</h2>
+            </div>
+            <div class="modal-body">
+                <div id="zoomContainer">
+                    <img id="zoom_sitemap" class="modal-img" alt="" />
+                    <div id="caption"></div>
+                </div>
+                <div id="messageContainer">
+                    <h3 id="tenSP">Thông tin</h3>
+                    <p id="giaSP">Nội dung thông báo</p>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
     </div>
     <footer>
         <div>

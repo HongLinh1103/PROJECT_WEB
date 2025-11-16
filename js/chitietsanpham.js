@@ -115,7 +115,7 @@ $(document).ready(function () {
             themVaoGioHang(objSP_tuongtu, true).finally(() => btn.data('adding', false))
         })
 
-        // Event listener cho nút "THÊM VÀO GIỎ HÀNG" trên trang chi tiết (thêm rồi chuyển sang giỏ hàng)
+        // Event listener cho nút "THÊM VÀO GIỎ HÀNG" trên trang chi tiết (thêm rồi hiển thị modal thống nhất)
         $(document).off("click", "#themvaogio").on("click", "#themvaogio", function () {
             const taiKhoanDN = localStorage.getItem("tkDangnhap")
             if (taiKhoanDN == null) {
@@ -126,7 +126,51 @@ $(document).ready(function () {
             const btn = $(this)
             if (btn.data('adding')) return
             btn.data('adding', true)
-            themVaoGioHang(objSP, true).finally(() => btn.data('adding', false))
+
+            // Add to cart but do NOT show the old toast (we'll show the unified modal instead)
+            themVaoGioHang(objSP, false, false).then(() => {
+                try {
+                    const modal = $("#myModal")
+                    // show message container, hide zoom
+                    $("#zoomContainer").hide()
+                    $("#messageContainer").show()
+                    $("#myModal").css("display", "block")
+                    // ensure consistent header
+                    modal.find('.modal-header h2').text('Thông báo')
+                    $("#tenSP").text(objSP.ten)
+                    $("#giaSP").text(objSP.gia)
+
+                    // ensure close also hides internal containers
+                    $(".close").off('click').on('click', function () {
+                        $("#myModal").css("display", "none")
+                        $("#zoomContainer").hide()
+                        $("#messageContainer").hide()
+                    })
+                    $(window).off('click').on('click', function (event) {
+                        if (event.target == document.getElementById('myModal')) {
+                            $("#myModal").css("display", "none")
+                            $("#zoomContainer").hide()
+                            $("#messageContainer").hide()
+                        }
+                    })
+
+                    // Footer CTAs: Xem giỏ hàng / Tiếp tục mua sắm
+                    const footer = modal.find('.modal-footer')
+                    footer.find('#modalViewCart').remove()
+                    footer.find('#modalContinue').remove()
+                    footer.append('<button id="modalViewCart" class="btn-confirm">Xem giỏ hàng</button>')
+                    footer.append('<button id="modalContinue" class="btn-cancel">Tiếp tục mua sắm</button>')
+
+                    $('#modalContinue').off('click').on('click', function () {
+                        modal.css('display', 'none')
+                        $("#zoomContainer").hide()
+                        $("#messageContainer").hide()
+                    })
+                    $('#modalViewCart').off('click').on('click', function () {
+                        window.location.href = "../html/giohang.html"
+                    })
+                } catch (e) { console.warn('modal show failed', e) }
+            }).finally(() => btn.data('adding', false))
         })
 
         // Event listener cho nút "#muangay" (thêm vào quick-buy và chuyển đến trang mua hàng riêng)
@@ -150,75 +194,76 @@ $(document).ready(function () {
 
 // Hàm chung để thêm vào giỏ hàng (dùng cho sản phẩm chính và tương tự)
 // Tham số: objSP (sản phẩm), redirectAfterAdd (boolean: có redirect đến giỏ hàng không)
-function themVaoGioHang(objSP, redirectAfterAdd) {
+// Tham số bổ sung: showToastFlag (boolean, default true) - nếu false, sẽ KHÔNG hiển thị toast nội bộ.
+function themVaoGioHang(objSP, redirectAfterAdd, showToastFlag = true) {
     // Return a promise so callers can know when finished
     return new Promise((resolve) => {
-    // Hỗ trợ cả 'tkDangnhap' (legacy) và 'currentUser' (mới)
-    let taikhoan = localStorage.getItem("tkDangnhap")
-    if (!taikhoan && localStorage.getItem('currentUser')) {
-        try {
-            const u = JSON.parse(localStorage.getItem('currentUser'));
-            const legacy = {
-                ten_dangnhap: u.username || u.ten_dangnhap || '',
-                hoTen: u.fullname || u.hoTen || '',
-                dienThoai: u.phone || u.dienThoai || '',
-                diaChi: u.diaChi || '',
-                gioiTinh: u.gioiTinh || ''
-            };
-            taikhoan = JSON.stringify(legacy);
-            localStorage.setItem('tkDangnhap', taikhoan);
-        } catch (e) { console.warn('Cannot derive tkDangnhap from currentUser', e); }
-    }
-
-    if (!taikhoan) {
-        alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!")
-        window.location.href = "../html/dangnhap.html"
-        resolve()
-        return
-    }
-
-    const loggedInAccount = JSON.parse(taikhoan)
-
-    // Thêm vào giỏ hàng sau 300ms (nhỏ delay để thể hiện animation)
-    if (addingInProgress) { showToast('Đang xử lý...',700); resolve(); return }
-    addingInProgress = true
-    setTimeout(function () {
-        const dsGio = localStorage.getItem("dsGioSP")
-        const newItem = {
-            hinhanh: objSP.hinhanh[0],
-            ten: objSP.ten,
-            gia: objSP.gia,
-            soluong: 1  // Đảm bảo có soluong
+        // Hỗ trợ cả 'tkDangnhap' (legacy) và 'currentUser' (mới)
+        let taikhoan = localStorage.getItem("tkDangnhap")
+        if (!taikhoan && localStorage.getItem('currentUser')) {
+            try {
+                const u = JSON.parse(localStorage.getItem('currentUser'));
+                const legacy = {
+                    ten_dangnhap: u.username || u.ten_dangnhap || '',
+                    hoTen: u.fullname || u.hoTen || '',
+                    dienThoai: u.phone || u.dienThoai || '',
+                    diaChi: u.diaChi || '',
+                    gioiTinh: u.gioiTinh || ''
+                };
+                taikhoan = JSON.stringify(legacy);
+                localStorage.setItem('tkDangnhap', taikhoan);
+            } catch (e) { console.warn('Cannot derive tkDangnhap from currentUser', e); }
         }
 
-        let objDSGioSP = dsGio ? JSON.parse(dsGio) : []
-        let userCart = objDSGioSP.find(cart => cart.tendangnhap === loggedInAccount.ten_dangnhap)
+        if (!taikhoan) {
+            alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!")
+            window.location.href = "../html/dangnhap.html"
+            resolve()
+            return
+        }
 
-        if (userCart) {
-            let existingProduct = userCart.sanpham.find(item => item.ten === newItem.ten)
-            if (existingProduct) {
-                existingProduct.soluong += 1
-            } else {
-                userCart.sanpham.push(newItem)
+        const loggedInAccount = JSON.parse(taikhoan)
+
+        // Thêm vào giỏ hàng sau 300ms (nhỏ delay để thể hiện animation)
+        if (addingInProgress) { showToast('Đang xử lý...', 700); resolve(); return }
+        addingInProgress = true
+        setTimeout(function () {
+            const dsGio = localStorage.getItem("dsGioSP")
+            const newItem = {
+                hinhanh: objSP.hinhanh[0],
+                ten: objSP.ten,
+                gia: objSP.gia,
+                soluong: 1  // Đảm bảo có soluong
             }
-        } else {
-            objDSGioSP.push({
-                tendangnhap: loggedInAccount.ten_dangnhap,
-                sanpham: [newItem]
-            })
-        }
 
-        // Lưu trở lại localStorage
-        localStorage.setItem('dsGioSP', JSON.stringify(objDSGioSP))
+            let objDSGioSP = dsGio ? JSON.parse(dsGio) : []
+            let userCart = objDSGioSP.find(cart => cart.tendangnhap === loggedInAccount.ten_dangnhap)
 
-        // Thông báo non-blocking
-        showToast('Đã thêm sản phẩm vào giỏ hàng!', 900)
-        addingInProgress = false
-        // Nếu redirectAfterAdd là true (cho nút mua ngay), chuyển đến giỏ hàng sau khi toast
-        if (redirectAfterAdd) {
-            setTimeout(() => { location.href = "../html/giohang.html" }, 700)
-        }
-        resolve()
-    }, 300)
+            if (userCart) {
+                let existingProduct = userCart.sanpham.find(item => item.ten === newItem.ten)
+                if (existingProduct) {
+                    existingProduct.soluong += 1
+                } else {
+                    userCart.sanpham.push(newItem)
+                }
+            } else {
+                objDSGioSP.push({
+                    tendangnhap: loggedInAccount.ten_dangnhap,
+                    sanpham: [newItem]
+                })
+            }
+
+            // Lưu trở lại localStorage
+            localStorage.setItem('dsGioSP', JSON.stringify(objDSGioSP))
+
+            // Thông báo non-blocking (chỉ khi caller cho phép)
+            if (showToastFlag) showToast('Đã thêm sản phẩm vào giỏ hàng!', 900)
+            addingInProgress = false
+            // Nếu redirectAfterAdd là true (cho nút mua ngay), chuyển đến giỏ hàng sau khi toast
+            if (redirectAfterAdd) {
+                setTimeout(() => { location.href = "../html/giohang.html" }, 700)
+            }
+            resolve()
+        }, 300)
     })
 }
