@@ -7,42 +7,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giỏ hàng - CleanAir mang lại "không khí trong lành" cho gia đình Việt</title>
     <link rel="shortcut icon" href="../img/logo.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/sitemap.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/topnav.css">
+    <link rel="stylesheet" href="../css/chatbot.css">
     <script src="../js/jquery-3.6.0.min.js"></script>
     <script src="../js/taikhoan.js"></script>
     <script src="../js/responsive.js"></script>
     <script>
         document.onreadystatechange = function () {
-                // Get the modal
-                var modal = document.getElementById("myModal")
+            // Get the modal
+            var modal = document.getElementById("myModal")
 
-                // Get the image and insert it inside the modal - use its "alt" text as a caption
-                var img = document.getElementById("sitemap")
-                var modalImg = document.getElementById("zoom_sitemap")
-                var captionText = document.getElementById("caption")
-                img.onclick = function () {
-                    // Show unified modal in zoom mode
-                    modal.style.display = "block"
-                    document.getElementById('zoomContainer').style.display = 'block'
-                    document.getElementById('messageContainer').style.display = 'none'
-                    modalImg.src = this.src
-                    captionText.innerHTML = this.alt
-                }
-
-                // Get the <span> element that closes the modal
-                var span = document.getElementsByClassName("close")[0]
-
-                // When the user clicks on <span> (x), close the modal and hide zoom
-                span.onclick = function () {
-                    modal.style.display = "none"
-                    document.getElementById('zoomContainer').style.display = 'none'
-                    document.getElementById('messageContainer').style.display = 'none'
-                }
+            // Get the image and insert it inside the modal - use its "alt" text as a caption
+            var img = document.getElementById("sitemap")
+            var modalImg = document.getElementById("zoom_sitemap")
+            var captionText = document.getElementById("caption")
+            img.onclick = function () {
+                // Show unified modal in zoom mode
+                modal.style.display = "block"
+                document.getElementById('zoomContainer').style.display = 'block'
+                document.getElementById('messageContainer').style.display = 'none'
+                modalImg.src = this.src
+                captionText.innerHTML = this.alt
             }
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0]
+
+            // When the user clicks on <span> (x), close the modal and hide zoom
+            span.onclick = function () {
+                modal.style.display = "none"
+                document.getElementById('zoomContainer').style.display = 'none'
+                document.getElementById('messageContainer').style.display = 'none'
+            }
+        }
     </script>
 </head>
 
@@ -167,6 +168,7 @@
             </div>
         </div>
     </footer>
+    <script src="../js/chatbot.js"></script>
 </body>
 
 </html>
