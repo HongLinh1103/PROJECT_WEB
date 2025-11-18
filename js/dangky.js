@@ -1,8 +1,8 @@
 $(document).ready(function() {
     
-    // =================================================================
+   
     // 0. HÀM HIỂN THỊ/ẨN THÔNG BÁO CHUNG
-    // =================================================================
+
     function showFormMessage(message, type) {
         const $msgBox = $('#formMessage');
         $msgBox.text(message)
@@ -16,9 +16,9 @@ $(document).ready(function() {
         $('#formMessage').slideUp(300);
     }
 
-    // =================================================================
+
     // 1. TẢI DỮ LIỆU TỰ ĐỘNG (NGÀY/THÁNG/NĂM)
-    // =================================================================
+    
 
     function loadDateOptions() {
         const $ngay = $('#ngay');
@@ -40,9 +40,9 @@ $(document).ready(function() {
     loadDateOptions();
 
 
-    // =================================================================
+   
     // 2. CHỨC NĂNG ẨN/HIỆN MẬT KHẨU
-    // =================================================================
+   
     
     function setupPasswordToggle(inputId, buttonId) {
         const $passwordInput = $('#' + inputId);
@@ -59,9 +59,9 @@ $(document).ready(function() {
     setupPasswordToggle('txtNLMK', 'toggleNLMK');
 
 
-    // =================================================================
+   
     // 3. HÀM VALIDATION CHO TỪNG TRƯỜNG
-    // =================================================================
+  
     
     function showMessage(elementId, message) { $('#' + elementId).text(message).show(); }
     function hideMessage(elementId) { $('#' + elementId).text('').hide(); }
@@ -178,9 +178,9 @@ $(document).ready(function() {
     }
 
 
-    // =================================================================
+
     // 4. GÁN SỰ KIỆN KIỂM TRA LỖI KHI NHẬP LIỆU (ON BLUR/CHANGE)
-    // =================================================================
+
     
     $('#txtTenDangnhap').on('blur', checkTenDangNhap);
     $('#txtEmail').on('blur', checkEmail);
@@ -193,9 +193,9 @@ $(document).ready(function() {
     $('#ngay, #thang, #nam').on('change', checkNgaySinh);
 
 
-    // =================================================================
+ 
     // 5. XỬ LÝ SỰ KIỆN SUBMIT FORM VÀ LƯU VÀO LOCAL STORAGE
-    // =================================================================
+ 
 
     $('#formDangky').on('submit', function(e) {
         e.preventDefault(); 

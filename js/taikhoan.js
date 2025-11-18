@@ -21,9 +21,7 @@ $(window).ready(function () {
         } catch (e) { console.warn('Không thể tạo tkDangnhap từ currentUser', e); }
     }
     
-    // =================================================================
     // 1. XỬ LÝ HIỂN THỊ TÀI KHOẢN TRÊN HEADER
-    // =================================================================
     if (currentUser != null) {
         $("#dkdn").hide() // Ẩn nút Đăng ký/Đăng nhập
         $("#divTaikhoan").show() // Hiện nút Tài khoản
@@ -44,7 +42,7 @@ $(window).ready(function () {
         const pwd = ttTaikhoan.password || '';
         const star = pwd.replace(/./g, '*');
         
-        // Render a minimal dropdown with three choices as requested by the UI spec:
+    
         // - Tài khoản của tôi -> taikhoancuatoi.html
         // - Đổi mật khẩu -> taikhoancuatoi.html#doiMK (will open change-password section)
         // - Đăng xuất -> dngxuat.html (we also call doLogout to clear localStorage)
@@ -68,9 +66,7 @@ $(window).ready(function () {
         try { $("#donhangNav").hide(); } catch (e) { /* no-op if element absent */ }
     }
     
-    // =================================================================
     // CẬP NHẬT CÁC LIÊN KẾT 'Đăng nhập' TRÊN TOÀN TRANG -> chuyển thành 'Đăng xuất' khi đã đăng nhập
-    // =================================================================
     function doLogout() {
         localStorage.removeItem('currentUser'); // Xóa trạng thái đăng nhập
         localStorage.removeItem('tkDangnhap'); // Nếu có key cũ, cũng xóa
@@ -118,13 +114,10 @@ $(window).ready(function () {
     // Gọi để cập nhật các liên kết khi load trang
     attachLogoutToElements();
     
-    // =================================================================
     // 1. Toggle dropdown khi click vào avatar (taikhoan)
     //    - Click vào #taikhoan sẽ bật/tắt class 'show' trên #divTaikhoan
     //    - Click ra ngoài sẽ đóng dropdown
-    // =================================================================
-    // Make click handling robust: delegate from document so handler attaches even if
-    // element is replaced later. Also add console logs to help debugging.
+ 
     $(document).on('click', '#taikhoan', function(e) {
         e.stopPropagation();
         // Toggle visible state
@@ -141,9 +134,7 @@ $(window).ready(function () {
     // Click ra ngoài sẽ đóng dropdown
     $(document).on('click', function() { $('#divTaikhoan').removeClass('show'); $('#taikhoan').attr('aria-expanded','false'); });
     
-    // =================================================================
     // 3. XỬ LÝ ĐĂNG XUẤT
-    // =================================================================
     $("#dangXuat").on('click', function() {
         doLogout();
     });

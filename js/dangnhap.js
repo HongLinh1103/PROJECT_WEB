@@ -1,8 +1,6 @@
 $(document).ready(function() {
-    
-    // =================================================================
+   
     // 0. HÀM HIỂN THỊ/ẨN THÔNG BÁO CHUNG
-    // =================================================================
     function showFormMessage(message, type) {
         const $msgBox = $('#formMessage');
         $msgBox.text(message)
@@ -23,9 +21,7 @@ $(document).ready(function() {
         $('#formMessage').slideUp(300);
     }
     
-    // =================================================================
     // 1. CHỨC NĂNG ẨN/HIỆN MẬT KHẨU
-    // =================================================================
     
     function setupPasswordToggle(inputId, buttonId) {
         const $passwordInput = $('#' + inputId);
@@ -41,9 +37,8 @@ $(document).ready(function() {
     setupPasswordToggle('txtMatkhau', 'togglePassword');
 
 
-    // =================================================================
+    
     // 2. HÀM VALIDATION CHO TỪNG TRƯỜNG
-    // =================================================================
     
     function showMessage(elementId, message) { $('#' + elementId).text(message).show(); }
     function hideMessage(elementId) { $('#' + elementId).text('').hide(); }
@@ -68,16 +63,12 @@ $(document).ready(function() {
         return true;
     }
 
-    // =================================================================
     // 3. GÁN SỰ KIỆN KIỂM TRA LỖI KHI NHẬP LIỆU (ON BLUR)
-    // =================================================================
 
     $('#txtUserEmail').on('blur', checkUserEmail);
     $('#txtMatkhau').on('blur', checkMatKhau);
 
-    // =================================================================
     // 4. XỬ LÝ SỰ KIỆN SUBMIT FORM ĐĂNG NHẬP
-    // =================================================================
 
     $('#formDangnhap').on('submit', function(e) {
         e.preventDefault(); 
