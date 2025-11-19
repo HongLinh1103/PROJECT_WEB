@@ -77,14 +77,18 @@ $(document).ready(function() {
     }
 
     function checkEmail() {
-        const email = $('#txtEmail').val().trim();
-        if (email === '' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            showMessage('messEmail', 'Định dạng email không hợp lệ.');
-            return false;
-        }
-        hideMessage('messEmail');
-        return true;
+    const email = $('#txtEmail').val().trim();
+    const regex = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+
+    if (email === '' || !regex.test(email)) {
+        showMessage('messEmail', 'Định dạng email không hợp lệ.');
+        return false;
     }
+
+    hideMessage('messEmail');
+    return true;
+    }
+
 
     function checkMatKhau() {
         const password = $('#txtMatkhau').val();
@@ -114,33 +118,50 @@ $(document).ready(function() {
     
     function checkHoTen() {
         const hoten = $('#txtHoten').val().trim();
-        if (hoten === '' || !/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ\s]+$/.test(hoten)) {
-            showMessage('messHoten', 'Họ tên không hợp lệ.');
+
+        // Regex: Mỗi từ phải bắt đầu bằng 1 chữ hoa, theo sau là các chữ thường
+        const regex = /^([A-Z]{1}[a-z]*)(\s[A-Z]{1}[a-z]*)*$/;
+
+        if (hoten === '' || !regex.test(hoten)) {
+            showMessage('messHoten', 'Họ tên phải viết hoa chữ cái đầu mỗi từ và không chứa dấu.');
             return false;
         }
+
         hideMessage('messHoten');
         return true;
     }
+
     
     function checkSDT() {
         const sdt = $('#txtDT').val().trim();
-        if (sdt === '' || !/^0\d{9}$/.test(sdt)) {
-            showMessage('messDT', 'Số điện thoại không hợp lệ (ví dụ: 0xxxxxxxxxx).');
+
+        // Regex: bắt đầu bằng 09 hoặc 03 và theo sau 8 chữ số
+        const regex = /^(09|03)\d{8}$/;
+
+        if (sdt === '' || !regex.test(sdt)) {
+            showMessage('messDT', 'Số điện thoại phải bắt đầu bằng 09 hoặc 03 và có 10 số.');
             return false;
         }
+
         hideMessage('messDT');
         return true;
     }
+
     
     function checkDiaChi() {
         const diachi = $('#txtDiachi').val().trim();
-        if (diachi === '') {
-            showMessage('messDiachi', 'Địa chỉ không được để trống.');
+        // Regex: bắt đầu bằng số (số nhà), có khoảng trắng, có chữ (tên đường hoặc ấp/xã/huyện)
+        const regex = /^\d+\s+[\w\s]+$/;
+
+        if (diachi === '' || !regex.test(diachi)) {
+            showMessage('messDiachi', 'Địa chỉ không hợp lệ. Ví dụ: 123 Đường ABC, Ấp XYZ, Huyện DEF');
             return false;
         }
+
         hideMessage('messDiachi');
         return true;
     }
+
     
     function checkTinhThanhPho() {
         const ttp = $('#tinhThanhPho').val().trim();
