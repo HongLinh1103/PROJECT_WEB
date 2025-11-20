@@ -11,6 +11,29 @@ function toggle_dropdown() {
   $('#ttTaikhoan').hide();
 }
 
+// HÀM ĐĂNG XUẤT TOÀN CỤC - DÙNG CHUNG CHO TẤT CẢ TRANG
+function doLogout() {
+    console.log('Đang đăng xuất...');
+    
+    // 1. Xóa TẤT CẢ key phiên làm việc
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('tkDangnhap');
+
+    // 2. Xóa TẤT CẢ key lưu trữ DỮ LIỆU CÁ NHÂN
+    localStorage.removeItem('userAddress');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userFullname');
+    localStorage.removeItem('userPhone');
+
+    // 3. Thông báo
+    alert('Bạn đã đăng xuất thành công!');
+    
+    // 4. Chuyển hướng về trang chủ
+    setTimeout(() => {
+        window.location.href = 'trangchu.html';
+    }, 500);
+}
+
 // Hàm cập nhật UI sau khi đăng xuất
 function updateUIAfterLogout() {
   // Ẩn phần tài khoản, hiển thị phần đăng ký/đăng nhập
@@ -29,6 +52,16 @@ function updateUIAfterLogout() {
 
 // -- document ready
 $(function() {
+  console.log('=== TRANG TÀI KHOẢN ĐANG LOAD ===');
+  
+  // Kiểm tra đăng nhập - nếu chưa đăng nhập thì chuyển hướng
+  const currentUser = localStorage.getItem('currentUser');
+  if (!currentUser) {
+      alert('Vui lòng đăng nhập để xem trang này!');
+      window.location.href = 'dangnhap.html';
+      return;
+  }
+
   // tránh xung đột: đảm bảo chỉ 1 #dkdn hiện
   $('#myDropdown').hide();
   $('#ttTaikhoan').hide();
@@ -251,19 +284,11 @@ $(function() {
   });
 
   // ---------- Logout ----------
-  $('#btnDangXuat, #dangXuat').on('click', function() {
-    // CHỈ xóa currentUser (phiên đăng nhập hiện tại)
-    // KHÔNG xóa dsUser (danh sách tài khoản)
-    localStorage.removeItem('currentUser');
-    
-    // Đóng tất cả dropdown
-    closeAllDropdowns();
-    
-    // Hiển thị thông báo
-    alert('Bạn đã đăng xuất');
-    
-    // Cập nhật UI ngay lập tức
-    updateUIAfterLogout();
+  // SỬ DỤNG HÀM ĐĂNG XUẤT TOÀN CỤC DUY NHẤT
+  $('#btnDangXuat, #dangXuat, #dropdownDangXuat').on('click', function(e) {
+    e.preventDefault();
+    console.log('Nút đăng xuất được click');
+    doLogout();
   });
 
   // small UX: close dropdowns on escape
@@ -272,6 +297,7 @@ $(function() {
   });
 
   // prevent form submission default (search)
-  $('#formSearch').on('submit', function(e){ e.preventDefault(); /* implement search if needed */ });
+  $('#formSearch').on('submit', function(e){ e.preventDefault(); });
 
+  console.log('=== TRANG TÀI KHOẢN LOAD HOÀN TẤT ===');
 }); // end ready
