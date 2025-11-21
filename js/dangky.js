@@ -37,6 +37,27 @@ $(document).ready(function() {
     }
 
     loadDateOptions();
+    // 1b. TẢI DANH SÁCH TỈNH/THÀNH (dùng datalist cho combobox)
+    function loadProvinces() {
+        const provinces = [
+            "An Giang","Bà Rịa - Vũng Tàu","Bắc Giang","Bắc Kạn","Bạc Liêu","Bắc Ninh",
+            "Bến Tre","Bình Định","Bình Dương","Bình Phước","Bình Thuận","Cà Mau",
+            "Cao Bằng","Đắk Lắk","Đắk Nông","Điện Biên","Đồng Nai","Đồng Tháp",
+            "Gia Lai","Hà Giang","Hà Nam","Hải Dương","Hậu Giang","Hòa Bình",
+            "Hưng Yên","Khánh Hòa","Kiên Giang","Kon Tum","Lai Châu","Lâm Đồng",
+            "Lạng Sơn","Lào Cai","Long An","Nam Định","Nghệ An","Ninh Bình",
+            "Ninh Thuận","Phú Thọ","Quảng Bình","Quảng Nam","Quảng Ngãi","Quảng Ninh",
+            "Quảng Trị","Sóc Trăng","Sơn La","Tây Ninh","Thái Bình","Thái Nguyên",
+            "Thanh Hóa","Thừa Thiên Huế","Tiền Giang","Trà Vinh","Tuyên Quang",
+            "Vĩnh Long","Vĩnh Phúc","Yên Bái","Hồ Chí Minh","Hà Nội","Đà Nẵng"
+        ];
+        const $datalist = $('#tinhList');
+        $datalist.empty();
+        provinces.forEach(p => {
+            $datalist.append(`<option value="${p}">`);
+        });
+    }
+    loadProvinces();
 
     // 2. CHỨC NĂNG ẨN/HIỆN MẬT KHẨU
     function setupPasswordToggle(inputId, buttonId) {
@@ -152,7 +173,7 @@ $(document).ready(function() {
     
     function checkTinhThanhPho() {
         const ttp = $('#tinhThanhPho').val().trim();
-        if (ttp === '' || ttp.length < 3) {
+        if (ttp === '' || ttp.length < 2) {
             showMessage('messTTP', 'Tên Tỉnh/Thành phố không được để trống.');
             return false;
         }
@@ -160,31 +181,68 @@ $(document).ready(function() {
         return true;
     }
 
+    // Hàm tính tuổi chính xác dựa trên ngày hiện tại và ngày sinh (n, m, y đều số)
+    function calculateAge(day, month, year) {
+        const today = new Date();
+        const birthDate = new Date(year, month - 1, day);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    }
+
+    // Ràng buộc ngày sinh: không quá hiện tại, tuổi tối thiểu và tối đa
     function checkNgaySinh() {
-        const ngay = $('#ngay').val();
-        const thang = $('#thang').val();
-        const nam = $('#nam').val();
-        
-        if (ngay === '' && thang === '' && nam === '') {
+        const ngay = parseInt($('#ngay').val(), 10);
+        const thang = parseInt($('#thang').val(), 10);
+        const nam = parseInt($('#nam').val(), 10);
+
+        // nếu không chọn gì -> cho qua (không bắt buộc nhập ngày sinh)
+        if ((!ngay && !thang && !nam) || ($('#ngay').val() === '' && $('#thang').val() === '' && $('#nam').val() === '')) {
             hideMessage('messNgaySinh');
             return true;
         }
-        
-        if (ngay === '' || thang === '' || nam === '') {
+
+        if (!ngay || !thang || !nam) {
             showMessage('messNgaySinh', 'Vui lòng chọn đầy đủ Ngày/Tháng/Năm.');
             return false;
         }
-        
+
+        // kiểm tra ngày hợp lệ
         const date = new Date(nam, thang - 1, ngay);
         if (date.getFullYear() != nam || date.getMonth() + 1 != thang || date.getDate() != ngay) {
             showMessage('messNgaySinh', 'Ngày sinh không hợp lệ.');
             return false;
         }
-        
+
+        // không cho ngày trong tương lai
+        const today = new Date();
+        if (date > today) {
+            showMessage('messNgaySinh', 'Ngày sinh không được ở tương lai.');
+            return false;
+        }
+
+        // tính tuổi
+        const age = calculateAge(ngay, thang, nam);
+        const MIN_AGE = 13;   // <--- chỉnh theo yêu cầu (ví dụ 13 tuổi)
+        const MAX_AGE = 120;  // giới hạn tối đa cho hợp lý
+
+        if (age < MIN_AGE) {
+            showMessage('messNgaySinh', `Người dùng phải ít nhất ${MIN_AGE} tuổi.`);
+            return false;
+        }
+        if (age > MAX_AGE) {
+            showMessage('messNgaySinh', 'Ngày sinh không hợp lệ (tuổi quá lớn).');
+            return false;
+        }
+
         hideMessage('messNgaySinh');
         return true;
     }
 
+   
     // 4. GÁN SỰ KIỆN KIỂM TRA LỖI KHI NHẬP LIỆU (ON BLUR/CHANGE)
     $('#txtTenDangnhap').on('blur', checkTenDangNhap);
     $('#txtEmail').on('blur', checkEmail);
