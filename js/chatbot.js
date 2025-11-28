@@ -11,8 +11,8 @@
     const root = document.createElement('div')
     root.className = 'chatbot-root'
 
-    // Tải giao diện chatbot từ file HTML ngoài
-    fetch('../html/chatbot.html')
+    // Tải giao diện chatbot 
+    fetch('chatbot.html')
       .then(res => {
         if (!res.ok) throw new Error('Không tải được chatbot HTML: ' + res.status)
         return res.text()
