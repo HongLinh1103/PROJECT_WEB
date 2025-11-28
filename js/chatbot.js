@@ -12,8 +12,7 @@
     root.className = 'chatbot-root'
 
     // Tải giao diện chatbot từ file HTML ngoài
-    fetch(window.chatbotHtmlPath || 'html/chatbot.html')
-
+    fetch(window.chatbotHtmlPath || './html/chatbot.html')
       .then(res => {
         if (!res.ok) throw new Error('Không tải được chatbot HTML: ' + res.status)
         return res.text()
@@ -140,13 +139,12 @@
     const resEl = document.getElementById('cbResult')
     resEl.style.display = 'block'
     resEl.innerHTML = `
-      <div><strong>Yêu cầu làm lạnh (ước tính):</strong> ${kw.toFixed(2)} kW (~${hpNeeded.toFixed(2)} HP)</div>
-      <div style="margin-top:6px"><strong>Đề xuất:</strong> <span style="color:#0b5ed7">${chosen} HP</span></div>
-      <div style="margin-top:8px;color:#374151;font-size:13px">
-        Ghi chú: Kết quả chỉ mang tính ước lượng. Nếu phòng có cửa sổ hướng Tây, nhiều thiết bị tỏa nhiệt,
-        hoặc yêu cầu lắp đặt đặc biệt, hãy tham khảo kỹ thuật viên.
-      </div>
-    `
+  <div><strong>Yêu cầu làm lạnh (ước tính):</strong> ${kw.toFixed(2)} kW (~${hpNeeded.toFixed(2)} HP)</div>
+  <div style="margin-top:6px"><strong>Đề xuất:</strong> <span style="color:#0b5ed7">${chosen} HP</span></div>
+  <div style="margin-top:8px;color:#374151;font-size:13px">
+    Ghi chú: Kết quả chỉ mang tính ước lượng. Nếu phòng có cửa sổ hướng Tây, nhiều thiết bị tỏa nhiệt, hoặc yêu cầu lắp đặt đặc biệt, hãy tham khảo kỹ thuật viên.
+  </div>
+`
   }
 
   // Đảm bảo chạy khi DOM đã sẵn sàng
