@@ -1,9 +1,9 @@
 import { arrSP_DSSP } from "./sanpham_array.js"
 
-// Prevent double submissions when adding to cart
+// Lock tránh bấm liên tục khi thêm giỏ hàng
 let addingInProgress = false;
 
-// Lightweight toast for non-blocking user feedback
+// Hiển thị toast nhỏ gọn (không chặn UI)
 function showToast(message, duration = 1000) {
     try {
         const id = 'site-toast'
@@ -16,14 +16,18 @@ function showToast(message, duration = 1000) {
 }
 
 $(document).ready(function () {
+
+    // Lấy sản phẩm hiện tại từ session
     let stringSP = sessionStorage.getItem("TTCT_SP")
+
+    // Nếu vào trang chi tiết mà không có dữ liệu → báo lỗi + hướng dẫn
     if (stringSP == null) {
         $("body").empty()
         $("body").append("<div style='text-align:center'><h1>Vui lòng quay lại</h1><a style='font-size:20px' href='../html/trangchu.html'>trang chủ</a> hoặc <a style='font-size:20px' href='../html/danhsachsanpham.html'>trang danh sách sản phẩm</a><p>Để chọn và xem thông tin chi tiết sản phẩm bạn mong muốn</p></div>")
     } else {
         let objSP = JSON.parse(stringSP)
 
-        // Hiển thị thông tin sản phẩm chi tiết
+        // Render thông tin chi tiết sản phẩm
         $("#hinhanhSP").attr("src", objSP.hinhanh[1])
         $(".tenSP").text(objSP.ten)
         $("#gia").text(objSP.gia + "đ")
@@ -36,25 +40,23 @@ $(document).ready(function () {
         $("#tienich").text(objSP.tienich)
         $("#noiSanxuat").text(objSP.noiSanxuat)
 
-        // Thêm các sản phẩm tương tự (dựa vào hãng hoặc công suất làm lạnh)
+        // Lọc sản phẩm tương tự theo hãng hoặc công suất
         let arraySP_tuongtu = []
         for (let i = 0; i < arrSP_DSSP.length; i++) {
             if ((objSP.hang === arrSP_DSSP[i].hang && objSP.ten !== arrSP_DSSP[i].ten) ||
                 (objSP.congsuatLamlanh === arrSP_DSSP[i].congsuatLamlanh && objSP.ten !== arrSP_DSSP[i].ten)) {
+
                 arraySP_tuongtu.push(arrSP_DSSP[i])
-                if (arraySP_tuongtu.length == 4) {
-                    break
-                }
+                if (arraySP_tuongtu.length == 4) break
             }
         }
 
-        // Nếu không có sản phẩm tương tự, hiển thị thông báo
+        // Không có sản phẩm tương tự → hiển thị thông báo
         if (arraySP_tuongtu.length === 0) {
             $("#cacSP_tuongtu").append("<div class='rowProducts'><p style='text-align: center; font-style: italic; padding: 20px;'>Không có sản phẩm tương tự.</p></div>")
         } else {
-            // Tạo một rowProducts duy nhất cho tất cả sản phẩm tương tự (để CSS grid tự sắp xếp responsive)
-            let rowProducts = $("<div></div>")
-            rowProducts.attr("class", "rowProducts")
+            // Tạo 1 hàng chứa toàn bộ sản phẩm tương tự – CSS sẽ tự responsive
+            let rowProducts = $("<div></div>").attr("class", "rowProducts")
 
             for (let i = 0; i < arraySP_tuongtu.length; i++) {
                 const product = arraySP_tuongtu[i]
@@ -64,7 +66,7 @@ $(document).ready(function () {
                     "<div class='productImg'><img src='" + product.hinhanh[0] + "' alt=''></div>" +
                     "<h3 class='productTen'>" + product.ten + "</h3>" +
                     "<div class='productGia'>" + product.gia + "<sup>đ</sup></div>" +
-                    "<div class='productThemGioHang'><span>THÊM VÀO GIỎ HÀNG</span></div>" +  // Thêm nút thêm giỏ hàng
+                    "<div class='productThemGioHang'><span>THÊM VÀO GIỎ HÀNG</span></div>" +
                     "</div>" +
                     "</a>"
                 )
@@ -72,75 +74,71 @@ $(document).ready(function () {
             $("#cacSP_tuongtu").append(rowProducts)
         }
 
-        // Event listener cho click vào sản phẩm tương tự (chuyển trang chi tiết)
+        // Click vào sản phẩm tương tự → chuyển sang trang chi tiết
         $(document).off("click", ".product").on("click", ".product", function (e) {
-            // Kiểm tra nếu click vào nút thêm giỏ thì không chuyển trang
+
+            // Nếu click vào nút giỏ hàng thì KHÔNG chuyển trang
             if ($(e.target).closest('.productThemGioHang').length === 0) {
                 let tensanpham = $(this).find(".productTen").text()
+
                 for (let i = 0; i < arrSP_DSSP.length; i++) {
                     if (tensanpham == arrSP_DSSP[i].ten) {
                         sessionStorage.setItem("TTCT_SP", JSON.stringify(arrSP_DSSP[i]))
-                        window.location.href = "../html/chitietsanpham.html"  // Thêm redirect để chuyển trang
+                        window.location.href = "../html/chitietsanpham.html"
                         break
                     }
                 }
             }
         })
 
-        // Event listener cho nút "THÊM VÀO GIỎ HÀNG" của sản phẩm tương tự (với modal xác nhận)
-        // Khi click thêm từ danh sách tương tự, chuyển thẳng tới trang giỏ hàng sau khi thêm.
+        // Click “Thêm vào giỏ hàng” ở sản phẩm tương tự → thêm + chuyển đến giỏ hàng
         $(document).off("click", ".productThemGioHang").on("click", ".productThemGioHang", function (e) {
-            e.preventDefault()  // Ngăn chuyển trang khi click nút
-            e.stopPropagation() // Ngăn sự kiện lan tỏa lên .product
+            e.preventDefault()
+            e.stopPropagation()
 
             const productElement = $(this).closest('.product')
             const tensanpham = productElement.find(".productTen").text()
-            let objSP_tuongtu = null
-            for (let i = 0; i < arrSP_DSSP.length; i++) {
-                if (tensanpham === arrSP_DSSP[i].ten) {
-                    objSP_tuongtu = arrSP_DSSP[i]
-                    break
-                }
-            }
+            let objSP_tuongtu = arrSP_DSSP.find(sp => sp.ten === tensanpham)
 
             if (!objSP_tuongtu) {
                 console.error("Product not found:", tensanpham)
                 return
             }
 
-            // prevent duplicate clicks
             const btn = $(this)
             if (btn.data('adding')) return
             btn.data('adding', true)
+
             themVaoGioHang(objSP_tuongtu, true).finally(() => btn.data('adding', false))
         })
 
-        // Event listener cho nút "THÊM VÀO GIỎ HÀNG" trên trang chi tiết (thêm rồi hiển thị modal thống nhất)
+        // Nút “THÊM VÀO GIỎ HÀNG” ngay trên trang chi tiết (hiển thị modal thống nhất)
         $(document).off("click", "#themvaogio").on("click", "#themvaogio", function () {
+
             const taiKhoanDN = localStorage.getItem("tkDangnhap")
-            if (taiKhoanDN == null) {
+            if (!taiKhoanDN) {
                 showToast("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!", 1400)
                 setTimeout(() => window.location.href = "../html/dangnhap.html", 600)
                 return
             }
+
             const btn = $(this)
             if (btn.data('adding')) return
             btn.data('adding', true)
 
-            // Add to cart but do NOT show the old toast (we'll show the unified modal instead)
+            // Sau khi thêm → show modal thay vì toast
             themVaoGioHang(objSP, false, false).then(() => {
                 try {
                     const modal = $("#myModal")
-                    // show message container, hide zoom
                     $("#zoomContainer").hide()
                     $("#messageContainer").show()
                     $("#myModal").css("display", "block")
-                    // ensure consistent header
+
                     modal.find('.modal-header h2').text('Thông báo')
                     $("#tenSP").text(objSP.ten)
                     $("#giaSP").text(objSP.gia)
 
-                    // ensure close also hides internal containers
+                    // Đóng modal (header X + click ngoài)
                     $(".close").off('click').on('click', function () {
                         $("#myModal").css("display", "none")
                         $("#zoomContainer").hide()
@@ -154,7 +152,7 @@ $(document).ready(function () {
                         }
                     })
 
-                    // Footer CTAs: Xem giỏ hàng / Tiếp tục mua sắm
+                    // Add nút CTA: "Xem giỏ hàng" / "Tiếp tục mua sắm"
                     const footer = modal.find('.modal-footer')
                     footer.find('#modalViewCart').remove()
                     footer.find('#modalContinue').remove()
@@ -173,18 +171,17 @@ $(document).ready(function () {
             }).finally(() => btn.data('adding', false))
         })
 
-        // Event listener cho nút "#muangay" (thêm vào quick-buy và chuyển đến trang mua hàng riêng)
+        // Nút “Mua ngay” → lưu sản phẩm nhanh + chuyển đến muahang.html
         $("#muangay").off("click").on("click", function () {
             const taiKhoanDN = localStorage.getItem("tkDangnhap")
-            if (taiKhoanDN == null) {
+            if (!taiKhoanDN) {
                 alert("Vui lòng đăng nhập để mua hàng!")
                 window.location.href = "../html/dangnhap.html"
                 return
             }
 
-            // store quick-buy product in session so muahang.html can render only this product
             sessionStorage.setItem('MUA_NGAY_SP', JSON.stringify(objSP))
-            // add to cart storage (but do not redirect there); after add completes send to quick-buy page
+
             themVaoGioHang(objSP, false).finally(() => {
                 window.location.href = "../html/muahang.html"
             })
@@ -192,13 +189,14 @@ $(document).ready(function () {
     }
 })
 
-// Hàm chung để thêm vào giỏ hàng (dùng cho sản phẩm chính và tương tự)
-// Tham số: objSP (sản phẩm), redirectAfterAdd (boolean: có redirect đến giỏ hàng không)
-// Tham số bổ sung: showToastFlag (boolean, default true) - nếu false, sẽ KHÔNG hiển thị toast nội bộ.
+// Hàm chung thêm sản phẩm vào giỏ hàng
+// redirectAfterAdd → true: sau khi thêm sẽ chuyển trang giỏ hàng
+// showToastFlag → tắt/bật toast mặc định
 function themVaoGioHang(objSP, redirectAfterAdd, showToastFlag = true) {
-    // Return a promise so callers can know when finished
+
     return new Promise((resolve) => {
-        // Hỗ trợ cả 'tkDangnhap' (legacy) và 'currentUser' (mới)
+
+        // Cho phép dùng cả account cũ “tkDangnhap” và account mới “currentUser”
         let taikhoan = localStorage.getItem("tkDangnhap")
         if (!taikhoan && localStorage.getItem('currentUser')) {
             try {
@@ -224,16 +222,24 @@ function themVaoGioHang(objSP, redirectAfterAdd, showToastFlag = true) {
 
         const loggedInAccount = JSON.parse(taikhoan)
 
-        // Thêm vào giỏ hàng sau 300ms (nhỏ delay để thể hiện animation)
-        if (addingInProgress) { showToast('Đang xử lý...', 700); resolve(); return }
+        // Tránh spam nút thêm giỏ → hiển thị đang xử lý
+        if (addingInProgress) {
+            showToast('Đang xử lý...', 700)
+            resolve()
+            return
+        }
+
         addingInProgress = true
+
+        // Delay nhẹ để tạo cảm giác animation
         setTimeout(function () {
+
             const dsGio = localStorage.getItem("dsGioSP")
             const newItem = {
                 hinhanh: objSP.hinhanh[0],
                 ten: objSP.ten,
                 gia: objSP.gia,
-                soluong: 1  // Đảm bảo có soluong
+                soluong: 1
             }
 
             let objDSGioSP = dsGio ? JSON.parse(dsGio) : []
@@ -253,16 +259,16 @@ function themVaoGioHang(objSP, redirectAfterAdd, showToastFlag = true) {
                 })
             }
 
-            // Lưu trở lại localStorage
             localStorage.setItem('dsGioSP', JSON.stringify(objDSGioSP))
 
-            // Thông báo non-blocking (chỉ khi caller cho phép)
             if (showToastFlag) showToast('Đã thêm sản phẩm vào giỏ hàng!', 900)
+
             addingInProgress = false
-            // Nếu redirectAfterAdd là true (cho nút mua ngay), chuyển đến giỏ hàng sau khi toast
+
             if (redirectAfterAdd) {
                 setTimeout(() => { location.href = "../html/giohang.html" }, 700)
             }
+
             resolve()
         }, 300)
     })

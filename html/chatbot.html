@@ -1,0 +1,61 @@
+<div class="chatbot-window" id="chatbotWindow">
+  <div class="chatbot-header">
+    <h4>ChatBot tư vấn công suất</h4>
+    <button class="chatbot-close" id="chatbotClose">×</button>
+  </div>
+  <div class="chatbot-body">
+    <div class="chatbot-message">Nhập các thông tin về phòng, tôi sẽ đề xuất công suất phù hợp.</div>
+
+    <!-- Gợi ý nhanh: hành động nhanh và các mục phổ biến -->
+    <div class="chatbot-suggestions">
+      <div class="suggest-card">
+        <div class="suggest-title">Máy lạnh</div>
+        <div class="suggest-tags">
+          <button class="suggest-pill" data-suggest="top">🏆 Top bán chạy</button>
+          <button class="suggest-pill" data-suggest="price">💰 Top theo phân khúc giá</button>
+          <button class="suggest-pill" data-suggest="promo">🔥 Khuyến mãi hot nhất</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="chatbot-row">
+      <div style="width:48%">
+        <div class="chatbot-label">Diện tích (m²)</div>
+        <input id="cbArea" class="chatbot-input" type="number" min="1" placeholder="Ví dụ: 20">
+      </div>
+      <div style="width:48%">
+        <div class="chatbot-label">Độ cao trần (m)</div>
+        <input id="cbHeight" class="chatbot-input" type="number" step="0.1" min="1" placeholder="Ví dụ: 2.8">
+      </div>
+    </div>
+    <div class="chatbot-row">
+      <div style="width:48%">
+        <div class="chatbot-label">Hướng nắng</div>
+        <select id="cbSun" class="chatbot-select">
+          <option value="none">Ít/không</option>
+          <option value="moderate">Trung bình</option>
+          <option value="heavy">Nắng mạnh</option>
+        </select>
+      </div>
+      <div style="width:48%">
+        <div class="chatbot-label">Số người</div>
+        <input id="cbPeople" class="chatbot-input" type="number" min="0" value="1">
+      </div>
+    </div>
+    <div class="chatbot-row">
+      <div style="width:100%">
+        <div class="chatbot-label">Số thiết bị tỏa nhiệt (TV, bếp, PC...)</div>
+        <input id="cbDevices" class="chatbot-input" type="number" min="0" value="0">
+      </div>
+    </div>
+
+    <div id="cbResult" class="chatbot-result" style="display:none"></div>
+  </div>
+  <div class="chatbot-actions">
+    <button class="btn-clear" id="cbClear">Xóa</button>
+    <button class="btn-calc" id="cbCalc">Tính công suất</button>
+  </div>
+</div>
+<button class="chatbot-button" id="chatbotToggle" title="Tư vấn công suất">
+  <i class="fa-solid fa-robot" aria-hidden="true"></i>
+</button>

@@ -44,13 +44,6 @@ Mục tiêu: làm mẫu giao diện, luồng mua hàng cơ bản và các tính 
 
 - `js/chatbot.js` & `html/chatbot.html` — widget tư vấn công suất nổi: `chatbot.html` chứa markup widget; `chatbot.js` fetch/insert markup, gán event và thực hiện phép tính ước lượng công suất dựa trên diện tích, độ cao trần, hướng nắng, số người, số thiết bị.
 
-## Các key chính trong storage
-
-- `currentUser` — object user hiện tại (stringified).
-- `tkDangnhap` — key legacy (nếu có, mã cố gắng duy trì tương thích).
-- `dsGioSP` — mảng giỏ hàng, phân theo `tendangnhap`.
-- `dsDonHang` — mảng các đơn hàng đã tạo.
-- `MUA_NGAY_SP` (sessionStorage) — chứa sản phẩm quick-buy.
 
 ## Nguyên lý hoạt động (tóm tắt kỹ thuật)
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,15 +8,55 @@
     <title>Đăng xuất - CleanAir</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
-        body { font-family: Arial, Helvetica, sans-serif; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; background:#f7f7f7 }
-        .card { background:white; padding:28px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.08); text-align:center; max-width:420px }
-        .card h1 { margin:0 0 8px; font-size:20px }
-        .card p { margin:8px 0 18px; color:#555 }
-        .actions a { display:inline-block; margin:6px 8px; padding:8px 14px; border-radius:4px; text-decoration:none }
-        .btn-primary { background:#007bff; color:white }
-        .btn-secondary { background:#e9ecef; color:#333 }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: #f7f7f7
+        }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            max-width: 420px
+        }
+
+        .card h1 {
+            margin: 0 0 8px;
+            font-size: 20px
+        }
+
+        .card p {
+            margin: 8px 0 18px;
+            color: #555
+        }
+
+        .actions a {
+            display: inline-block;
+            margin: 6px 8px;
+            padding: 8px 14px;
+            border-radius: 4px;
+            text-decoration: none
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: #333
+        }
     </style>
 </head>
+
 <body>
     <div class="card">
         <h1>Bạn đã đăng xuất</h1>
@@ -39,9 +80,10 @@
         document.getElementById('msg').textContent = 'Bạn đã đăng xuất thành công. Chuyển hướng về Trang chủ sau 3 giây...';
 
         // Chuyển về trang chủ sau 3 giây
-        setTimeout(function() {
+        setTimeout(function () {
             window.location.href = 'trangchu.html';
         }, 3000);
     </script>
 </body>
+
 </html>
