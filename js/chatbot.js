@@ -12,7 +12,7 @@
     root.className = 'chatbot-root'
 
     // Tải giao diện chatbot từ file HTML ngoài
-    fetch(window.chatbotHtmlPath || './html/chatbot.html')
+    fetch(window.chatbotHtmlPath || '../html/chatbot.html')
       .then(res => {
         if (!res.ok) throw new Error('Không tải được chatbot HTML: ' + res.status)
         return res.text()
