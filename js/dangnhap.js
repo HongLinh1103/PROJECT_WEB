@@ -36,12 +36,15 @@ $(document).ready(function() {
 
     setupPasswordToggle('txtMatkhau', 'togglePassword');
 
-
-    
     // 2. HÀM VALIDATION CHO TỪNG TRƯỜNG
     
-    function showMessage(elementId, message) { $('#' + elementId).text(message).show(); }
-    function hideMessage(elementId) { $('#' + elementId).text('').hide(); }
+    function showMessage(elementId, message) { 
+        $('#' + elementId).text(message).show(); 
+    }
+    
+    function hideMessage(elementId) { 
+        $('#' + elementId).text('').hide(); 
+    }
 
     function checkUserEmail() {
         const input = $('#txtUserEmail').val().trim();
@@ -63,65 +66,84 @@ $(document).ready(function() {
         return true;
     }
 
-    // 3. GÁN SỰ KIỆN KIỂM TRA LỖI KHI NHẬP LIỆU (ON BLUR)
-
+    // 3. GÁN SỰ KIỆN KIỂM TRA LỚI KHI NHẬP LIỆU (ON BLUR)
     $('#txtUserEmail').on('blur', checkUserEmail);
     $('#txtMatkhau').on('blur', checkMatKhau);
 
-    // 4. XỬ LÝ SỰ KIỆN SUBMIT FORM ĐĂNG NHẬP
+    // 4. KIỂM TRA FORM HỢP LỆ
+    function isFormValid() {
+        return checkUserEmail() && checkMatKhau();
+    }
 
+    // 5. XỬ LÝ SỰ KIỆN SUBMIT FORM ĐĂNG NHẬP
     $('#formDangnhap').on('submit', function(e) {
         e.preventDefault(); 
         hideFormMessage();
         
-        const isUserEmailValid = checkUserEmail();
-        const isPassValid = checkMatKhau();
-        
-        const isFormValid = isUserEmailValid && isPassValid;
-
-        if (!isFormValid) {
+        // Kiểm tra form hợp lệ
+        if (!isFormValid()) {
             showFormMessage("Vui lòng điền đầy đủ Tên đăng nhập/Email và Mật khẩu.", 'error');
+            return;
+        }
+
+        // Lấy dữ liệu từ form Đăng nhập
+        const inputIdentifier = $('#txtUserEmail').val().trim();
+        const inputPassword = $('#txtMatkhau').val();
+        
+        // Lấy danh sách tài khoản từ Local Storage
+        const accounts = JSON.parse(localStorage.getItem('dsUser')) || [];
+
+        // Tìm tài khoản khớp
+        const foundAccount = accounts.find(account => 
+            (account.username === inputIdentifier || account.email === inputIdentifier) && 
+            account.password === inputPassword
+        );
+
+        if (foundAccount) {
+            // ĐĂNG NHẬP THÀNH CÔNG
+            
+            // Lưu thông tin user đăng nhập vào currentUser
+            localStorage.setItem('currentUser', JSON.stringify(foundAccount));
+            
+            // Hiển thị thông báo thành công
+            showFormMessage("🎉 Đăng nhập thành công! Chào mừng " + foundAccount.fullname + " quay trở lại!", 'success');
+            
+            // Chuyển hướng đến trang chủ sau 2 giây
+            setTimeout(() => {
+                window.location.href = 'trangchu.html';
+            }, 2000);
+            
         } else {
+            // ĐĂNG NHẬP THẤT BẠI
             
-            // Lấy dữ liệu từ form Đăng nhập
-            const inputIdentifier = $('#txtUserEmail').val().trim();
-            const inputPassword = $('#txtMatkhau').val();
-            
-            // B1. Lấy danh sách tài khoản từ Local Storage
-            const accounts = JSON.parse(localStorage.getItem('registeredAccounts')) || [];
-
-            // B2. Tìm tài khoản khớp
-            const foundAccount = accounts.find(account => 
-                (account.username === inputIdentifier || account.email === inputIdentifier) && 
-                account.password === inputPassword
+            // Kiểm tra xem username/email có tồn tại không
+            const userExists = accounts.some(account => 
+                account.username === inputIdentifier || account.email === inputIdentifier
             );
-
-            if (foundAccount) {
-                // Đăng nhập thành công
-                showFormMessage(`🎉 Chào mừng ${foundAccount.fullname || foundAccount.username}! Đăng nhập thành công.`, 'success');
-                
-                // LƯU THÔNG TIN TÀI KHOẢN HIỆN TẠI (ĐỂ TAISHOAN.JS SỬ DỤNG)
-                localStorage.setItem('currentUser', JSON.stringify(foundAccount)); 
-                // Lưu thêm dưới key cũ 'tkDangnhap' để tương thích với các script cũ (sanpham.js, giohang.js...)
-                try {
-                    const legacy = {
-                        ten_dangnhap: foundAccount.username || foundAccount.ten_dangnhap || '',
-                        hoTen: foundAccount.fullname || foundAccount.hoTen || '',
-                        dienThoai: foundAccount.phone || foundAccount.dienThoai || '',
-                        diaChi: foundAccount.diaChi || foundAccount.diaChi || '',
-                        gioiTinh: foundAccount.gioiTinh || foundAccount.gioiTinh || ''
-                    };
-                    localStorage.setItem('tkDangnhap', JSON.stringify(legacy));
-                } catch (e) { console.warn('Không thể lưu tkDangnhap (legacy)', e); }
-
-                // Chuyển hướng sau 3 giây
-                setTimeout(() => {
-                     window.location.href = "trangchu.html"; 
-                }, 3000); 
+            
+            if (userExists) {
+                showFormMessage(" Mật khẩu không chính xác. Vui lòng thử lại.", 'error');
             } else {
-                // Đăng nhập thất bại
-                showFormMessage("Tên đăng nhập, Email hoặc Mật khẩu không chính xác. Vui lòng thử lại.", 'error');
+                showFormMessage(" Tên đăng nhập/Email không tồn tại. Vui lòng kiểm tra lại hoặc đăng ký tài khoản mới.", 'error');
             }
         }
     });
+
+    // 6. XỬ LÝ ENTER KEY ĐỂ SUBMIT
+    $('#txtUserEmail, #txtMatkhau').on('keypress', function(e) {
+        if (e.which === 13) {
+            $('#formDangnhap').submit();
+        }
+    });
+
+    // 7. RESET FORM KHI CLICK NÚT RESET
+    $('#btnReset').on('click', function() {
+        hideFormMessage();
+        // Ẩn tất cả thông báo lỗi
+        $('[id^="mess"]').text('').hide();
+    });
+
+    // 8. TỰ ĐỘNG FOCUS VÀO Ô INPUT ĐẦU TIÊN
+    $('#txtUserEmail').focus();
+
 });

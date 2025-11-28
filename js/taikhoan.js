@@ -6,136 +6,167 @@ $(window).ready(function () {
         localStorage.setItem('currentUser', localStorage.getItem('tkDangnhap'));
         currentUser = localStorage.getItem('currentUser');
     }
-    // Nếu đã có currentUser nhưng key cũ tkDangnhap chưa tồn tại, tạo bản sao legacy để tương thích
-    if (currentUser && !localStorage.getItem('tkDangnhap')) {
-        try {
-            const u = JSON.parse(currentUser);
-            const legacy = {
-                ten_dangnhap: u.username || u.ten_dangnhap || '',
-                hoTen: u.fullname || u.hoTen || '',
-                dienThoai: u.phone || u.dienThoai || '',
-                diaChi: u.diaChi || u.diaChi || '',
-                gioiTinh: u.gioiTinh || u.gioiTinh || ''
-            };
-            localStorage.setItem('tkDangnhap', JSON.stringify(legacy));
-        } catch (e) { console.warn('Không thể tạo tkDangnhap từ currentUser', e); }
-    }
     
     // 1. XỬ LÝ HIỂN THỊ TÀI KHOẢN TRÊN HEADER
-    if (currentUser != null) {
-        $("#dkdn").hide() // Ẩn nút Đăng ký/Đăng nhập
-        $("#divTaikhoan").show() // Hiện nút Tài khoản
+    function updateUI() {
+        if (currentUser != null) {
+            // ĐÃ ĐĂNG NHẬP: Hiện avatar, ẩn nút đăng ký/đăng nhập
+            $("#dkdn").hide();
+            $("#divTaikhoan").show();
 
-        // Hiện liên kết 'Đơn hàng của tôi' nếu tồn tại trong DOM
-        try { $("#donhangNav").show(); } catch (e) { /* no-op if element absent */ }
+            // Hiện liên kết 'Đơn hàng của tôi'
+            try { $("#donhangNav").show(); } catch (e) { /* no-op if element absent */ }
 
-        const ttTaikhoan = JSON.parse(currentUser)
-        
-        // Lấy chữ cái đầu của tên để hiển thị trên nút dropbtn (fallbacks nếu thiếu dữ liệu)
-        const nameSource = ttTaikhoan.fullname || ttTaikhoan.username || '';
-        const hoten = nameSource.split(" ")
-        const ten = hoten[hoten.length - 1] || ''
-        const kytuDauCuaTen = ten ? ten[0] : ''
-        $("#taikhoan").text(kytuDauCuaTen.toUpperCase())
+            const ttTaikhoan = JSON.parse(currentUser);
+            
+            // Lấy chữ cái đầu của tên để hiển thị trên avatar
+            const nameSource = ttTaikhoan.fullname || ttTaikhoan.username || '';
+            const hoten = nameSource.split(" ");
+            const ten = hoten[hoten.length - 1] || '';
+            const kytuDauCuaTen = ten ? ten[0] : (nameSource ? nameSource[0] : '?');
+            $("#taikhoan").text(kytuDauCuaTen.toUpperCase());
 
-        // Ẩn mật khẩu bằng dấu * (an toàn nếu password undefined)
-        const pwd = ttTaikhoan.password || '';
-        const star = pwd.replace(/./g, '*');
-        
-    
-        // - Tài khoản của tôi -> taikhoancuatoi.html
-        // - Đổi mật khẩu -> taikhoancuatoi.html#doiMK (will open change-password section)
-        // - Đăng xuất -> dngxuat.html (we also call doLogout to clear localStorage)
-        const $tt = $("#ttTaikhoan");
-        if ($tt.length) {
-            // Render as a simple list of links to match the not-logged-in dropdown style
-            $tt.empty();
-            $tt.append(`
-                <a href="taikhoancuatoi.html">Tài khoản của tôi</a>
-                <a href="taikhoancuatoi.html#doiMK">Đổi mật khẩu</a>
-                <a href="#" id="dropdownDangXuat">Đăng xuất</a>
-            `);
-            // Bind logout: clear storage then navigate to logout landing
-            $tt.find('#dropdownDangXuat').on('click', function(e){ e.preventDefault(); doLogout(); });
-        }
-
-    } else {
-        $("#dkdn").show()
-        $("#divTaikhoan").hide()
-        // Ẩn liên kết 'Đơn hàng của tôi' khi chưa đăng nhập
-        try { $("#donhangNav").hide(); } catch (e) { /* no-op if element absent */ }
-    }
-    
-    // CẬP NHẬT CÁC LIÊN KẾT 'Đăng nhập' TRÊN TOÀN TRANG -> chuyển thành 'Đăng xuất' khi đã đăng nhập
-    function doLogout() {
-        localStorage.removeItem('currentUser'); // Xóa trạng thái đăng nhập
-        localStorage.removeItem('tkDangnhap'); // Nếu có key cũ, cũng xóa
-        // Cập nhật UI
-        $("#dkdn").show();
-        $("#divTaikhoan").hide();
-        attachLogoutToElements();
-        // Chuyển về trang xác nhận đăng xuất (dngxuat.html) nếu có, còn không thì về dangnhap
-        const logoutLanding = 'dngxuat.html';
-        try {
-            // Nếu hiện đang ở trang logout landing thì reload
-            if (window.location.pathname.toLowerCase().endsWith(logoutLanding)) {
-                window.location.reload();
-            } else {
-                window.location.href = logoutLanding;
+            // CẬP NHẬT DROPDOWN CHO TRẠNG THÁI ĐÃ ĐĂNG NHẬP
+            const $tt = $("#ttTaikhoan");
+            if ($tt.length) {
+                $tt.empty();
+                $tt.append(`
+                    <a href="taikhoancuatoi.html"><i class="fa fa-user"></i> Tài khoản của tôi</a>
+                    <a href="taikhoancuatoi.html#doiMK"><i class="fa fa-key"></i> Đổi mật khẩu</a>
+                    <a href="#" id="dropdownDangXuat"><i class="fa fa-sign-out"></i> Đăng xuất</a>
+                `);
+                // Bind logout
+                $tt.find('#dropdownDangXuat').on('click', function(e){ 
+                    e.preventDefault(); 
+                    doLogout(); 
+                });
             }
-        } catch (e) {
-            window.location.href = 'dangnhap.html';
+
+        } else {
+            // CHƯA ĐĂNG NHẬP: Hiện nút đăng ký/đăng nhập, ẩn avatar
+            $("#dkdn").show();
+            $("#divTaikhoan").hide();
+            
+            // Ẩn liên kết 'Đơn hàng của tôi'
+            try { $("#donhangNav").hide(); } catch (e) { /* no-op if element absent */ }
+
+            // CẬP NHẬT DROPDOWN CHO TRẠNG THÁI CHƯA ĐĂNG NHẬP
+            const $myDropdown = $("#myDropdown");
+            if ($myDropdown.length) {
+                $myDropdown.empty();
+                $myDropdown.append(`
+                    <a href="dangky.html"><i class="fa fa-user-plus"></i> Đăng ký</a>
+                    <a href="dangnhap.html"><i class="fa fa-sign-in"></i> Đăng nhập</a>
+                `);
+            }
         }
+        
+        // Cập nhật các liên kết đăng nhập/đăng xuất trong toàn bộ trang
+        attachLogoutToElements();
+    }
+
+    // Gọi hàm cập nhật UI khi trang load
+    updateUI();
+    
+    function doLogout() {
+        console.log('Đang đăng xuất...');
+        
+        // 1. Xóa TẤT CẢ key phiên làm việc
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('tkDangnhap');
+
+        // 2. Xóa TẤT CẢ key lưu trữ DỮ LIỆU CÁ NHÂN
+        localStorage.removeItem('userAddress');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userFullname');
+        localStorage.removeItem('userPhone');
+
+        // 3. Cập nhật UI ngay lập tức
+        $("#dkdn").show();      
+        $("#divTaikhoan").hide(); 
+        $('#ttTaikhoan').removeClass('show');
+        $('#myDropdown').removeClass('show');
+
+        // 4. Thông báo và chuyển hướng
+        alert('Bạn đã đăng xuất thành công!');
+        
+        // 5. Reload để đảm bảo UI được cập nhật hoàn toàn
+        setTimeout(() => {
+            if (window.location.pathname.includes('taikhoan') || 
+                window.location.pathname.includes('dangnhap') ||
+                window.location.pathname.includes('dangky')) {
+                window.location.href = 'trangchu.html';
+            } else {
+                window.location.reload();
+            }
+        }, 500);
     }
 
     function attachLogoutToElements() {
         const isLoggedIn = !!localStorage.getItem('currentUser');
+        
         $('a[href="dangnhap.html"]').each(function() {
             const $a = $(this);
             if (isLoggedIn) {
-                // lưu href gốc nếu cần khôi phục
+                // ĐÃ đăng nhập: chuyển thành Đăng xuất
                 if (!$a.data('orig-href')) $a.data('orig-href', $a.attr('href'));
                 $a.attr('href', '#');
-                $a.text('Đăng xuất');
+                $a.html('<i class="fa fa-sign-out"></i> Đăng xuất');
                 $a.off('click.logout').on('click.logout', function(e) {
                     e.preventDefault();
                     doLogout();
                 });
             } else {
-                // khôi phục về Đăng nhập
+                // CHƯA đăng nhập: hiện Đăng nhập
                 const orig = $a.data('orig-href') || 'dangnhap.html';
                 $a.attr('href', orig);
-                $a.text('Đăng nhập');
+                $a.html('<i class="fa fa-sign-in"></i> Đăng nhập');
                 $a.off('click.logout');
             }
         });
     }
-
-    // Gọi để cập nhật các liên kết khi load trang
-    attachLogoutToElements();
     
-    // 1. Toggle dropdown khi click vào avatar (taikhoan)
-    //    - Click vào #taikhoan sẽ bật/tắt class 'show' trên #divTaikhoan
-    //    - Click ra ngoài sẽ đóng dropdown
- 
+    // 2. XỬ LÝ DROPDOWN BEHAVIORS
     $(document).on('click', '#taikhoan', function(e) {
         e.stopPropagation();
-        // Toggle visible state
         $('#divTaikhoan').toggleClass('show');
+        $('#myDropdown').removeClass('show'); // Đảm bảo chỉ 1 dropdown hiện
         const isOpen = $('#divTaikhoan').hasClass('show');
-        // accessibility hint
         $(this).attr('aria-expanded', isOpen ? 'true' : 'false');
-        console.log('taikhoan clicked, dropdown open=', isOpen);
+    });
+
+    $(document).on('click', '#dkdnBtn', function(e) {
+        e.stopPropagation();
+        $('#myDropdown').toggleClass('show');
+        $('#divTaikhoan').removeClass('show'); // Đảm bảo chỉ 1 dropdown hiện
+        const isOpen = $('#myDropdown').hasClass('show');
+        $(this).attr('aria-expanded', isOpen ? 'true' : 'false');
     });
 
     // Ngăn sự kiện click bên trong dropdown làm đóng nó
-    $(document).on('click', '#ttTaikhoan', function(e) { e.stopPropagation(); });
+    $(document).on('click', '#ttTaikhoan, #myDropdown', function(e) { 
+        e.stopPropagation(); 
+    });
 
     // Click ra ngoài sẽ đóng dropdown
-    $(document).on('click', function() { $('#divTaikhoan').removeClass('show'); $('#taikhoan').attr('aria-expanded','false'); });
+    $(document).on('click', function() { 
+        $('#divTaikhoan').removeClass('show'); 
+        $('#myDropdown').removeClass('show');
+        $('#taikhoan').attr('aria-expanded','false');
+        $('#dkdnBtn').attr('aria-expanded','false');
+    });
     
-    // 3. XỬ LÝ ĐĂNG XUẤT
-    $("#dangXuat").on('click', function() {
+    // 3. XỬ LÝ ĐĂNG XUẤT TỪ CÁC NÚT KHÁC
+    $(document).on('click', '#dangXuat, #btnDangXuat', function(e) {
+        e.preventDefault();
         doLogout();
+    });
+
+    // 4. XỬ LÝ PHÍM ESC ĐỂ ĐÓNG DROPDOWN
+    $(document).on('keydown', function(e) {
+        if (e.key === 'Escape') {
+            $('#divTaikhoan').removeClass('show');
+            $('#myDropdown').removeClass('show');
+        }
     });
 });

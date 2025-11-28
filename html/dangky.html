@@ -17,7 +17,18 @@
     <script src="../js/taikhoan.js"></script>
     <script src="../js/responsive.js"></script>
 </head>
-
+<Style>
+    .modern-form input[list] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+    background: #fff;
+}
+</Style>
 <body>
     <header>
         <a href="trangchu.html" class="logo reloadTrang">
@@ -158,9 +169,14 @@
 
                     <div class="dual-columns">
                         <div class="row">
-                            <label for="tinhThanhPho">Tỉnh/Thành phố (*)</label>
-                            <input type="text" id="tinhThanhPho" placeholder="Ví dụ: Hà Nội" required>
-                            <span id="messTTP" class="message"></span>
+                            <div class="col-12">
+                                <label for="tinhThanhPho">Tỉnh/Thành phố (*)</label>
+                                <input id="tinhThanhPho" list="tinhList"
+                                    placeholder="-- Chọn hoặc gõ Tỉnh/Thành phố --" required>
+
+                                <datalist id="tinhList"></datalist>
+                                <span id="messTTP" class="message"></span>
+                            </div>
                         </div>
                         <div class="row">
                             <label for="txtDiachi">Địa chỉ (*)</label>
