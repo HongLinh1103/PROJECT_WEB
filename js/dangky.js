@@ -1,12 +1,12 @@
-$(document).ready(function() {
-    
+$(document).ready(function () {
+
     // 0. HÀM HIỂN THỊ/ẨN THÔNG BÁO CHUNG
     function showFormMessage(message, type) {
         const $msgBox = $('#formMessage');
         $msgBox.text(message)
-               .removeClass('success error')
-               .addClass(type)
-               .slideDown(300); 
+            .removeClass('success error')
+            .addClass(type)
+            .slideDown(300);
         $('html, body').animate({ scrollTop: $msgBox.offset().top - 20 }, 500);
     }
 
@@ -40,16 +40,16 @@ $(document).ready(function() {
     // 1b. TẢI DANH SÁCH TỈNH/THÀNH (dùng datalist cho combobox)
     function loadProvinces() {
         const provinces = [
-            "An Giang","Bà Rịa - Vũng Tàu","Bắc Giang","Bắc Kạn","Bạc Liêu","Bắc Ninh",
-            "Bến Tre","Bình Định","Bình Dương","Bình Phước","Bình Thuận","Cà Mau",
-            "Cao Bằng","Đắk Lắk","Đắk Nông","Điện Biên","Đồng Nai","Đồng Tháp",
-            "Gia Lai","Hà Giang","Hà Nam","Hải Dương","Hậu Giang","Hòa Bình",
-            "Hưng Yên","Khánh Hòa","Kiên Giang","Kon Tum","Lai Châu","Lâm Đồng",
-            "Lạng Sơn","Lào Cai","Long An","Nam Định","Nghệ An","Ninh Bình",
-            "Ninh Thuận","Phú Thọ","Quảng Bình","Quảng Nam","Quảng Ngãi","Quảng Ninh",
-            "Quảng Trị","Sóc Trăng","Sơn La","Tây Ninh","Thái Bình","Thái Nguyên",
-            "Thanh Hóa","Thừa Thiên Huế","Tiền Giang","Trà Vinh","Tuyên Quang",
-            "Vĩnh Long","Vĩnh Phúc","Yên Bái","Hồ Chí Minh","Hà Nội","Đà Nẵng"
+            "An Giang", "Bà Rịa - Vũng Tàu", "Bắc Giang", "Bắc Kạn", "Bạc Liêu", "Bắc Ninh",
+            "Bến Tre", "Bình Định", "Bình Dương", "Bình Phước", "Bình Thuận", "Cà Mau",
+            "Cao Bằng", "Đắk Lắk", "Đắk Nông", "Điện Biên", "Đồng Nai", "Đồng Tháp",
+            "Gia Lai", "Hà Giang", "Hà Nam", "Hải Dương", "Hậu Giang", "Hòa Bình",
+            "Hưng Yên", "Khánh Hòa", "Kiên Giang", "Kon Tum", "Lai Châu", "Lâm Đồng",
+            "Lạng Sơn", "Lào Cai", "Long An", "Nam Định", "Nghệ An", "Ninh Bình",
+            "Ninh Thuận", "Phú Thọ", "Quảng Bình", "Quảng Nam", "Quảng Ngãi", "Quảng Ninh",
+            "Quảng Trị", "Sóc Trăng", "Sơn La", "Tây Ninh", "Thái Bình", "Thái Nguyên",
+            "Thanh Hóa", "Thừa Thiên Huế", "Tiền Giang", "Trà Vinh", "Tuyên Quang",
+            "Vĩnh Long", "Vĩnh Phúc", "Yên Bái", "Hồ Chí Minh", "Hà Nội", "Đà Nẵng"
         ];
         const $datalist = $('#tinhList');
         $datalist.empty();
@@ -64,7 +64,7 @@ $(document).ready(function() {
         const $passwordInput = $('#' + inputId);
         const $toggleButton = $('#' + buttonId);
 
-        $toggleButton.on('click', function() {
+        $toggleButton.on('click', function () {
             const type = $passwordInput.attr('type') === 'password' ? 'text' : 'password';
             $passwordInput.attr('type', type);
             $(this).toggleClass('hide-pass');
@@ -75,12 +75,12 @@ $(document).ready(function() {
     setupPasswordToggle('txtNLMK', 'toggleNLMK');
 
     // 3. HÀM VALIDATION CHO TỪNG TRƯỜNG
-    function showMessage(elementId, message) { 
-        $('#' + elementId).text(message).show(); 
+    function showMessage(elementId, message) {
+        $('#' + elementId).text(message).show();
     }
-    
-    function hideMessage(elementId) { 
-        $('#' + elementId).text('').hide(); 
+
+    function hideMessage(elementId) {
+        $('#' + elementId).text('').hide();
     }
 
     function checkTenDangNhap() {
@@ -119,7 +119,7 @@ $(document).ready(function() {
     function checkNLMK() {
         const password = $('#txtMatkhau').val();
         const confirmPassword = $('#txtNLMK').val();
-        
+
         if (confirmPassword === '') {
             showMessage('messNLMK', 'Vui lòng nhập lại mật khẩu.');
             return false;
@@ -131,7 +131,7 @@ $(document).ready(function() {
         hideMessage('messNLMK');
         return true;
     }
-    
+
     function checkHoTen() {
         const hoten = $('#txtHoten').val().trim();
         const regex = /^([A-Z]{1}[a-z]*)(\s[A-Z]{1}[a-z]*)*$/;
@@ -144,7 +144,7 @@ $(document).ready(function() {
         hideMessage('messHoten');
         return true;
     }
-    
+
     function checkSDT() {
         const sdt = $('#txtDT').val().trim();
         const regex = /^(09|03)\d{8}$/;
@@ -157,10 +157,10 @@ $(document).ready(function() {
         hideMessage('messDT');
         return true;
     }
-    
+
     function checkDiaChi() {
         const diachi = $('#txtDiachi').val().trim();
-        const regex = /^\d+\s+[\w\s]+$/;
+        const regex = /^\d+\s+[\p{L}\d\s]+$/u;
 
         if (diachi === '' || !regex.test(diachi)) {
             showMessage('messDiachi', 'Địa chỉ không hợp lệ. Ví dụ: 123 Đường ABC, Ấp XYZ, Huyện DEF');
@@ -170,7 +170,7 @@ $(document).ready(function() {
         hideMessage('messDiachi');
         return true;
     }
-    
+
     function checkTinhThanhPho() {
         const ttp = $('#tinhThanhPho').val().trim();
         if (ttp === '' || ttp.length < 2) {
@@ -242,7 +242,7 @@ $(document).ready(function() {
         return true;
     }
 
-   
+
     // 4. GÁN SỰ KIỆN KIỂM TRA LỖI KHI NHẬP LIỆU (ON BLUR/CHANGE)
     $('#txtTenDangnhap').on('blur', checkTenDangNhap);
     $('#txtEmail').on('blur', checkEmail);
@@ -251,7 +251,7 @@ $(document).ready(function() {
     $('#txtHoten').on('blur', checkHoTen);
     $('#txtDT').on('blur', checkSDT);
     $('#txtDiachi').on('blur', checkDiaChi);
-    $('#tinhThanhPho').on('blur', checkTinhThanhPho); 
+    $('#tinhThanhPho').on('blur', checkTinhThanhPho);
     $('#ngay, #thang, #nam').on('change', checkNgaySinh);
 
     // 5. KIỂM TRA FORM HỢP LỆ
@@ -267,24 +267,24 @@ $(document).ready(function() {
             checkTinhThanhPho(),
             checkNgaySinh()
         ];
-        
+
         return validations.every(valid => valid === true);
     }
 
     // 6. KIỂM TRA TRÙNG LẶP TÀI KHOẢN
     function checkDuplicateAccount(username, email) {
         const accounts = JSON.parse(localStorage.getItem('dsUser')) || [];
-        
-        const existingUser = accounts.find(account => 
+
+        const existingUser = accounts.find(account =>
             account.username === username || account.email === email
         );
-        
+
         return existingUser;
     }
 
     // 7. XỬ LÝ SỰ KIỆN SUBMIT FORM VÀ LƯU VÀO LOCAL STORAGE
-    $('#formDangky').on('submit', function(e) {
-        e.preventDefault(); 
+    $('#formDangky').on('submit', function (e) {
+        e.preventDefault();
         hideFormMessage();
 
         // Kiểm tra form hợp lệ
@@ -351,7 +351,7 @@ $(document).ready(function() {
     });
 
     // 8. RESET FORM KHI CLICK NÚT RESET
-    $('#btnReset').on('click', function() {
+    $('#btnReset').on('click', function () {
         hideFormMessage();
         // Ẩn tất cả thông báo lỗi
         $('[id^="mess"]').text('').hide();
