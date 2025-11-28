@@ -160,7 +160,8 @@ $(document).ready(function () {
 
     function checkDiaChi() {
         const diachi = $('#txtDiachi').val().trim();
-        const regex = /^\d+\s+[\p{L}\d\s]+$/u;
+        const regex = /^\d+\s+[\p{L}\d\s,]+$/u;
+
 
         if (diachi === '' || !regex.test(diachi)) {
             showMessage('messDiachi', 'Địa chỉ không hợp lệ. Ví dụ: 123 Đường ABC, Ấp XYZ, Huyện DEF');
