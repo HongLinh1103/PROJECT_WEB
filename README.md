@@ -1,54 +1,81 @@
-# CleanAir - Demo cửa hàng máy lạnh (Client-side)
+# PROJECT_WEB — CleanAir (Demo cửa hàng máy lạnh)
 
-Một trang thương mại điện tử demo cho cửa hàng máy lạnh "CleanAir". Toàn bộ ứng dụng chạy phía client (không có backend): các trang HTML tĩnh, CSS cho style, và JavaScript (kèm jQuery ở một số nơi) để xử lý tương tác, lưu trữ trạng thái (giỏ hàng, đơn hàng, người dùng) vào `localStorage`/`sessionStorage` của trình duyệt.
+Phiên bản demo của cửa hàng máy lạnh "CleanAir". Đây là một ứng dụng client-side (chạy trên trình duyệt) dùng để minh họa giao diện, luồng mua hàng cơ bản và một số tính năng tương tác (giỏ hàng, đặt hàng, chatbot tư vấn công suất). 
+## Tổng Quan Dự Án
+- Dữ liệu demo (sản phẩm, hình ảnh) được lưu trong file JS (`js/sanpham_array.js`). Trạng thái tạm thời (giỏ hàng, đơn hàng, người dùng) được lưu bằng `localStorage`/`sessionStorage` trên trình duyệt.
+- Giao diện được phân tách theo trang trong `html/`, style trong `css/`, logic trong `js/`.
 
-Mục tiêu: làm mẫu giao diện, luồng mua hàng cơ bản và các tính năng tương tác để dùng cho học tập hoặc demo trên web server tĩnh.
+## Công Nghệ Sử Dụng
 
-## Ngôn ngữ / Công nghệ
+- Front-End:
+	- HTML5, CSS3 (responsive), JavaScript (ES6+), jQuery 3.6.
+	- Tổ chức CSS theo file: `style.css`, `header.css`, `modal.css`, các file theo trang.
+	- Module JS nhỏ gọn cho từng trang (dùng ES modules ở một vài file).
 
-- HTML5: cấu trúc các trang tĩnh.
-- CSS3: stylesheets theo trang và chung, responsive cơ bản.
-- JavaScript (ES6+) và jQuery: tương tác DOM, xử lý form, render template đơn giản.
-- LocalStorage / SessionStorage: lưu giỏ hàng, thông tin tài khoản, đơn hàng, quick-buy.
-- Tài nguyên tĩnh: ảnh trong `img/`, file CSS/JS trong `css/` và `js/`.
+- Back-End (nếu có):
+	- Hiện tại không có backend; nhưng mã được thiết kế để dễ tích hợp API sau này: việc lưu/đọc dữ liệu có thể được thay thế bằng các cuộc gọi fetch tới REST API.
 
-## Cấu trúc dự án
+## Kiến Trúc Hệ Thống
 
-- `html/`  — các trang HTML: `trangchu.html`, `danhsachsanpham.html`, `chitietsanpham.html`, `giohang.html`, `muahang.html`, `dangky.html`, `dangnhap.html`, `donhangcuatoi.html`, `sitemap.html`, ...
-- `css/`   — stylesheet theo trang và chung (`main.css`, `header.css`, `modal.css`, ...).
-- `js/`    — mã JavaScript xử lý UI/logic.
-- `img/`   — ảnh demo sản phẩm và icon.
-- `README.md` — tài liệu dự án (file này).
+- Mô hình: client-only (static site) với storage cục bộ.
+	- `html/` — các trang giao diện (mỗi trang load CSS/JS tương ứng).
+	- `css/`  — stylesheets chia theo component/page.
+	- `js/`   — modules xử lý: dữ liệu mẫu, hiển thị sản phẩm, giỏ hàng, mua hàng, tài khoản, chatbot.
+	- `img/`  — tài nguyên ảnh.
 
-## Chức năng chính của các file (tóm tắt)
+- Lưu trữ trạng thái:
+	- `localStorage.dsGioSP` — mảng các giỏ hàng phân theo tài khoản (tendangnhap).
+	- `localStorage.dsDonHang` — danh sách đơn hàng đã đặt.
+	- `sessionStorage.MUA_NGAY_SP` — sản phẩm lưu tạm khi người dùng bấm "MUA NGAY".
+	- `localStorage.tkDangnhap` / `localStorage.currentUser` — thông tin tài khoản demo.
 
-- `html/*.html` — các trang giao diện; JS sẽ render phần nội dung động (danh sách sản phẩm, giỏ hàng, đơn hàng) khi trang load.
+- Luồng dữ liệu ngắn:
+	1. Người dùng duyệt danh sách sản phẩm (JS lấy từ `sanpham_array.js`).
+	2. Thêm vào giỏ hoặc MUA NGAY → JS cập nhật storage tương ứng.
+	3. Thanh toán: trang `muahang.html` đọc `MUA_NGAY_SP` (nếu có) hoặc lấy dữ liệu từ `dsGioSP` và thực hiện lưu đơn vào `dsDonHang`.
 
-- `css/*.css` — chứa style cho layout, modal, header, responsive. `modal.css` chứa style cho modal tái sử dụng.
+## Thiết Kế Giao Diện (FE)
 
-- `js/sanpham_array.js` — dữ liệu mẫu: mảng sản phẩm để dùng cho render demo.
+- Component chính:
+	- Header (logo, tìm kiếm, menu, tài khoản, giỏ hàng).
+	- Top navigation (thanh điều hướng theo trang).
+	- Banner quảng cáo (ảnh lớn trên đầu trang).
+	- Product card: ảnh, tên, giá, nút thêm giỏ.
+	- Product detail: gallery, thông số, nút "THÊM VÀO GIỎ HÀNG" và "MUA NGAY".
+	- Giỏ hàng / Checkout: sidebar thông tin khách hàng + danh sách sản phẩm.
+	- Modal chung `#myModal` để zoom ảnh, thông báo, xác nhận.
+	- Chatbot nổi (widget) để tư vấn công suất: `html/chatbot.html` + `js/chatbot.js`.
 
-- `js/sanpham.js` — helper/utility để render card sản phẩm, format tiền, tạo markup cho danh sách.
+- Thiết kế responsive:
+	- CSS sử dụng media queries để chuyển layout grid sang một cột trên mobile.
+	- Các button và form control có kích thước chạm (touch-friendly).
 
-- `js/danhsachsanpham.js` — xử lý trang danh sách sản phẩm: load data, lọc/sort, bắt sự kiện "Thêm vào giỏ".
+- Quy ước load assets:
+	- `jquery-3.6.0.min.js` được load trước các script dùng jQuery.
+	- `sanpham_array.js` được load trước các script cần dữ liệu sản phẩm.
 
-- `js/chitietsanpham.js` — xử lý trang chi tiết sản phẩm: render chi tiết, gallery, thêm sản phẩm vào giỏ hoặc quick-buy.
+## Xử Lý Nghiệp Vụ
 
-- `js/giohang.js` — quản lý giỏ hàng: đọc/ghi `localStorage.dsGioSP`, chỉnh sửa số lượng, tính toán tổng, chuyển tới trang mua hàng.
+- Quản lý giỏ hàng (`js/giohang.js`, `js/chitietsanpham.js`):
+	- Thêm/xóa/sửa số lượng, lưu theo user (key `dsGioSP` chứa object array phân theo `tendangnhap`).
+	- Hỗ trợ thêm sản phẩm từ trang chi tiết hoặc từ danh sách sản phẩm.
 
-- `js/muahang.js` — xử lý trang mua hàng: lấy dữ liệu từ giỏ hoặc `sessionStorage.MUA_NGAY_SP`, validate form, lưu đơn vào `localStorage.dsDonHang`.
+- Mua hàng (`js/muahang.js`):
+	- Hỗ trợ mua ngay (lưu `MUA_NGAY_SP` vào `sessionStorage`) và checkout một sản phẩm.
+	- Validate form thông tin giao hàng, tạo đơn hàng và lưu vào `dsDonHang`.
 
-- `js/donhangcuatoi.js` — hiển thị các đơn hàng của người dùng đang đăng nhập (lọc `localStorage.dsDonHang`).
+- Quản lý tài khoản (`js/dangky.js`, `js/dangnhap.js`, `js/taikhoan.js`):
+	- Đăng ký/đăng nhập mô phỏng, lưu thông tin vào `localStorage` (demo only).
+	- Tương thích hai key: legacy `tkDangnhap` và `currentUser` để linh hoạt khi cập nhật dữ liệu.
 
-- `js/dangky.js`, `js/dangnhap.js`, `js/taikhoan.js` — quản lý tài khoản: đăng ký, đăng nhập, lưu/đọc thông tin người dùng trong `localStorage` (keys: `tkDangnhap`, `currentUser`).
+- Chatbot (`js/chatbot.js`):
+	- Widget client-side để ước lượng công suất điều hòa dựa trên diện tích, độ cao, số người, hướng nắng, thiết bị.
 
-- `js/chatbot.js` & `html/chatbot.html` — widget tư vấn công suất nổi: `chatbot.html` chứa markup widget; `chatbot.js` fetch/insert markup, gán event và thực hiện phép tính ước lượng công suất dựa trên diện tích, độ cao trần, hướng nắng, số người, số thiết bị.
+## Tính Năng Vượt Trội
 
-
-## Nguyên lý hoạt động (tóm tắt kỹ thuật)
-
-- Dữ liệu sản phẩm demo nằm trong `sanpham_array.js`. Khi người dùng thao tác (thêm giỏ, mua ngay), JS cập nhật `localStorage` hoặc `sessionStorage` tương ứng.
-- Các trang render bằng cách lấy dữ liệu từ storage hoặc từ `sanpham_array.js` và build HTML bằng string templates + jQuery DOM APIs.
-- Modal chung (`#myModal`) được dùng tái sử dụng cho nhiều mục đích (zoom ảnh, thông báo, xác nhận). JS chèn nội dung vào modal và hiển thị khi cần.
-- Để tránh gán listener trùng, mã sử dụng event delegation và `.off()` trước khi gán lại listener cho các phần tử render lại.
+- Chạy hoàn toàn phía client: dễ triển khai trên GitHub Pages hoặc server tĩnh.
+- Mẫu giao diện đầy đủ các luồng mua hàng tiêu chuẩn (list → detail → cart → checkout).
+- Modal dùng chung và component JS tái sử dụng giúp giảm trùng lặp code UI.
+- Hỗ trợ "MUA NGAY" bằng `sessionStorage` để checkout 1 sản phẩm nhanh chóng.
+- Chatbot tư vấn công suất tích hợp, tiện lợi cho người dùng khi chọn máy lạnh.
 
