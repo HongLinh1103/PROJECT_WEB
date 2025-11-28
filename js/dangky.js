@@ -134,16 +134,17 @@ $(document).ready(function () {
 
     function checkHoTen() {
         const hoten = $('#txtHoten').val().trim();
-        const regex = /^([A-Z]{1}[a-z]*)(\s[A-Z]{1}[a-z]*)*$/;
+        const regex = /^([\p{Lu}][\p{Ll}]*)(\s[\p{Lu}][\p{Ll}]*)*$/u;
 
         if (hoten === '' || !regex.test(hoten)) {
-            showMessage('messHoten', 'Họ tên phải viết hoa chữ cái đầu mỗi từ và không chứa dấu.');
+            showMessage('messHoten', 'Họ tên phải viết hoa chữ cái đầu mỗi từ và được phép chứa dấu tiếng Việt.');
             return false;
         }
 
         hideMessage('messHoten');
         return true;
     }
+
 
     function checkSDT() {
         const sdt = $('#txtDT').val().trim();
