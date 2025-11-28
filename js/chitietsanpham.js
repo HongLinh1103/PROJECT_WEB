@@ -171,20 +171,15 @@ $(document).ready(function () {
             }).finally(() => btn.data('adding', false))
         })
 
-        // Nút “Mua ngay” → lưu sản phẩm nhanh + chuyển đến muahang.html
+        // Nút “Mua ngay” → lưu sản phẩm nhanh + chuyển đến muahang.html (không bắt đăng nhập)
         $("#muangay").off("click").on("click", function () {
-            const taiKhoanDN = localStorage.getItem("tkDangnhap")
-            if (!taiKhoanDN) {
-                alert("Vui lòng đăng nhập để mua hàng!")
-                window.location.href = "../html/dangnhap.html"
-                return
-            }
+            // Lưu sản phẩm mua ngay vào sessionStorage và chuyển sang trang thanh toán
+            try {
+                sessionStorage.setItem('MUA_NGAY_SP', JSON.stringify(objSP))
+            } catch (e) { console.warn('cannot set session MUA_NGAY_SP', e) }
 
-            sessionStorage.setItem('MUA_NGAY_SP', JSON.stringify(objSP))
-
-            themVaoGioHang(objSP, false).finally(() => {
-                window.location.href = "../html/muahang.html"
-            })
+            // Trực tiếp chuyển sang trang mua hàng. Trang `muahang.html` sẽ xử lý cả trường hợp guest.
+            window.location.href = "../html/muahang.html"
         })
     }
 })
