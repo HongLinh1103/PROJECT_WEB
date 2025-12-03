@@ -54,7 +54,7 @@ $(window).ready(function () {
         // Final fallback: if still not found and there's only one cart saved, use it
         if (matchedIndex === -1 && objDSGioSP.length === 1) matchedIndex = 0;
 
-    // console.debug removed in production
+        // console.debug removed in production
 
         if (matchedIndex !== -1) {
             let divCacsanpham = $("<div></div>")
@@ -84,21 +84,21 @@ $(window).ready(function () {
         $("#hovaten").val(objTKDN.hoTen)
         $("#sodienthoai").val(objTKDN.dienThoai)
         $("#diachi").val(objTKDN.diaChi)
-            // helper: normalize image path so images load correctly from pages under /html/
-            function normalizeImagePath(src) {
-                if (!src) return '';
-                src = src.toString().trim();
-                // absolute URL or root-relative
-                if (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('/')) return src;
-                // already relative from html/ (e.g., ../img/..)
-                if (src.startsWith('../')) return src;
-                // starts with ./img/ or img/
-                if (src.startsWith('./img/')) return '../' + src.slice(2);
-                if (src.startsWith('img/')) return '../' + src;
-                // fallback: if filename only, assume in ../img/
-                if (!src.includes('/')) return '../img/' + src;
-                return src;
-            }
+        // helper: normalize image path so images load correctly from pages under /html/
+        function normalizeImagePath(src) {
+            if (!src) return '';
+            src = src.toString().trim();
+            // absolute URL or root-relative
+            if (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('/')) return src;
+            // already relative from html/ (e.g., ../img/..)
+            if (src.startsWith('../')) return src;
+            // starts with ./img/ or img/
+            if (src.startsWith('./img/')) return '../' + src.slice(2);
+            if (src.startsWith('img/')) return '../' + src;
+            // fallback: if filename only, assume in ../img/
+            if (!src.includes('/')) return '../img/' + src;
+            return src;
+        }
 
         $("#tannha").click(function () {
             $("#diachi").val(objTKDN.diaChi)
@@ -127,13 +127,11 @@ $(window).ready(function () {
             try {
                 const modal = $("#myModal")
                 modal.find('.modal-header h2').text('Xác nhận')
-                modal.find('.modal-body').html('<p class="lead">' + message + '</p><p class="muted">Xin cảm ơn!</p>')
+                modal.find('.modal-body').html('<p style="line-height:1.6">' + message + '</p>')
                 const footer = modal.find('.modal-footer')
                 footer.find('#confirmYes').remove()
                 footer.find('#confirmNo').remove()
-                // Use styled buttons placed directly in the footer (footer is flex container)
-                footer.append('<button id="confirmYes" class="btn-confirm">Xác nhận</button>')
-                footer.append('<button id="confirmNo" class="btn-cancel">Hủy</button>')
+                footer.append('<div style="display:flex; gap:10px; justify-content:center; margin-top:10px;"><button id="confirmYes" class="btn-base" style="padding:10px 16px; background:#10b981; color:#fff; border:none; border-radius:8px;">Xác nhận</button><button id="confirmNo" class="btn-base" style="padding:10px 16px; background:#ef4444; color:#fff; border:none; border-radius:8px;">Hủy</button></div>')
                 modal.css('display', 'block')
                 $('#confirmNo').off('click').on('click', function () { modal.css('display', 'none') })
                 $('#confirmYes').off('click').on('click', function () { modal.css('display', 'none'); try { onConfirm() } catch (e) { console.warn(e) } })
@@ -185,25 +183,25 @@ $(window).ready(function () {
                             <p><strong>Mã đơn hàng:</strong> ${order.id}</p>
                             <p><strong>Số mục:</strong> ${items.length}</p>
                             <p><strong>Tổng:</strong> ${formattedTotal}<sup>đ</sup></p>
-                            <p class="muted">Đơn hàng của bạn đang được xử lý. Chúng tôi sẽ liên hệ để xác nhận giao nhận.</p>
+                            <p>Xin cảm ơn!</p>
                         </div>
                     `
                     modal.find('.modal-body').html(bodyHtml)
                     const footer = modal.find('.modal-footer')
                     footer.find('#modalOk').remove()
-                    footer.append('<button id="modalOk">OK</button>')
+                    footer.append('<div style="margin-top:10px; text-align:center;"><button id="modalOk" class="btn-base" style="padding:10px 16px; background:#0b5ed7; color:#fff; border:none; border-radius:8px;">OK</button></div>')
                     modal.css('display', 'block')
                     // On OK just hide modal and show success state on the cart page (do not redirect)
                     $('.close, #modalOk').off('click').on('click', function () {
                         modal.css('display', 'none')
-                        try { sessionStorage.removeItem('MUA_NGAY_SP') } catch (e) {}
+                        try { sessionStorage.removeItem('MUA_NGAY_SP') } catch (e) { }
                         // render success/empty cart state in-page instead of navigating away
                         try { xuLyGiohangRong(order) } catch (e) { /* ignore */ }
                     })
                 } catch (e) {
                     // fallback: show toast and render empty/success state
                     showToast('Đơn hàng đã được đặt. Cảm ơn bạn!', 1300)
-                    try { xuLyGiohangRong(order) } catch (ex) {}
+                    try { xuLyGiohangRong(order) } catch (ex) { }
                 }
 
             } catch (e) { console.warn('order save failed', e) }

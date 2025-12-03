@@ -98,7 +98,7 @@ $(document).ready(function () {
     function checkMatKhau() {
         const pw = $('#txtMatkhau').val();
         if (pw === '' || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(pw)) {
-            showMessage('messMatkhau', 'Mật khẩu thiếu yêu cầu.');
+            showMessage('messMatkhau', 'Mật khẩu không hợp lệ. Yêu cầu: ≥ 8 ký tự, có chữ hoa, chữ thường và số (ví dụ: Abc12345).');
             return false;
         }
         hideMessage('messMatkhau');
@@ -121,7 +121,7 @@ $(document).ready(function () {
         const regex = /^([\p{Lu}][\p{Ll}]*)(\s[\p{Lu}][\p{Ll}]*)*$/u;
 
         if (hoten === '' || !regex.test(hoten)) {
-            showMessage('messHoten', 'Họ tên phải viết hoa chữ cái đầu.');
+            showMessage('messHoten', 'Họ tên không hợp lệ. Mỗi từ phải bắt đầu bằng chữ cái in hoa, ví dụ: Nguyễn Văn A.');
             return false;
         }
         hideMessage('messHoten');
