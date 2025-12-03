@@ -1,27 +1,114 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quên Mật Khẩu</title>
     <script src="../js/jquery-3.6.0.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-        h2 { text-align: center; color: #333; margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; position: relative; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px;}
-        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 10px; font-weight: bold;}
-        button:hover { background: #0056b3; }
-        .message { text-align: center; margin-bottom: 15px; padding: 10px; border-radius: 4px; font-size: 14px; display:none;}
-        .success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
-        .error { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
-        .hidden { display: none; }
-        .back-link { display: block; text-align: center; margin-top: 20px; text-decoration: none; color: #666; font-size: 14px;}
-        .back-link:hover { text-decoration: underline; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .message {
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h2>Quên Mật Khẩu</h2>
@@ -52,22 +139,22 @@
     </div>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             let foundIndex = -1;
             // Lấy danh sách tài khoản từ key đã đồng bộ: dsUser
             const dsUser = JSON.parse(localStorage.getItem('registeredAccounts') || '[]');
 
             // BƯỚC 1: KIỂM TRA USER
-            $('#btnCheck').click(function() {
+            $('#btnCheck').click(function () {
                 const inputVal = $('#checkUser').val().trim();
                 if (!inputVal) {
                     $('#message').text('Vui lòng nhập Tên đăng nhập hoặc Email!').removeClass('success').addClass('error').show();
                     return;
                 }
-                
+
                 // Tìm trong dsUser (So sánh không phân biệt hoa thường)
-                foundIndex = dsUser.findIndex(u => 
-                    (u.username && u.username.toLowerCase() === inputVal.toLowerCase()) || 
+                foundIndex = dsUser.findIndex(u =>
+                    (u.username && u.username.toLowerCase() === inputVal.toLowerCase()) ||
                     (u.email && u.email.toLowerCase() === inputVal.toLowerCase())
                 );
 
@@ -84,7 +171,7 @@
             });
 
             // BƯỚC 2: LƯU MẬT KHẨU MỚI
-            $('#btnSave').click(function() {
+            $('#btnSave').click(function () {
                 const p1 = $('#newPass').val();
                 const p2 = $('#confirmPass').val();
 
@@ -96,7 +183,7 @@
                     $('#message').text('Mật khẩu nhập lại không khớp!').removeClass('success').addClass('error').show(); return;
                 }
                 if (foundIndex === -1) {
-                     $('#message').text('Lỗi hệ thống: Không tìm thấy index tài khoản. Vui lòng thử lại từ đầu.').removeClass('success').addClass('error').show(); return;
+                    $('#message').text('Lỗi hệ thống: Không tìm thấy index tài khoản. Vui lòng thử lại từ đầu.').removeClass('success').addClass('error').show(); return;
                 }
 
                 // Cập nhật mật khẩu trong mảng
@@ -112,4 +199,5 @@
         });
     </script>
 </body>
+
 </html>
